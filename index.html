@@ -1,0 +1,3709 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Преподаватель английского</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body { width: 100%; min-height: 100vh; }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #f6f2ee 0%, #ece6f2 50%, #e8eef2 100%);
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            color: #4a4552;
+            padding: 20px 18px;
+            transition: background 0.3s ease;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.84);
+            border: 1px solid rgba(180, 170, 200, 0.25);
+            border-radius: 20px;
+            padding: 28px 28px;
+            backdrop-filter: blur(14px);
+            box-shadow: 0 20px 50px rgba(140, 130, 160, 0.15);
+        }
+
+        header { text-align: center; margin-bottom: 20px; }
+
+        h1 {
+            font-size: 2.3em;
+            margin-bottom: 6px;
+            color: #6b4a9e;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 22px;
+        }
+
+        .tab {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(180, 170, 200, 0.3);
+            color: #7d7690;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-weight: 700;
+        }
+        .tab:hover { background: rgba(200, 185, 220, 0.3); transform: translateY(-2px); }
+        .tab.active {
+            background: linear-gradient(135deg, #b8a4d4, #c9b8dd);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 8px 22px rgba(160, 140, 190, 0.35);
+        }
+        .tab.today-tab {
+            background: linear-gradient(135deg, #a8c9b8, #8fbfa8);
+            color: #fff;
+            border-color: transparent;
+        }
+        .tab.today-tab.active {
+            background: linear-gradient(135deg, #4a8a6c, #3a7a5c);
+            box-shadow: 0 8px 22px rgba(74, 138, 108, 0.35);
+        }
+
+        .section { display: none; animation: fadeIn 0.35s ease; }
+        .section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        h2 {
+            font-size: 1.6em;
+            color: #6b4a9e;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+        }
+        h3 {
+            font-size: 1.1em;
+            margin-bottom: 12px;
+            color: #7a5fa8;
+            font-weight: 700;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #b8a4d4, #c9b8dd);
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.88em;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 8px 20px rgba(160, 140, 190, 0.25);
+            font-family: inherit;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(160, 140, 190, 0.4); }
+        .btn.small { padding: 6px 14px; font-size: 0.8em; box-shadow: none; }
+        .btn.ghost {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(180, 170, 200, 0.4);
+            box-shadow: none;
+            color: #7d7690;
+        }
+        .btn.ghost:hover { background: rgba(200, 185, 220, 0.35); box-shadow: none; }
+        .btn.danger {
+            background: linear-gradient(135deg, #d9a3a3, #c98e8e);
+            box-shadow: 0 8px 20px rgba(200, 140, 140, 0.25);
+        }
+        .btn.danger:hover { box-shadow: 0 12px 26px rgba(200, 140, 140, 0.4); }
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 22px;
+        }
+
+        /* ===== Сегодня ===== */
+        .today-hero {
+            background: linear-gradient(135deg, rgba(184, 164, 212, 0.25), rgba(200, 185, 220, 0.15));
+            border: 1px solid rgba(180, 170, 200, 0.35);
+            border-radius: 18px;
+            padding: 24px 28px;
+            margin-bottom: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .today-hero-date {
+            font-size: 1.85em;
+            font-weight: 800;
+            color: #6b4a9e;
+            letter-spacing: -0.4px;
+        }
+        .today-hero-day {
+            font-size: 0.88em;
+            color: #8b7aa8;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .today-hero-stats {
+            display: flex;
+            gap: 26px;
+            flex-wrap: wrap;
+        }
+        .today-hero-stat { text-align: center; }
+        .today-hero-stat .val {
+            font-size: 1.7em;
+            font-weight: 800;
+            color: #6b4a9e;
+            line-height: 1.1;
+        }
+        .today-hero-stat .lbl {
+            font-size: 0.78em;
+            color: #9a94a8;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .today-hero-stat.green .val { color: #4a8a6c; }
+        .today-hero-stat.warn .val { color: #a85a5a; }
+
+        .today-list { display: flex; flex-direction: column; gap: 12px; }
+        .today-empty {
+            text-align: center;
+            padding: 45px 20px;
+            color: #9a94a8;
+            font-size: 1.02em;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 14px;
+            border: 1px dashed rgba(180, 170, 200, 0.4);
+        }
+        .today-item {
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(180, 170, 200, 0.3);
+            border-radius: 14px;
+            padding: 14px 18px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            transition: all 0.2s ease;
+        }
+        .today-item:hover { background: rgba(255, 255, 255, 0.95); box-shadow: 0 6px 20px rgba(140, 130, 160, 0.12); }
+        .today-item.done {
+            border-color: #4a8a6c;
+            box-shadow: 0 0 0 2px rgba(74, 138, 108, 0.35);
+            background: rgba(168, 201, 184, 0.15);
+        }
+        .today-item.cancelled { opacity: 0.55; text-decoration: line-through; }
+        .today-item-time {
+            flex-shrink: 0;
+            text-align: center;
+            min-width: 100px;
+        }
+        .today-item-time .start { font-size: 1.25em; font-weight: 800; color: #6b4a9e; line-height: 1.1; }
+        .today-item-time .range { font-size: 0.82em; color: #7a5fa8; font-weight: 600; margin-top: 2px; }
+        .today-item-time .dur { font-size: 0.75em; color: #9a94a8; font-weight: 600; margin-top: 4px; }
+        .today-item-body { flex: 1; min-width: 0; }
+        .today-item-title {
+            font-size: 1.05em;
+            font-weight: 800;
+            color: #4a2d70;
+            margin-bottom: 5px;
+        }
+        .today-item-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 5px; }
+        .today-tag {
+            font-size: 0.72em;
+            padding: 2px 9px;
+            border-radius: 10px;
+            font-weight: 700;
+            background: rgba(200, 185, 220, 0.4);
+            color: #6b4a9e;
+        }
+        .today-tag.pair { background: rgba(180, 200, 220, 0.5); color: #2d4d70; }
+        .today-tag.done { background: rgba(168, 201, 184, 0.5); color: #2e6a4e; }
+        .today-tag.cancelled { background: rgba(217, 163, 163, 0.4); color: #7e3e3e; }
+        .today-tag.personal { background: rgba(224, 207, 160, 0.5); color: #6b4d1e; }
+        .today-item-info {
+            font-size: 0.86em;
+            color: #7d7690;
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .today-item-info b { color: #6b4a9e; }
+        .today-item-info .hw-line {
+            background: rgba(224, 207, 160, 0.25);
+            border-left: 3px solid rgba(200, 180, 130, 0.7);
+            padding: 5px 9px;
+            border-radius: 6px;
+            color: #5a4a20;
+            margin-top: 4px;
+            font-size: 0.95em;
+        }
+        .today-item-info .file-line {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(200, 185, 220, 0.3);
+            padding: 4px 10px;
+            border-radius: 8px;
+            color: #6b4a9e;
+            font-weight: 700;
+            text-decoration: none;
+            margin-top: 4px;
+            font-size: 0.9em;
+        }
+        .today-item-actions {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-self: center;
+        }
+        .today-item-actions button {
+            padding: 7px 13px;
+            font-size: 0.8em;
+            font-weight: 700;
+            border-radius: 10px;
+            border: 1px solid rgba(180, 170, 200, 0.5);
+            background: rgba(255, 255, 255, 0.9);
+            color: #6b4a9e;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            white-space: nowrap;
+        }
+        .today-item-actions button:hover { background: rgba(200, 185, 220, 0.5); }
+        .today-item-actions button.mark { color: #4a8a6c; border-color: rgba(74, 138, 108, 0.5); }
+        .today-item-actions button.mark:hover { background: rgba(168, 201, 184, 0.6); color: #fff; }
+        .today-item-actions button.mark.done {
+            background: linear-gradient(135deg, #a8c9b8, #8fbfa8);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        /* ===== Карточки статистики ===== */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+        .stat-card {
+            background: rgba(200, 185, 220, 0.18);
+            border: 1px solid rgba(180, 170, 200, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+        .stat-card .value { font-size: 1.8em; font-weight: 800; color: #6b4a9e; margin-bottom: 6px; }
+        .stat-card .label { font-size: 0.88em; color: #9a94a8; font-weight: 600; }
+        .stat-card.highlight { background: rgba(168, 201, 184, 0.22); border-color: rgba(143, 191, 168, 0.4); }
+        .stat-card.highlight .value { color: #4a8a6c; }
+        .stat-card.warn { background: rgba(217, 163, 163, 0.18); border-color: rgba(201, 142, 142, 0.4); }
+        .stat-card.warn .value { color: #a85a5a; }
+
+        table { width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 0.95em; }
+        th, td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid rgba(180, 170, 200, 0.2);
+            vertical-align: middle;
+        }
+        th {
+            color: #6b4a9e;
+            font-weight: 800;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        tbody tr { transition: background 0.2s ease; }
+        tbody tr:hover { background: rgba(200, 185, 220, 0.12); }
+
+        .progress {
+            width: 100%;
+            height: 8px;
+            background: rgba(180, 170, 200, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 6px;
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #b8a4d4, #c9b8dd);
+            transition: width 0.4s ease;
+        }
+        .progress-bar.low { background: linear-gradient(90deg, #d9a3a3, #c98e8e); }
+        .progress-bar.mid { background: linear-gradient(90deg, #e0cfa0, #d4bd88); }
+        .progress-bar.ok  { background: linear-gradient(90deg, #a8c9b8, #8fbfa8); }
+
+        .num { font-weight: 800; color: #6b4a9e; }
+        .num.green { color: #4a8a6c; }
+        .num.red   { color: #a85a5a; }
+        .num.gray  { color: #9a94a8; }
+
+        /* ===== Расписание (уменьшено) ===== */
+        .sched-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .sched-title {
+            font-size: 1.3em;
+            font-weight: 800;
+            color: #6b4a9e;
+            flex: 1;
+            text-align: center;
+            min-width: 200px;
+        }
+        .sched-nav {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .sched-view-switch {
+            display: flex;
+            gap: 4px;
+            background: rgba(200, 185, 220, 0.2);
+            border: 1px solid rgba(180, 170, 200, 0.35);
+            border-radius: 12px;
+            padding: 3px;
+            flex-wrap: wrap;
+        }
+        .sched-view-switch button {
+            padding: 6px 14px;
+            border-radius: 9px;
+            border: none;
+            background: transparent;
+            color: #7d7690;
+            font-size: 0.82em;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .sched-view-switch button.active {
+            background: linear-gradient(135deg, #b8a4d4, #c9b8dd);
+            color: #fff;
+            box-shadow: 0 3px 10px rgba(160, 140, 190, 0.3);
+        }
+
+        /* Сетка недели: 4 + 3 */
+        .week-view-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+        }
+        .week-day:nth-child(7) { grid-column: span 2; }
+
+        .week-day {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(180, 170, 200, 0.3);
+            border-radius: 14px;
+            padding: 14px 12px;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+        .week-day.today {
+            border: 2px solid #b8a4d4;
+            background: rgba(200, 185, 220, 0.25);
+            box-shadow: 0 6px 18px rgba(160, 140, 190, 0.18);
+        }
+        .week-day.sunday { background: rgba(217, 163, 163, 0.08); }
+        .week-day.drag-over {
+            background: rgba(168, 201, 184, 0.3);
+            border: 2px dashed rgba(143, 191, 168, 0.9);
+        }
+        .week-day-head {
+            text-align: center;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(180, 170, 200, 0.25);
+            margin-bottom: 2px;
+        }
+        .week-day-name {
+            font-size: 1em;
+            font-weight: 800;
+            color: #6b4a9e;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .week-day-date {
+            font-size: 1.2em;
+            font-weight: 800;
+            color: #6b4a9e;
+            margin-top: 2px;
+        }
+        .week-day.today .week-day-date { color: #8b7aa8; }
+
+        .week-day-empty {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            color: #b0aabc;
+            font-size: 0.85em;
+            text-align: center;
+            padding: 24px 10px;
+            border: 2px dashed rgba(180, 170, 200, 0.4);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .week-day-empty:hover {
+            border-color: #b8a4d4;
+            background: rgba(200, 185, 220, 0.15);
+            color: #8b7aa8;
+        }
+        .week-day-empty .plus { font-size: 1.6em; font-weight: 300; color: #b8a4d4; line-height: 1; }
+
+        .week-day-add {
+            width: 100%;
+            margin-top: auto;
+            padding: 8px;
+            border-radius: 9px;
+            border: 1px dashed rgba(180, 170, 200, 0.6);
+            background: transparent;
+            color: #9a94a8;
+            cursor: pointer;
+            font-size: 0.82em;
+            font-family: inherit;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+        .week-day-add:hover {
+            border-color: #b8a4d4;
+            color: #6b4a9e;
+            background: rgba(200, 185, 220, 0.2);
+        }
+
+        .week-slot {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            padding: 8px 11px;
+            border-radius: 9px;
+            font-size: 0.88em;
+            cursor: grab;
+            transition: all 0.15s ease;
+            border: 1px solid transparent;
+            overflow: hidden;
+        }
+        .week-slot.busy {
+            background: rgba(200, 185, 220, 0.45);
+            border-color: rgba(180, 170, 200, 0.6);
+            color: #6b4a9e;
+        }
+        .week-slot.pair {
+            background: rgba(180, 200, 220, 0.5);
+            border-color: rgba(150, 180, 210, 0.7);
+            color: #4a6b9e;
+        }
+        .week-slot.personal {
+            background: rgba(224, 207, 160, 0.38);
+            border: 1px dashed rgba(200, 180, 130, 0.7);
+            color: #8a7040;
+        }
+        .week-slot .slot-time { font-weight: 800; font-size: 0.95em; color: #6b4a9e; letter-spacing: 0.2px; }
+        .week-slot.pair .slot-time { color: #2d4d70; }
+        .week-slot.personal .slot-time { color: #6b4d1e; }
+        .week-slot .slot-name {
+            font-weight: 700;
+            font-size: 0.88em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .week-slot.drop-highlight {
+            background: rgba(143, 191, 168, 0.75) !important;
+            border: 2px solid #3a7a5c !important;
+            box-shadow: 0 0 0 3px rgba(143, 191, 168, 0.4), 0 0 16px rgba(58, 122, 92, 0.5);
+            color: #1e4d34 !important;
+            z-index: 3;
+        }
+        .week-slot.done { opacity: 0.75; }
+        .week-slot.cancelled { opacity: 0.5; text-decoration: line-through; }
+        .week-slot.dragging { opacity: 0.35; transform: scale(0.97); cursor: grabbing; }
+
+        /* Вид месяца */
+        .month-view-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 8px;
+        }
+        .cal-dow {
+            text-align: center;
+            font-size: 0.9em;
+            font-weight: 800;
+            color: #6b4a9e;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 8px 4px;
+        }
+        .cal-cell {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(180, 170, 200, 0.3);
+            border-radius: 10px;
+            padding: 8px;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .cal-cell.other-month { opacity: 0.35; background: rgba(255, 255, 255, 0.3); }
+        .cal-cell.today { border: 2px solid #b8a4d4; background: rgba(200, 185, 220, 0.25); }
+        .cal-cell.sunday { background: rgba(217, 163, 163, 0.08); }
+        .cal-cell.drag-over {
+            background: rgba(168, 201, 184, 0.3);
+            border: 2px dashed rgba(143, 191, 168, 0.9);
+        }
+        .cal-cell-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3px;
+        }
+        .cal-cell-date { font-weight: 800; font-size: 0.95em; color: #6b4a9e; }
+        .cal-cell-month { font-size: 0.72em; color: #b0aabc; font-weight: 600; }
+        .cal-cell-count {
+            font-size: 0.72em;
+            color: #6b4a9e;
+            background: rgba(200, 185, 220, 0.4);
+            padding: 2px 7px;
+            border-radius: 8px;
+            font-weight: 700;
+        }
+        .mini-slot {
+            font-size: 0.78em;
+            padding: 3px 6px;
+            border-radius: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .mini-slot.busy { background: rgba(200, 185, 220, 0.45); color: #6b4a9e; }
+        .mini-slot.pair { background: rgba(180, 200, 220, 0.55); color: #4a6b9e; }
+        .mini-slot.personal { background: rgba(224, 207, 160, 0.35); color: #8a7040; font-style: italic; }
+        .mini-slot.drop-highlight {
+            background: rgba(143, 191, 168, 0.8) !important;
+            border: 2px solid #3a7a5c !important;
+            color: #1e4d34 !important;
+            font-weight: 800;
+        }
+        .mini-slot.done { opacity: 0.75; }
+        .mini-slot.cancelled { opacity: 0.5; text-decoration: line-through; }
+
+        /* ===== Свободные окна ===== */
+        .free-view-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+        }
+        .free-day:nth-child(7) { grid-column: span 2; }
+
+        .free-day {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(180, 170, 200, 0.3);
+            border-radius: 14px;
+            padding: 14px 12px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .free-day.today {
+            border: 2px solid #b8a4d4;
+            background: rgba(200, 185, 220, 0.22);
+        }
+        .free-day.sunday { background: rgba(217, 163, 163, 0.08); }
+        .free-day-head {
+            text-align: center;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(180, 170, 200, 0.25);
+            margin-bottom: 2px;
+        }
+        .free-day-name {
+            font-size: 1em;
+            font-weight: 800;
+            color: #6b4a9e;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .free-day-date {
+            font-size: 1.2em;
+            font-weight: 800;
+            color: #6b4a9e;
+            margin-top: 2px;
+        }
+        .free-day.today .free-day-date { color: #8b7aa8; }
+
+        .free-slots {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+        }
+        .free-slot {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            background: rgba(168, 201, 184, 0.25);
+            border: 1px dashed rgba(143, 191, 168, 0.6);
+            color: #4a8a6c;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .free-slot:hover {
+            background: rgba(168, 201, 184, 0.5);
+            border-style: solid;
+            color: #2e6a4e;
+            transform: translateX(2px);
+        }
+        .free-slot .time {
+            font-weight: 800;
+            font-size: 0.98em;
+        }
+        .free-slot .label {
+            font-size: 0.82em;
+            color: #6fa88e;
+            font-weight: 600;
+        }
+        .free-slots-empty {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #b0aabc;
+            font-size: 0.85em;
+            font-style: italic;
+            text-align: center;
+            padding: 20px 10px;
+        }
+        .free-day-total {
+            text-align: center;
+            font-size: 0.78em;
+            color: #8a7aa8;
+            font-weight: 700;
+            padding-top: 6px;
+            border-top: 1px solid rgba(180, 170, 200, 0.2);
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 0.9em;
+            color: #6b4a9e;
+            font-weight: 600;
+        }
+        .legend span { display: inline-flex; align-items: center; gap: 6px; }
+        .legend .dot { width: 12px; height: 12px; border-radius: 4px; display: inline-block; }
+        .legend .dot.busy { background: rgba(200, 185, 220, 0.7); border: 1px solid rgba(180, 170, 200, 0.9); }
+        .legend .dot.pair { background: rgba(180, 200, 220, 0.8); border: 1px solid rgba(150, 180, 210, 1); }
+        .legend .dot.personal { background: rgba(224, 207, 160, 0.5); border: 1px dashed rgba(200, 180, 130, 1); }
+        .legend .dot.free { background: rgba(168, 201, 184, 0.5); border: 1px dashed rgba(143, 191, 168, 1); }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 700;
+        }
+        .badge.paid { background: rgba(168, 201, 184, 0.3); color: #4a8a6c; border: 1px solid rgba(143, 191, 168, 0.5); }
+        .badge.wait { background: rgba(224, 207, 160, 0.35); color: #8a7040; border: 1px solid rgba(212, 189, 136, 0.5); }
+        .badge.debt { background: rgba(217, 163, 163, 0.3); color: #a85a5a; border: 1px solid rgba(201, 142, 142, 0.5); }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(90, 80, 110, 0.35);
+            backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 100;
+        }
+        .modal-overlay.open { display: flex; }
+
+        .modal {
+            background: #fbf9fd;
+            border: 1px solid rgba(180, 170, 200, 0.35);
+            border-radius: 18px;
+            padding: 28px;
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 60px rgba(140, 130, 160, 0.3);
+            animation: scaleIn 0.25s ease;
+        }
+        .modal h3 {
+            margin-bottom: 18px;
+            font-size: 1.3em;
+            color: #6b4a9e;
+            font-weight: 800;
+        }
+
+        .form-group { margin-bottom: 14px; }
+        .form-group label {
+            display: block;
+            font-size: 0.85em;
+            color: #6b4a9e;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 13px;
+            border-radius: 10px;
+            border: 1px solid rgba(180, 170, 200, 0.4);
+            background: rgba(255, 255, 255, 0.8);
+            color: #4a4552;
+            font-size: 0.95em;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            resize: vertical;
+        }
+        .form-group textarea { min-height: 80px; line-height: 1.4; }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #b8a4d4;
+            box-shadow: 0 0 0 3px rgba(184, 164, 212, 0.2);
+        }
+        .form-group select option { background: #fbf9fd; color: #4a4552; }
+
+        .form-hint { font-size: 0.8em; color: #9a94a8; margin-top: 5px; }
+
+        .form-section-title {
+            font-size: 0.88em;
+            font-weight: 800;
+            color: #6b4a9e;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 18px 0 10px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(180, 170, 200, 0.25);
+        }
+        .form-section-title:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .type-switch {
+            display: flex;
+            gap: 6px;
+            background: rgba(200, 185, 220, 0.15);
+            border: 1px solid rgba(180, 170, 200, 0.3);
+            border-radius: 12px;
+            padding: 5px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+        .type-switch button {
+            flex: 1;
+            min-width: 90px;
+            padding: 9px 8px;
+            border-radius: 9px;
+            border: none;
+            background: transparent;
+            color: #7d7690;
+            font-size: 0.82em;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        .type-switch button.active {
+            background: linear-gradient(135deg, #b8a4d4, #c9b8dd);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(160, 140, 190, 0.3);
+        }
+
+        .duration-quick {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+        .duration-quick button {
+            padding: 6px 13px;
+            border-radius: 20px;
+            border: 1px solid rgba(180, 170, 200, 0.4);
+            background: rgba(255, 255, 255, 0.7);
+            color: #7d7690;
+            font-size: 0.82em;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .duration-quick button:hover {
+            background: rgba(200, 185, 220, 0.35);
+            border-color: #b8a4d4;
+            color: #6b4a9e;
+        }
+        .duration-quick button.active {
+            background: linear-gradient(135deg, #b8a4d4, #c9b8dd);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .status-switch { display: flex; gap: 6px; flex-wrap: wrap; }
+        .status-switch button {
+            flex: 1;
+            min-width: 110px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(180, 170, 200, 0.4);
+            background: rgba(255, 255, 255, 0.7);
+            color: #7d7690;
+            font-size: 0.85em;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .status-switch button:hover {
+            background: rgba(200, 185, 220, 0.35);
+            border-color: #b8a4d4;
+        }
+        .status-switch button.active[data-status="planned"] {
+            background: linear-gradient(135deg, #b8a4d4, #c9b8dd);
+            color: #fff;
+            border-color: transparent;
+        }
+        .status-switch button.active[data-status="done"] {
+            background: linear-gradient(135deg, #a8c9b8, #8fbfa8);
+            color: #fff;
+            border-color: transparent;
+        }
+        .status-switch button.active[data-status="cancelled"] {
+            background: linear-gradient(135deg, #d9a3a3, #c98e8e);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .repeat-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 14px;
+            border-radius: 10px;
+            background: rgba(200, 185, 220, 0.18);
+            border: 1px solid rgba(180, 170, 200, 0.4);
+            cursor: pointer;
+            font-size: 0.9em;
+            color: #6b4a9e;
+            font-weight: 700;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+        .repeat-toggle:hover { background: rgba(200, 185, 220, 0.3); }
+        .repeat-toggle input { width: 18px; height: 18px; accent-color: #b8a4d4; cursor: pointer; flex-shrink: 0; }
+        .repeat-options { margin-top: 10px; display: none; }
+        .repeat-options.open { display: block; }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .settings-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(180, 170, 200, 0.3);
+            border-radius: 16px;
+            padding: 22px;
+        }
+        .settings-card h3 { margin-bottom: 16px; font-size: 1.1em; color: #6b4a9e; font-weight: 800; }
+
+        .bg-presets {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .bg-preset {
+            height: 68px;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .bg-preset:hover { transform: scale(1.05); border-color: #b8a4d4; }
+        .bg-preset.active { border-color: #6b4a9e; box-shadow: 0 0 0 2px #b8a4d4; }
+        .bg-preset.default { background: linear-gradient(135deg, #f6f2ee 0%, #ece6f2 50%, #e8eef2 100%); }
+        .bg-preset.lavender { background: linear-gradient(135deg, #e8e2f2 0%, #d6c9e8 50%, #c5b6dc 100%); }
+        .bg-preset.warm { background: linear-gradient(135deg, #f8e8d8 0%, #f0d0b8 50%, #e8b898 100%); }
+        .bg-preset.mint { background: linear-gradient(135deg, #e0f0e8 0%, #c8e8d8 50%, #b0d8c8 100%); }
+        .bg-preset.dark { background: linear-gradient(135deg, #4a4258 0%, #3a3448 50%, #2d2838 100%); }
+
+        .bg-upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 16px;
+            border-radius: 10px;
+            border: 1px dashed rgba(180, 170, 200, 0.6);
+            background: rgba(255, 255, 255, 0.7);
+            color: #7d7690;
+            font-size: 0.88em;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .bg-upload-btn:hover {
+            background: rgba(200, 185, 220, 0.3);
+            border-color: #b8a4d4;
+            color: #6b4a9e;
+        }
+
+        .confirm-body { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 4px; }
+        .confirm-icon {
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4em;
+            background: rgba(217, 163, 163, 0.2);
+            border: 1px solid rgba(201, 142, 142, 0.4);
+            color: #a85a5a;
+        }
+        .confirm-icon.info { background: rgba(200, 185, 220, 0.25); border-color: rgba(180, 170, 200, 0.5); color: #6b4a9e; }
+        .confirm-icon.warn { background: rgba(224, 207, 160, 0.3); border-color: rgba(212, 189, 136, 0.5); color: #8a7040; }
+        .confirm-text { flex: 1; }
+        .confirm-text h3 { margin-bottom: 8px; font-size: 1.18em; color: #4a4552; font-weight: 800; }
+        .confirm-text p { font-size: 0.92em; color: #7d7690; line-height: 1.5; }
+
+        .view-block {
+            background: rgba(200, 185, 220, 0.12);
+            border: 1px solid rgba(180, 170, 200, 0.3);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+        .view-block h4 {
+            font-size: 0.88em;
+            color: #6b4a9e;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+        .view-block .view-text {
+            font-size: 0.95em;
+            color: #4a4552;
+            line-height: 1.55;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .view-block.hw { background: rgba(224, 207, 160, 0.15); border-color: rgba(200, 180, 130, 0.4); }
+        .view-block.hw h4 { color: #8a7040; }
+        .view-block.note { background: rgba(180, 200, 220, 0.15); border-color: rgba(150, 180, 210, 0.4); }
+        .view-block.note h4 { color: #4a6b9e; }
+        .view-empty { color: #b0aabc; font-style: italic; font-size: 0.9em; }
+
+        .student-hw { display: flex; flex-wrap: wrap; gap: 5px; }
+
+        .balance-cell { min-width: 130px; }
+        .balance-line {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.88em;
+            margin-bottom: 4px;
+        }
+        .balance-line .lbl { color: #9a94a8; min-width: 66px; font-weight: 600; }
+
+        .marker {
+            font-size: 0.72em;
+            padding: 1px 7px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(180, 170, 200, 0.4);
+            color: #7d7690;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            font-weight: 600;
+        }
+        .marker:hover { background: rgba(200, 185, 220, 0.5); border-color: #b8a4d4; }
+        .marker.hw { background: rgba(224, 207, 160, 0.4); border-color: rgba(200, 180, 130, 0.6); color: #8a7040; }
+        .marker.note { background: rgba(180, 200, 220, 0.4); border-color: rgba(150, 180, 210, 0.6); color: #4a6b9e; }
+        .marker.file { background: rgba(200, 185, 220, 0.4); border-color: rgba(180, 170, 200, 0.6); color: #6b4a9e; }
+
+        /* ===== Date-time picker ===== */
+        .dt-field { position: relative; }
+        .dt-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            border: 1px solid rgba(180, 170, 200, 0.4);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            min-height: 44px;
+        }
+        .dt-display:hover { border-color: #b8a4d4; }
+        .dt-display.active { border-color: #b8a4d4; box-shadow: 0 0 0 3px rgba(184, 164, 212, 0.2); }
+        .dt-display .icon { font-size: 1.1em; color: #6b4a9e; flex-shrink: 0; }
+        .dt-display .value {
+            flex: 1;
+            font-size: 0.95em;
+            color: #4a4552;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-weight: 600;
+        }
+        .dt-display .value.placeholder { color: #b0aabc; font-style: italic; font-weight: 400; }
+        .dt-display .clear {
+            background: transparent;
+            border: none;
+            color: #b0aabc;
+            cursor: pointer;
+            font-size: 1em;
+            padding: 2px 6px;
+            border-radius: 6px;
+            transition: background 0.15s ease, color 0.15s ease;
+            flex-shrink: 0;
+        }
+        .dt-display .clear:hover { background: rgba(217, 163, 163, 0.2); color: #a85a5a; }
+
+        .dt-picker {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            background: #fbf9fd;
+            border: 1px solid rgba(180, 170, 200, 0.4);
+            border-radius: 14px;
+            box-shadow: 0 18px 40px rgba(140, 130, 160, 0.25);
+            padding: 16px;
+            display: none;
+            z-index: 200;
+            animation: scaleIn 0.18s ease;
+        }
+        .dt-picker.open { display: block; }
+
+        .cal-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-weight: 800;
+            color: #6b4a9e;
+        }
+        .cal-head button {
+            background: rgba(200, 185, 220, 0.2);
+            border: 1px solid rgba(180, 170, 200, 0.4);
+            color: #7d7690;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.15s ease;
+        }
+        .cal-head button:hover { background: rgba(200, 185, 220, 0.45); border-color: #b8a4d4; }
+
+        .cal-mini-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            margin-bottom: 10px;
+        }
+        .cal-mini-grid .dow {
+            text-align: center;
+            font-size: 0.75em;
+            color: #6b4a9e;
+            padding: 4px 0;
+            font-weight: 800;
+        }
+        .cal-mini-grid .day {
+            text-align: center;
+            padding: 7px 0;
+            font-size: 0.88em;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #4a4552;
+            transition: all 0.15s ease;
+            user-select: none;
+            font-weight: 600;
+        }
+        .cal-mini-grid .day:hover { background: rgba(200, 185, 220, 0.3); }
+        .cal-mini-grid .day.other-month { color: #c8c2d4; }
+        .cal-mini-grid .day.today { font-weight: 800; color: #6b4a9e; }
+        .cal-mini-grid .day.selected {
+            background: linear-gradient(135deg, #b8a4d4, #c9b8dd);
+            color: #fff;
+            font-weight: 800;
+        }
+
+        .cal-quick { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+        .cal-quick button {
+            padding: 5px 10px;
+            border-radius: 14px;
+            border: 1px solid rgba(180, 170, 200, 0.4);
+            background: rgba(255, 255, 255, 0.7);
+            color: #7d7690;
+            font-size: 0.8em;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .cal-quick button:hover {
+            background: rgba(200, 185, 220, 0.35);
+            border-color: #b8a4d4;
+            color: #6b4a9e;
+        }
+
+        .time-section {
+            display: none;
+            border-top: 1px solid rgba(180, 170, 200, 0.3);
+            padding-top: 12px;
+            margin-top: 4px;
+        }
+        .time-section.open { display: block; }
+        .time-section .time-label {
+            font-size: 0.82em;
+            color: #6b4a9e;
+            text-align: center;
+            margin-bottom: 8px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+        }
+        .time-wheels {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+        .time-wheels::before,
+        .time-wheels::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 110px;
+            height: 1px;
+            background: rgba(184, 164, 212, 0.5);
+        }
+        .time-wheels::before { top: calc(50% - 18px); }
+        .time-wheels::after { top: calc(50% + 18px); }
+        .wheel {
+            width: 60px;
+            height: 130px;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            position: relative;
+            z-index: 1;
+            padding: 44px 0;
+            mask-image: linear-gradient(to bottom, transparent 0, #000 30%, #000 70%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 30%, #000 70%, transparent 100%);
+        }
+        .wheel::-webkit-scrollbar { display: none; }
+        .wheel .item {
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            color: #a89fba;
+            scroll-snap-align: center;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            user-select: none;
+            font-weight: 600;
+        }
+        .wheel .item.selected { color: #6b4a9e; font-weight: 800; font-size: 1.15em; }
+        .wheel-sep { font-size: 1.3em; color: #6b4a9e; font-weight: 800; z-index: 2; }
+        .time-wheels-hint { text-align: center; font-size: 0.72em; color: #b0aabc; margin-top: 8px; }
+
+        .file-upload-area { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .file-upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 16px;
+            border-radius: 10px;
+            border: 1px dashed rgba(180, 170, 200, 0.6);
+            background: rgba(255, 255, 255, 0.7);
+            color: #7d7690;
+            font-size: 0.85em;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .file-upload-btn:hover { background: rgba(200, 185, 220, 0.3); border-color: #b8a4d4; color: #6b4a9e; }
+        .file-preview {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            background: rgba(200, 185, 220, 0.25);
+            border: 1px solid rgba(180, 170, 200, 0.4);
+            font-size: 0.85em;
+            max-width: 100%;
+            overflow: hidden;
+        }
+        .file-preview .fname { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #6b4a9e; font-weight: 700; }
+        .file-preview .fsize { font-size: 0.85em; color: #a89fba; flex-shrink: 0; }
+        .file-preview .fdel { background: transparent; border: none; color: #a85a5a; cursor: pointer; font-size: 0.9em; padding: 2px 6px; border-radius: 6px; }
+        .file-preview .fdel:hover { background: rgba(217, 163, 163, 0.3); }
+
+        .file-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: rgba(200, 185, 220, 0.3);
+            border: 1px solid rgba(180, 170, 200, 0.5);
+            color: #6b4a9e;
+            font-size: 0.85em;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .file-download:hover { background: rgba(200, 185, 220, 0.5); border-color: #b8a4d4; }
+
+        footer { margin-top: 40px; text-align: center; font-size: 0.85em; color: #b0aabc; }
+
+        @media (max-width: 1200px) {
+            .week-view-grid,
+            .free-view-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .week-day:nth-child(7),
+            .free-day:nth-child(7) { grid-column: span 1; }
+        }
+        @media (max-width: 900px) {
+            .week-view-grid,
+            .free-view-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .week-day:nth-child(7),
+            .free-day:nth-child(7) { grid-column: span 2; }
+            .today-hero { padding: 20px; }
+            .today-hero-date { font-size: 1.5em; }
+        }
+        @media (max-width: 600px) {
+            .container { padding: 20px 14px; }
+            h1 { font-size: 1.75em; }
+            th, td { padding: 10px 8px; font-size: 0.88em; }
+            .section-head { flex-direction: column; align-items: flex-start; }
+            .tab { padding: 9px 15px; font-size: 0.85em; }
+            .week-view-grid,
+            .free-view-grid { grid-template-columns: 1fr; }
+            .week-day:nth-child(7),
+            .free-day:nth-child(7) { grid-column: span 1; }
+            .month-view-grid { grid-template-columns: repeat(4, 1fr); }
+            .today-item { flex-direction: column; gap: 10px; }
+            .today-item-actions { flex-direction: row; align-self: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Преподаватель английского</h1>
+        </header>
+
+        <div class="tabs">
+            <div class="tab today-tab active" data-tab="today">🌟 Сегодня</div>
+            <div class="tab" data-tab="schedule">📅 Расписание</div>
+            <div class="tab" data-tab="students">🎓 Студенты</div>
+            <div class="tab" data-tab="payments">💰 Оплаты</div>
+            <div class="tab" data-tab="income">📊 Доход</div>
+            <div class="tab" data-tab="settings">⚙️ Настройки</div>
+        </div>
+
+        <!-- ============= СЕГОДНЯ ============= -->
+        <section class="section active" id="today">
+            <div class="today-hero">
+                <div>
+                    <div class="today-hero-day" id="todayDayName">—</div>
+                    <div class="today-hero-date" id="todayDate">—</div>
+                </div>
+                <div class="today-hero-stats">
+                    <div class="today-hero-stat">
+                        <div class="val" id="todayTotal">0</div>
+                        <div class="lbl">Всего занятий</div>
+                    </div>
+                    <div class="today-hero-stat green">
+                        <div class="val" id="todayDone">0</div>
+                        <div class="lbl">Проведено</div>
+                    </div>
+                    <div class="today-hero-stat warn">
+                        <div class="val" id="todayLeft">0</div>
+                        <div class="lbl">Осталось</div>
+                    </div>
+                    <div class="today-hero-stat">
+                        <div class="val" id="todayIncome">0 ₽</div>
+                        <div class="lbl">Доход за день</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom:14px">📋 Расписание на сегодня</h3>
+            <div class="today-list" id="todayList"></div>
+        </section>
+
+        <!-- ============= РАСПИСАНИЕ ============= -->
+        <section class="section" id="schedule">
+            <div class="section-head">
+                <h2>Расписание</h2>
+                <button class="btn danger" onclick="confirmClearAllSlots()">🗑 Удалить все слоты</button>
+            </div>
+
+            <div class="sched-toolbar">
+                <div class="sched-nav">
+                    <button class="btn small ghost" id="schedPrev">‹</button>
+                    <button class="btn small ghost" id="schedToday">Сегодня</button>
+                    <button class="btn small ghost" id="schedNext">›</button>
+                </div>
+                <div class="sched-title" id="schedTitle"></div>
+                <div class="sched-view-switch" id="viewSwitch">
+                    <button type="button" data-view="week" class="active">Неделя</button>
+                    <button type="button" data-view="month">Месяц</button>
+                    <button type="button" data-view="free">🕐 Свободные</button>
+                </div>
+            </div>
+
+            <div class="legend" id="schedLegend">
+                <span><span class="dot busy"></span> Индивидуальное</span>
+                <span><span class="dot pair"></span> Парное</span>
+                <span><span class="dot personal"></span> Мои дела</span>
+            </div>
+
+            <div id="schedContainer"></div>
+        </section>
+
+        <!-- ============= СТУДЕНТЫ ============= -->
+        <section class="section" id="students">
+            <div class="section-head">
+                <h2>Студенты и остаток занятий</h2>
+                <button class="btn" onclick="openStudentModal()">+ Добавить студента</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Студент</th>
+                        <th>Уровень</th>
+                        <th>Баланс занятий</th>
+                        <th>Ближайшее занятие</th>
+                        <th>ДЗ / заметки</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="studentsTable"></tbody>
+            </table>
+        </section>
+
+        <!-- ============= ОПЛАТЫ ============= -->
+        <section class="section" id="payments">
+            <div class="section-head">
+                <h2>Оплаты от студентов</h2>
+                <button class="btn" onclick="openPaymentModal()">+ Добавить оплату</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Студент</th>
+                        <th>Сумма</th>
+                        <th>Дата</th>
+                        <th>Статус</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="paymentsTable"></tbody>
+            </table>
+        </section>
+
+        <!-- ============= ДОХОД ============= -->
+        <section class="section" id="income">
+            <h2>Мой доход</h2>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="value" id="incomeMonth">0 ₽</div>
+                    <div class="label">Оплачено студентами</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value" id="incomeWeek">0 ₽</div>
+                    <div class="label">Доход за неделю</div>
+                </div>
+                <div class="stat-card highlight">
+                    <div class="value" id="potentialIncome">0 ₽</div>
+                    <div class="label">Потенциал за неделю</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value" id="debtTotal">0 ₽</div>
+                    <div class="label">Ожидает оплаты</div>
+                </div>
+            </div>
+
+            <h3 style="margin-top:10px">Разбивка по занятиям в расписании</h3>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="value" id="individualCount">0</div>
+                    <div class="label">Индивидуальных в неделю</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value" id="pairCount">0</div>
+                    <div class="label">Парных в неделю</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value" id="doneCount">0</div>
+                    <div class="label">Проведено</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value" id="personalCount">0</div>
+                    <div class="label">Своих дел</div>
+                </div>
+            </div>
+
+            <div class="toolbar">
+                <button class="btn ghost" onclick="resetAll()">↺ Сбросить к исходным данным</button>
+            </div>
+        </section>
+
+        <!-- ============= НАСТРОЙКИ ============= -->
+        <section class="section" id="settings">
+            <h2>Настройки</h2>
+            <p style="color:#9a94a8;font-size:0.95em;margin-bottom:22px">
+                Тариф, длительность и внешний вид панели.
+            </p>
+
+            <div class="settings-grid">
+                <div class="settings-card">
+                    <h3>💰 Стоимость занятий (₽)</h3>
+                    <div class="form-group">
+                        <label>Индивидуальное занятие, ₽</label>
+                        <input type="number" id="rateSingle" min="0" value="2000">
+                    </div>
+                    <div class="form-group">
+                        <label>Способ расчёта парного занятия</label>
+                        <select id="pairMode">
+                            <option value="fixed">Фиксированная сумма за пару</option>
+                            <option value="multiplier">Коэффициент от индивидуального</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="pairFixedGroup">
+                        <label>Сумма за парное занятие, ₽</label>
+                        <input type="number" id="ratePairFixed" min="0" value="3000">
+                    </div>
+                    <div class="form-group" id="pairMultiplierGroup" style="display:none">
+                        <label>Коэффициент (например, 1.6)</label>
+                        <input type="number" id="ratePairMultiplier" min="0" step="0.1" value="1.6">
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <h3>⏱️ Длительность и рабочие часы</h3>
+                    <div class="form-group">
+                        <label>Стандартная длительность, минут</label>
+                        <input type="number" id="defaultDuration" min="15" step="5" value="60">
+                    </div>
+                    <div class="form-group">
+                        <label>Перерыв между занятиями, минут</label>
+                        <input type="number" id="gapMinutes" min="0" step="30" value="0">
+                        <div class="form-hint">0 = занятия идут вплотную друг за другом.</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Рабочие часы (для свободных окон)</label>
+                        <div style="display:flex;gap:10px;align-items:center">
+                            <input type="text" id="workStart" value="09:00" style="flex:1" placeholder="09:00">
+                            <span style="color:#9a94a8">—</span>
+                            <input type="text" id="workEnd" value="21:00" style="flex:1" placeholder="21:00">
+                        </div>
+                        <div class="form-hint">Последнее занятие начинается в 21:00 и идёт до 22:00.</div>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <h3>📌 Текущий тариф</h3>
+                    <div id="ratePreview" style="font-size:1em;line-height:1.9;color:#7d7690"></div>
+                </div>
+
+                <div class="settings-card" style="grid-column: 1 / -1;">
+                    <h3>🎨 Фон сайта</h3>
+                    <div class="bg-presets" id="bgPresets">
+                        <div class="bg-preset default" data-bg="default" title="Светлый пастельный"></div>
+                        <div class="bg-preset lavender" data-bg="lavender" title="Лавандовый"></div>
+                        <div class="bg-preset warm" data-bg="warm" title="Тёплый"></div>
+                        <div class="bg-preset mint" data-bg="mint" title="Мятный"></div>
+                        <div class="bg-preset dark" data-bg="dark" title="Тёмный"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Или загрузите своё изображение</label>
+                        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+                            <label class="bg-upload-btn">
+                                📷 Загрузить фото
+                                <input type="file" id="bgUpload" accept="image/*" style="display:none">
+                            </label>
+                            <button type="button" class="btn small ghost" onclick="clearCustomBg()">✕ Убрать фон</button>
+                        </div>
+                        <div class="form-hint">Любое изображение, до 100 МБ. Хранится в браузере.</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Или вставьте ссылку на картинку</label>
+                        <div style="display:flex;gap:10px;flex-wrap:wrap">
+                            <input type="text" id="bgUrl" placeholder="https://..." style="flex:1">
+                            <button type="button" class="btn small" onclick="applyBgUrl()">Применить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toolbar" style="justify-content:flex-start">
+                <button class="btn" onclick="saveSettings()">Сохранить настройки</button>
+            </div>
+        </section>
+
+        <footer>
+            Панель преподавателя английского • 15.10.2026
+        </footer>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h3 id="modalTitle">Заголовок</h3>
+            <form id="modalForm"></form>
+            <div class="modal-actions">
+                <button class="btn ghost" onclick="closeModal()">Отмена</button>
+                <button class="btn" id="modalSubmit" type="button">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="confirmOverlay">
+        <div class="modal">
+            <div class="confirm-body">
+                <div class="confirm-icon" id="confirmIcon">!</div>
+                <div class="confirm-text">
+                    <h3 id="confirmTitle">Подтверждение</h3>
+                    <p id="confirmMessage">Текст</p>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn ghost" id="confirmCancel" onclick="closeConfirm()">Отмена</button>
+                <button class="btn danger" id="confirmOk">Удалить</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="viewOverlay">
+        <div class="modal">
+            <h3 id="viewTitle">Домашнее задание и заметки</h3>
+            <div id="viewContent"></div>
+            <div class="modal-actions">
+                <button class="btn" onclick="closeView()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        'use strict';
+
+        const STORAGE_KEY = 'englishTeacherPanel_v1';
+        const BG_KEY = 'englishTeacherPanel_bg';
+        const CURRENCY = '₽';
+        const SLOT_STEP_MIN = 30;
+        const MAX_FILE_SIZE = 100 * 1024 * 1024;
+
+        // Рабочие часы по умолчанию
+        const DEFAULT_WORK_START = '09:00';
+        const DEFAULT_WORK_END = '21:00'; // последнее занятие начинается в 21:00
+
+        const BG_PRESETS = {
+            default:  'linear-gradient(135deg, #f6f2ee 0%, #ece6f2 50%, #e8eef2 100%)',
+            lavender: 'linear-gradient(135deg, #e8e2f2 0%, #d6c9e8 50%, #c5b6dc 100%)',
+            warm:     'linear-gradient(135deg, #f8e8d8 0%, #f0d0b8 50%, #e8b898 100%)',
+            mint:     'linear-gradient(135deg, #e0f0e8 0%, #c8e8d8 50%, #b0d8c8 100%)',
+            dark:     'linear-gradient(135deg, #4a4258 0%, #3a3448 50%, #2d2838 100%)'
+        };
+
+        const STATUS_LABELS = {
+            planned:   { text: 'Запланировано', icon: '🕐', cls: '' },
+            done:      { text: 'Проведено',     icon: '✅', cls: 'done' },
+            cancelled: { text: 'Отменено',      icon: '❌', cls: 'cancelled' }
+        };
+
+        const MONTHS_RU = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+                           'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+        const MONTHS_RU_GEN = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+                               'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+        const DOW_RU = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+        const DOW_RU_FULL = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+
+        const DEFAULT_SETTINGS = {
+            rateSingle: 2000,
+            pairMode: 'fixed',
+            ratePairFixed: 3000,
+            ratePairMultiplier: 1.6,
+            defaultDuration: 60,
+            gapMinutes: 0,
+            workStart: DEFAULT_WORK_START,
+            workEnd: DEFAULT_WORK_END
+        };
+
+        const DEFAULT_PAYMENTS = [
+            { student: 'Анна', amount: 8000, date: '01.10.2026', status: 'paid' },
+            { student: 'Максим', amount: 4000, date: '03.10.2026', status: 'wait' },
+            { student: 'Ольга', amount: 12000, date: '05.10.2026', status: 'paid' },
+            { student: 'Дмитрий', amount: 6000, date: '07.10.2026', status: 'debt' },
+            { student: 'София', amount: 3000, date: '10.10.2026', status: 'paid' },
+            { student: 'Артём', amount: 9000, date: '12.10.2026', status: 'wait' }
+        ];
+
+        const DEFAULT_STUDENTS = [
+            { name: 'Анна', level: 'B1 Intermediate', next: '' },
+            { name: 'Максим', level: 'A2 Elementary', next: '' },
+            { name: 'Ольга', level: 'B2 Upper-Int', next: '' },
+            { name: 'Дмитрий', level: 'C1 Advanced', next: '' },
+            { name: 'София', level: 'A1 Beginner', next: '' },
+            { name: 'Артём', level: 'B1 Intermediate', next: '' }
+        ];
+
+        // ===== ХЕЛПЕРЫ =====
+        const pad2 = n => String(n).padStart(2, '0');
+        const isPair = s => Array.isArray(s.students) && s.students.length > 0;
+        const isPersonal = s => typeof s.personal === 'string' && s.personal.trim() !== '';
+        const hasHw = s => typeof s.hw === 'string' && s.hw.trim() !== '';
+        const hasNote = s => typeof s.note === 'string' && s.note.trim() !== '';
+        const hasFile = s => s.file && s.file.data;
+        const isDone = s => s.status === 'done';
+        const isCancelled = s => s.status === 'cancelled';
+
+        function slotClass(s) {
+            if (s.free) return 'free';
+            if (isPersonal(s)) return 'personal';
+            if (isPair(s)) return 'pair';
+            return 'busy';
+        }
+        function slotType(s) {
+            if (s.free) return 'free';
+            if (isPersonal(s)) return 'personal';
+            if (isPair(s)) return 'pair';
+            return 'single';
+        }
+        function timeToMinutes(time) {
+            const m = /^(\d{1,2}):(\d{2})$/.exec(time || '');
+            if (!m) return null;
+            return (+m[1]) * 60 + (+m[2]);
+        }
+        function minutesToTime(mins) {
+            const m = ((Math.round(mins) % 1440) + 1440) % 1440;
+            return pad2(Math.floor(m / 60)) + ':' + pad2(m % 60);
+        }
+        function endTime(time, duration) {
+            const start = timeToMinutes(time);
+            if (start == null) return '';
+            return minutesToTime(start + (Number(duration) || 60));
+        }
+        function timeRange(time, duration) {
+            const end = endTime(time, duration);
+            return end ? `${time} – ${end}` : time;
+        }
+        function durationText(d) {
+            d = Number(d) || 60;
+            if (d % 60 === 0) { const h = d / 60; return h === 1 ? '1 ч' : `${h} ч`; }
+            if (d < 60) return `${d} мин`;
+            return `${Math.floor(d / 60)} ч ${d % 60} мин`;
+        }
+        function fileSizeText(bytes) {
+            if (bytes < 1024) return bytes + ' Б';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' КБ';
+            return (bytes / 1024 / 1024).toFixed(2) + ' МБ';
+        }
+        function escapeHtml(str) {
+            return String(str == null ? '' : str)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+        const fmtMoney = n => Number(n).toLocaleString('ru-RU') + ' ' + CURRENCY;
+
+        function ceilToStep(mins, step) {
+            step = Number(step) || SLOT_STEP_MIN;
+            return Math.ceil(mins / step) * step;
+        }
+
+        function recalcDayChain(dateKey, anchorMin) {
+            const arr = state.schedule[dateKey];
+            if (!arr || arr.length === 0) return;
+
+            arr.sort((a, b) => (timeToMinutes(a.time) || 0) - (timeToMinutes(b.time) || 0));
+
+            let anchor = anchorMin;
+            if (anchor == null) {
+                const mins = arr.map(s => timeToMinutes(s.time)).filter(m => m != null);
+                anchor = mins.length ? Math.min(...mins) : 10 * 60;
+            }
+            anchor = ceilToStep(anchor, SLOT_STEP_MIN);
+
+            const gap = Number(state.settings.gapMinutes) || 0;
+            let current = anchor;
+            arr.forEach(slot => {
+                slot.time = minutesToTime(current);
+                const dur = Number(slot.duration) || 60;
+                current = current + dur + gap;
+                current = ceilToStep(current, SLOT_STEP_MIN);
+            });
+        }
+
+        // ===== ФОН =====
+        function loadBg() {
+            try {
+                const raw = localStorage.getItem(BG_KEY);
+                if (raw) return JSON.parse(raw);
+            } catch (e) { /* ignore */ }
+            return { type: 'default' };
+        }
+        function applyBg(bg) {
+            const body = document.body;
+            if (bg.type === 'preset' && BG_PRESETS[bg.value]) {
+                body.style.backgroundImage = 'none';
+                body.style.background = BG_PRESETS[bg.value];
+            } else if (bg.type === 'custom' && bg.data) {
+                body.style.background = `url(${bg.data}) center/cover no-repeat fixed`;
+            } else if (bg.type === 'url' && bg.value) {
+                body.style.background = `url(${bg.value}) center/cover no-repeat fixed`;
+            } else {
+                body.style.background = BG_PRESETS.default;
+            }
+            document.querySelectorAll('.bg-preset').forEach(p => {
+                p.classList.toggle('active', bg.type === 'preset' && p.dataset.bg === bg.value);
+            });
+        }
+        function saveBg(bg) {
+            try {
+                localStorage.setItem(BG_KEY, JSON.stringify(bg));
+            } catch (e) {
+                showAlert('Ошибка', 'Не удалось сохранить фон.', 'warn');
+            }
+            applyBg(bg);
+        }
+
+        // ===== ДАТЫ =====
+        function toDateKey(d) { return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); }
+        function fromDateKey(key) {
+            const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(key);
+            if (!m) return null;
+            return new Date(+m[1], +m[2] - 1, +m[3]);
+        }
+        function formatDayHuman(d) {
+            const today = new Date();
+            const tomorrow = new Date(); tomorrow.setDate(today.getDate() + 1);
+            if (toDateKey(d) === toDateKey(today)) return 'Сегодня';
+            if (toDateKey(d) === toDateKey(tomorrow)) return 'Завтра';
+            return `${pad2(d.getDate())} ${MONTHS_RU_GEN[d.getMonth()]} ${d.getFullYear()}`;
+        }
+        function formatDateTimeHuman(str) {
+            if (!str) return '';
+            const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/.exec(str);
+            if (!m) return str;
+            const d = new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]);
+            return `${formatDayHuman(d)}, ${m[4]}:${m[5]}`;
+        }
+        function parseDateTime(str) {
+            if (!str || typeof str !== 'string') return null;
+            const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/.exec(str);
+            if (!m) return null;
+            return { year: +m[1], month: +m[2] - 1, day: +m[3], hour: +m[4], minute: +m[5] };
+        }
+        function toDateTimeString(dt) {
+            if (!dt) return '';
+            return `${dt.year}-${pad2(dt.month + 1)}-${pad2(dt.day)}T${pad2(dt.hour)}:${pad2(dt.minute)}`;
+        }
+        function mondayOfWeek(d) {
+            const m = new Date(d);
+            m.setDate(m.getDate() - ((m.getDay() + 6) % 7));
+            m.setHours(0, 0, 0, 0);
+            return m;
+        }
+
+        // ===== СОСТОЯНИЕ =====
+        let state = loadState();
+        let submitHandler = null;
+        let confirmCallback = null;
+        let dragSource = null;
+        let dropTarget = null;
+
+        let schedView = 'week';
+        let schedAnchor = new Date();
+        let schedMonth = { year: schedAnchor.getFullYear(), month: schedAnchor.getMonth() };
+
+        function loadState() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    parsed.settings = Object.assign({}, DEFAULT_SETTINGS, parsed.settings || {});
+                    delete parsed.settings.currency;
+                    if (!parsed.settings.workStart) parsed.settings.workStart = DEFAULT_WORK_START;
+                    if (!parsed.settings.workEnd) parsed.settings.workEnd = DEFAULT_WORK_END;
+                    if (!parsed.schedule) parsed.schedule = {};
+                    if (!isDateSchedule(parsed.schedule)) {
+                        parsed.schedule = migrateOldSchedule(parsed.schedule);
+                    }
+                    Object.values(parsed.schedule).forEach(slots => slots.forEach(slot => {
+                        if (!slot.duration) slot.duration = parsed.settings.defaultDuration || 60;
+                        if (!slot.status && !slot.free && !isPersonal(slot)) slot.status = 'planned';
+                        if (slot.status === 'moved') slot.status = 'planned';
+                    }));
+                    return parsed;
+                }
+            } catch (e) { /* ignore */ }
+            return {
+                schedule: {},
+                students: JSON.parse(JSON.stringify(DEFAULT_STUDENTS)),
+                payments: JSON.parse(JSON.stringify(DEFAULT_PAYMENTS)),
+                settings: JSON.parse(JSON.stringify(DEFAULT_SETTINGS))
+            };
+        }
+        function isDateSchedule(obj) {
+            const keys = Object.keys(obj);
+            if (keys.length === 0) return true;
+            return /^\d{4}-\d{2}-\d{2}$/.test(keys[0]);
+        }
+        function migrateOldSchedule(old) {
+            const monday = mondayOfWeek(new Date());
+            const result = {};
+            DOW_RU_FULL.forEach((dayName, offset) => {
+                const d = new Date(monday); d.setDate(monday.getDate() + offset);
+                result[toDateKey(d)] = Array.isArray(old[dayName]) ? JSON.parse(JSON.stringify(old[dayName])) : [];
+            });
+            return result;
+        }
+
+        const saveState = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+
+        // ===== РАСЧЁТЫ =====
+        function computeStats() {
+            const single = Number(state.settings.rateSingle);
+            const pair = state.settings.pairMode === 'multiplier'
+                ? Math.round(single * Number(state.settings.ratePairMultiplier))
+                : Number(state.settings.ratePairFixed);
+
+            let individualCount = 0, pairCount = 0, personalCount = 0, doneCount = 0;
+            let weeklyPotential = 0;
+
+            const monday = mondayOfWeek(new Date());
+            const weekKeys = [];
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(monday); d.setDate(monday.getDate() + i);
+                weekKeys.push(toDateKey(d));
+            }
+
+            const perStudent = {};
+            const ensure = name => perStudent[name] || (perStudent[name] = { single: 0, pair: 0, total: 0, done: 0 });
+
+            Object.entries(state.schedule).forEach(([dateKey, slots]) => {
+                const inWeek = weekKeys.includes(dateKey);
+                slots.forEach(slot => {
+                    if (slot.free) return;
+                    if (isPersonal(slot)) { personalCount++; return; }
+                    const done = isDone(slot);
+                    const cancelled = isCancelled(slot);
+                    if (inWeek) {
+                        if (isPair(slot)) { pairCount++; if (done) doneCount++; if (!cancelled) weeklyPotential += pair; }
+                        else { individualCount++; if (done) doneCount++; if (!cancelled) weeklyPotential += single; }
+                    }
+                    if (isPair(slot)) {
+                        slot.students.forEach(n => {
+                            const s = ensure(n);
+                            s.pair++; s.total++; if (done) s.done++;
+                        });
+                    } else if (slot.student) {
+                        const s = ensure(slot.student);
+                        s.single++; s.total++; if (done) s.done++;
+                    }
+                });
+            });
+
+            const paymentsByStudent = {};
+            let paidSum = 0, waitSum = 0;
+            state.payments.forEach(p => {
+                const amt = Number(p.amount) || 0;
+                const rec = paymentsByStudent[p.student] || (paymentsByStudent[p.student] = { paid: 0, wait: 0 });
+                if (p.status === 'paid') { rec.paid += amt; paidSum += amt; }
+                else { rec.wait += amt; waitSum += amt; }
+            });
+
+            return { single, pair, individualCount, pairCount, personalCount, doneCount,
+                     weeklyPotential, perStudent, paymentsByStudent, paidSum, waitSum };
+        }
+
+        function computeStudentBalances(stats) {
+            return state.students.map(s => {
+                const rec = stats.paymentsByStudent[s.name] || { paid: 0, wait: 0 };
+                const schedule = stats.perStudent[s.name] || { single: 0, pair: 0, done: 0 };
+                const rateSingle = stats.single;
+                const ratePair = stats.pair;
+                const pairShare = ratePair > 0 ? Math.round(ratePair / 2) : rateSingle;
+                let rate;
+                if (schedule.single + schedule.pair === 0) rate = rateSingle;
+                else if (schedule.pair === 0) rate = rateSingle;
+                else if (schedule.single === 0) rate = pairShare;
+                else rate = Math.round((schedule.single * rateSingle + schedule.pair * pairShare) /
+                                       (schedule.single + schedule.pair));
+                if (!rate || rate <= 0) rate = rateSingle;
+                const paidLessons = rate > 0 ? Math.floor(rec.paid / rate) : 0;
+                const done = schedule.done || 0;
+                const left = paidLessons - done;
+                const remainingLessons = Math.max(0, left);
+                const debtLessons = left < 0 ? Math.abs(left) : 0;
+                return { name: s.name, paidLessons, done, remainingLessons, debtLessons,
+                         remainingRub: remainingLessons * rate };
+            });
+        }
+
+        // ===== СЕГОДНЯ =====
+        function computeTodayIncome(stats) {
+            const todayKey = toDateKey(new Date());
+            const slots = state.schedule[todayKey] || [];
+            let income = 0;
+            slots.forEach(slot => {
+                if (slot.free || isPersonal(slot)) return;
+                if (isCancelled(slot)) return;
+                if (isPair(slot)) income += stats.pair;
+                else income += stats.single;
+            });
+            return income;
+        }
+
+        function renderToday() {
+            const today = new Date();
+            const todayKey = toDateKey(today);
+            const dow = (today.getDay() + 6) % 7;
+
+            document.getElementById('todayDayName').textContent = DOW_RU_FULL[dow];
+            document.getElementById('todayDate').textContent = `${today.getDate()} ${MONTHS_RU_GEN[today.getMonth()]} ${today.getFullYear()}`;
+
+            const slots = (state.schedule[todayKey] || []).slice().sort((a, b) =>
+                (timeToMinutes(a.time) || 0) - (timeToMinutes(b.time) || 0));
+
+            const stats = computeStats();
+            const total = slots.filter(s => !isCancelled(s)).length;
+            const done = slots.filter(isDone).length;
+            const left = slots.filter(s => !isDone(s) && !isCancelled(s)).length;
+            const income = computeTodayIncome(stats);
+
+            document.getElementById('todayTotal').textContent = total;
+            document.getElementById('todayDone').textContent = done;
+            document.getElementById('todayLeft').textContent = left;
+            document.getElementById('todayIncome').textContent = fmtMoney(income);
+
+            const list = document.getElementById('todayList');
+            if (slots.length === 0) {
+                list.innerHTML = `<div class="today-empty">🎉 На сегодня занятий нет. Отдыхайте!</div>`;
+                return;
+            }
+
+            list.innerHTML = slots.map((slot, idx) => renderTodayItem(slot, todayKey, idx)).join('');
+        }
+
+        function renderTodayItem(slot, dateKey, idx) {
+            const start = slot.time;
+            const end = endTime(start, slot.duration);
+            const dur = durationText(slot.duration);
+
+            let title = '';
+            let tags = [];
+
+            if (isPersonal(slot)) {
+                title = slot.personal;
+                tags.push(`<span class="today-tag personal">📝 Моё дело</span>`);
+            } else if (isPair(slot)) {
+                title = slot.students.join(' и ');
+                tags.push(`<span class="today-tag pair">👥 Парное</span>`);
+            } else {
+                title = slot.student || '';
+            }
+
+            if (isDone(slot)) tags.push(`<span class="today-tag done">✅ Проведено</span>`);
+            if (isCancelled(slot)) tags.push(`<span class="today-tag cancelled">❌ Отменено</span>`);
+
+            let infoHtml = '';
+            if (hasHw(slot)) {
+                infoHtml += `<div class="hw-line">📚 <b>ДЗ:</b> ${escapeHtml(slot.hw)}</div>`;
+            }
+            if (hasFile(slot)) {
+                infoHtml += `<a class="file-line" href="${slot.file.data}" download="${escapeHtml(slot.file.name)}">📎 ${escapeHtml(slot.file.name)} (${fileSizeText(slot.file.size)})</a>`;
+            }
+            if (hasNote(slot)) {
+                infoHtml += `<div style="font-size:0.9em;color:#5a7ba8">🗒️ <b>Заметка:</b> ${escapeHtml(slot.note)}</div>`;
+            }
+
+            const checkLabel = isDone(slot) ? '↺ Вернуть' : '✓ Проведено';
+            const checkCls = isDone(slot) ? 'mark done' : 'mark';
+
+            return `
+                <div class="today-item ${isDone(slot) ? 'done' : ''} ${isCancelled(slot) ? 'cancelled' : ''}">
+                    <div class="today-item-time">
+                        <div class="start">${start}</div>
+                        <div class="range">до ${end}</div>
+                        <div class="dur">${dur}</div>
+                    </div>
+                    <div class="today-item-body">
+                        <div class="today-item-title">${escapeHtml(title)}</div>
+                        <div class="today-item-tags">${tags.join('')}</div>
+                        ${infoHtml ? `<div class="today-item-info">${infoHtml}</div>` : ''}
+                    </div>
+                    <div class="today-item-actions">
+                        ${!isPersonal(slot) ? `
+                            <button type="button" class="${checkCls}" onclick="toggleDone('${dateKey}', ${idx})">${checkLabel}</button>
+                        ` : ''}
+                        <button type="button" onclick="openSlotModal('${dateKey}', ${idx})">Изменить</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function toggleDone(dateKey, idx) {
+            const slot = state.schedule[dateKey]?.[idx];
+            if (!slot) return;
+            slot.status = isDone(slot) ? 'planned' : 'done';
+            saveState();
+            renderAll();
+        }
+
+        // ===== РАСПИСАНИЕ =====
+        function renderSchedule() {
+            const title = document.getElementById('schedTitle');
+            const container = document.getElementById('schedContainer');
+
+            if (schedView === 'week') {
+                const monday = mondayOfWeek(schedAnchor);
+                const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
+                title.textContent = `${pad2(monday.getDate())} ${MONTHS_RU_GEN[monday.getMonth()]} — ${pad2(sunday.getDate())} ${MONTHS_RU_GEN[sunday.getMonth()]} ${sunday.getFullYear()}`;
+                container.innerHTML = renderWeekView(monday);
+                setupScheduleDragDrop('.week-day', '.week-slot[draggable="true"]');
+            } else if (schedView === 'month') {
+                title.textContent = `${MONTHS_RU[schedMonth.month]} ${schedMonth.year}`;
+                container.innerHTML = renderMonthView(schedMonth.year, schedMonth.month);
+                setupScheduleDragDrop('.cal-cell', '.mini-slot[draggable="true"]');
+            } else if (schedView === 'free') {
+                const monday = mondayOfWeek(schedAnchor);
+                const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
+                title.textContent = `Свободные окна: ${pad2(monday.getDate())} ${MONTHS_RU_GEN[monday.getMonth()]} — ${pad2(sunday.getDate())} ${MONTHS_RU_GEN[sunday.getMonth()]}`;
+                container.innerHTML = renderFreeView(monday);
+            }
+        }
+
+        // Сетка недели — уменьшенная
+        function renderWeekView(monday) {
+            let html = '<div class="week-view-grid">';
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(monday); d.setDate(monday.getDate() + i);
+                const key = toDateKey(d);
+                const isToday = toDateKey(d) === toDateKey(new Date());
+                const dow = (d.getDay() + 6) % 7;
+
+                let cls = 'week-day';
+                if (isToday) cls += ' today';
+                if (dow === 6) cls += ' sunday';
+
+                const head = `
+                    <div class="week-day-head">
+                        <div class="week-day-name">${DOW_RU_FULL[dow]}</div>
+                        <div class="week-day-date">${d.getDate()} ${MONTHS_RU_GEN[d.getMonth()].slice(0,3)}</div>
+                    </div>
+                `;
+
+                const slots = (state.schedule[key] || []).slice().sort((a, b) =>
+                    (timeToMinutes(a.time) || 0) - (timeToMinutes(b.time) || 0));
+
+                let slotsHtml = '';
+                if (slots.length === 0) {
+                    slotsHtml = `
+                        <div class="week-day-empty" onclick="openSlotModal('${key}', -1)">
+                            <div class="plus">+</div>
+                            <div>Нет занятий<br><small>Нажмите, чтобы добавить</small></div>
+                        </div>
+                    `;
+                } else {
+                    slots.forEach((slot, idx) => {
+                        const cls2 = slotClass(slot) +
+                                     (isDone(slot) ? ' done' : '') +
+                                     (isCancelled(slot) ? ' cancelled' : '');
+                        let icon = '', name = '';
+                        if (isPersonal(slot)) { icon = '📝'; name = slot.personal; }
+                        else if (isPair(slot)) { icon = '👥'; name = slot.students.join(' + '); }
+                        else { name = slot.student; }
+                        const stIcon = isDone(slot) ? ' ✅' : (isCancelled(slot) ? ' ❌' : '');
+                        const fileIcon = hasFile(slot) ? ' 📎' : '';
+                        const range = timeRange(slot.time, slot.duration);
+                        slotsHtml += `
+                            <div class="week-slot ${cls2}" draggable="true" data-date="${key}" data-idx="${idx}"
+                                 onclick="openSlotModal('${key}', ${idx})">
+                                <div class="slot-time">${range}</div>
+                                <div class="slot-name">${icon ? icon + ' ' : ''}${escapeHtml(name)}${fileIcon}${stIcon}</div>
+                            </div>
+                        `;
+                    });
+                }
+
+                const addBtn = slots.length > 0
+                    ? `<button class="week-day-add" onclick="event.stopPropagation(); openSlotModal('${key}', -1)">+ Добавить слот</button>`
+                    : '';
+
+                html += `<div class="${cls}" data-date="${key}">${head}${slotsHtml}${addBtn}</div>`;
+            }
+            html += '</div>';
+            return html;
+        }
+
+        // ===== СВОБОДНЫЕ ОКНА =====
+        // Возвращает Set занятых получасовок дня.
+        function getOccupiedHalfHours(dateKey) {
+            const occupied = new Set();
+            const slots = state.schedule[dateKey] || [];
+            slots.forEach(slot => {
+                const start = timeToMinutes(slot.time);
+                if (start == null) return;
+                const dur = Number(slot.duration) || 60;
+                const end = start + dur;
+                for (let t = start; t < end; t += SLOT_STEP_MIN) {
+                    occupied.add(t);
+                }
+            });
+            return occupied;
+        }
+
+        // Возвращает список свободных получасовок в рабочих рамках.
+        function getFreeHalfHours(dateKey) {
+            const startMin = timeToMinutes(state.settings.workStart) ?? 9 * 60;
+            const endMin = timeToMinutes(state.settings.workEnd) ?? 21 * 60;
+            const occupied = getOccupiedHalfHours(dateKey);
+            const free = [];
+            for (let t = startMin; t <= endMin; t += SLOT_STEP_MIN) {
+                if (!occupied.has(t)) free.push(t);
+            }
+            return free;
+        }
+
+        // Группирует свободные получасовки в интервалы для показа.
+        // Возвращает массив [{startMin, endMin}] — например, 15:00–16:30.
+        function groupFreeSlots(freeMins) {
+            if (!freeMins.length) return [];
+            const groups = [];
+            let curStart = freeMins[0];
+            let prev = freeMins[0];
+            for (let i = 1; i < freeMins.length; i++) {
+                const t = freeMins[i];
+                if (t - prev === SLOT_STEP_MIN) {
+                    prev = t;
+                } else {
+                    // Закрываем текущую группу
+                    groups.push({ startMin: curStart, endMin: prev + SLOT_STEP_MIN });
+                    curStart = t;
+                    prev = t;
+                }
+            }
+            groups.push({ startMin: curStart, endMin: prev + SLOT_STEP_MIN });
+            return groups;
+        }
+
+        function renderFreeView(monday) {
+            let html = '<div class="free-view-grid">';
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(monday); d.setDate(monday.getDate() + i);
+                const key = toDateKey(d);
+                const isToday = toDateKey(d) === toDateKey(new Date());
+                const dow = (d.getDay() + 6) % 7;
+
+                let cls = 'free-day';
+                if (isToday) cls += ' today';
+                if (dow === 6) cls += ' sunday';
+
+                const head = `
+                    <div class="free-day-head">
+                        <div class="free-day-name">${DOW_RU_FULL[dow]}</div>
+                        <div class="free-day-date">${d.getDate()} ${MONTHS_RU_GEN[d.getMonth()].slice(0,3)}</div>
+                    </div>
+                `;
+
+                const freeMins = getFreeHalfHours(key);
+                const groups = groupFreeSlots(freeMins);
+
+                let slotsHtml = '';
+                if (groups.length === 0) {
+                    slotsHtml = `<div class="free-slots-empty">Нет свободных окон</div>`;
+                } else {
+                    slotsHtml = groups.map(g => {
+                        const startStr = minutesToTime(g.startMin);
+                        const endStr = minutesToTime(g.endMin);
+                        // Клик открывает форму создания слота на начало окна
+                        return `
+                            <div class="free-slot" onclick="openSlotModal('${key}', -1, '${startStr}')">
+                                <span class="time">${startStr} – ${endStr}</span>
+                                <span class="label">свободно</span>
+                            </div>
+                        `;
+                    }).join('');
+                }
+
+                const totalMin = freeMins.length * SLOT_STEP_MIN;
+                const totalHoursText = totalMin > 0
+                    ? `${Math.floor(totalMin / 60)} ч ${totalMin % 60 ? totalMin % 60 + ' мин' : ''}`.trim()
+                    : 'нет';
+
+                html += `
+                    <div class="${cls}" data-date="${key}">
+                        ${head}
+                        <div class="free-slots">${slotsHtml}</div>
+                        <div class="free-day-total">Свободно: ${totalHoursText}</div>
+                    </div>
+                `;
+            }
+            html += '</div>';
+            return html;
+        }
+
+        function renderMonthView(year, month) {
+            const first = new Date(year, month, 1);
+            const startDow = (first.getDay() + 6) % 7;
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrev = new Date(year, month, 0).getDate();
+
+            let html = '<div class="month-view-grid">';
+            DOW_RU.forEach(d => html += `<div class="cal-dow">${d}</div>`);
+
+            const renderCell = (date, otherMonth) => {
+                const key = toDateKey(date);
+                const slots = (state.schedule[key] || []).slice().sort((a, b) =>
+                    (timeToMinutes(a.time) || 0) - (timeToMinutes(b.time) || 0));
+                const isToday = toDateKey(date) === toDateKey(new Date());
+                const dow = (date.getDay() + 6) % 7;
+                let cls = 'cal-cell';
+                if (otherMonth) cls += ' other-month';
+                if (isToday) cls += ' today';
+                if (dow === 6) cls += ' sunday';
+
+                const head = `
+                    <div class="cal-cell-head">
+                        <div>
+                            <span class="cal-cell-date">${pad2(date.getDate())}</span>
+                            <span class="cal-cell-month">${MONTHS_RU_GEN[date.getMonth()].slice(0,3)}</span>
+                        </div>
+                        ${slots.length ? `<span class="cal-cell-count">${slots.length}</span>` : ''}
+                    </div>
+                `;
+
+                let content = '';
+                slots.slice(0, 4).forEach(slot => {
+                    const c2 = slotClass(slot) + (isDone(slot) ? ' done' : '') + (isCancelled(slot) ? ' cancelled' : '');
+                    let name = '';
+                    if (isPersonal(slot)) name = slot.personal;
+                    else if (isPair(slot)) name = slot.students.join('+');
+                    else name = slot.student;
+                    const originalIdx = (state.schedule[key] || []).indexOf(slot);
+                    content += `
+                        <div class="mini-slot ${c2}" draggable="true" data-date="${key}" data-idx="${originalIdx}"
+                             onclick="event.stopPropagation(); openSlotModal('${key}', ${originalIdx})">
+                            ${slot.time} ${escapeHtml(name)}
+                        </div>
+                    `;
+                });
+                if (slots.length > 4) {
+                    content += `<div style="font-size:0.7em;color:#a89fba;text-align:center">+${slots.length - 4} ещё</div>`;
+                }
+
+                const cellClick = slots.length === 0
+                    ? `onclick="openSlotModal('${key}', -1)"`
+                    : '';
+                return `<div class="${cls}" data-date="${key}" ${cellClick}>${head}${content}</div>`;
+            };
+
+            for (let i = startDow - 1; i >= 0; i--) {
+                html += renderCell(new Date(year, month - 1, daysInPrev - i), true);
+            }
+            for (let d = 1; d <= daysInMonth; d++) {
+                html += renderCell(new Date(year, month, d), false);
+            }
+            const total = startDow + daysInMonth;
+            const trailing = (7 - (total % 7)) % 7;
+            for (let d = 1; d <= trailing; d++) {
+                html += renderCell(new Date(year, month + 1, d), true);
+            }
+            html += '</div>';
+            return html;
+        }
+
+        // ===== DRAG & DROP =====
+        function setupScheduleDragDrop(cellSel, slotSel) {
+            const cells = document.querySelectorAll(cellSel);
+            const slots = document.querySelectorAll(slotSel);
+
+            slots.forEach(el => {
+                el.addEventListener('dragstart', e => {
+                    e.stopPropagation();
+                    dragSource = { dateKey: el.dataset.date, idx: Number(el.dataset.idx) };
+                    el.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'move';
+                    try { e.dataTransfer.setData('text/plain', `${dragSource.dateKey}|${dragSource.idx}`); } catch (err) {}
+                });
+                el.addEventListener('dragend', () => {
+                    el.classList.remove('dragging');
+                    clearDropIndicators();
+                    dragSource = null; dropTarget = null;
+                    cells.forEach(c => c.classList.remove('drag-over'));
+                });
+            });
+
+            slots.forEach(el => {
+                el.addEventListener('dragover', e => {
+                    if (!dragSource) return;
+                    const dateKey = el.dataset.date;
+                    const idx = Number(el.dataset.idx);
+                    if (dateKey === dragSource.dateKey && idx === dragSource.idx) return;
+                    e.preventDefault(); e.stopPropagation();
+                    clearDropIndicators();
+                    el.classList.add('drop-highlight');
+                    dropTarget = { type: 'swap', dateKey, idx };
+                });
+                el.addEventListener('dragleave', e => {
+                    if (!el.contains(e.relatedTarget)) el.classList.remove('drop-highlight');
+                });
+                el.addEventListener('drop', e => {
+                    if (!dragSource || !dropTarget || dropTarget.type !== 'swap') return;
+                    e.preventDefault(); e.stopPropagation();
+                    el.classList.remove('drop-highlight');
+                    swapSlots(dragSource.dateKey, dragSource.idx, dropTarget.dateKey, dropTarget.idx);
+                    dragSource = null; dropTarget = null;
+                });
+            });
+
+            cells.forEach(cell => {
+                cell.addEventListener('dragover', e => {
+                    if (!dragSource) return;
+                    if (e.target.closest(slotSel)) return;
+                    e.preventDefault();
+                    cell.classList.add('drag-over');
+                });
+                cell.addEventListener('dragleave', e => {
+                    if (!cell.contains(e.relatedTarget)) cell.classList.remove('drag-over');
+                });
+                cell.addEventListener('drop', e => {
+                    if (!dragSource) return;
+                    if (e.target.closest(slotSel)) return;
+                    cell.classList.remove('drag-over');
+                    const targetDate = cell.dataset.date;
+                    if (!targetDate) return;
+                    e.preventDefault();
+                    moveSlotToDay(dragSource.dateKey, dragSource.idx, targetDate);
+                    dragSource = null; dropTarget = null;
+                });
+            });
+        }
+
+        function clearDropIndicators() {
+            document.querySelectorAll('.drop-highlight, .drag-over')
+                .forEach(el => el.classList.remove('drop-highlight', 'drag-over'));
+        }
+
+        function swapSlots(dateKeyA, idxA, dateKeyB, idxB) {
+            const a = state.schedule[dateKeyA]?.[idxA];
+            const b = state.schedule[dateKeyB]?.[idxB];
+            if (!a || !b) return;
+            if (dateKeyA === dateKeyB && idxA === idxB) return;
+
+            const tA = timeToMinutes(a.time) ?? 0;
+            const tB = timeToMinutes(b.time) ?? 0;
+            const anchor = Math.min(tA, tB);
+
+            if (dateKeyA === dateKeyB) {
+                state.schedule[dateKeyA][idxA] = b;
+                state.schedule[dateKeyA][idxB] = a;
+                recalcDayChain(dateKeyA, anchor);
+            } else {
+                a.time = minutesToTime(tB);
+                b.time = minutesToTime(tA);
+                const sortFn = (x, y) => (timeToMinutes(x.time) || 0) - (timeToMinutes(y.time) || 0);
+                state.schedule[dateKeyA].sort(sortFn);
+                state.schedule[dateKeyB].sort(sortFn);
+                recalcDayChain(dateKeyA);
+                recalcDayChain(dateKeyB);
+            }
+
+            saveState();
+            renderAll();
+        }
+
+        function moveSlotToDay(srcDateKey, srcIdx, dstDateKey) {
+            const slot = state.schedule[srcDateKey]?.[srcIdx];
+            if (!slot || srcDateKey === dstDateKey) return;
+
+            state.schedule[srcDateKey].splice(srcIdx, 1);
+            if (!state.schedule[dstDateKey]) state.schedule[dstDateKey] = [];
+            state.schedule[dstDateKey].push(slot);
+
+            recalcDayChain(dstDateKey);
+            recalcDayChain(srcDateKey);
+
+            saveState();
+            renderAll();
+        }
+
+        // ===== ОБЩАЯ ПЕРЕРИСОВКА =====
+        function renderAll() {
+            const stats = computeStats();
+            const balances = computeStudentBalances(stats);
+            renderToday();
+            renderSchedule();
+            renderStudents(stats, balances);
+            renderPayments();
+            renderIncome(stats);
+            renderRatePreview(stats);
+        }
+
+        // ===== СТУДЕНТЫ =====
+        function renderStudents(stats, balances) {
+            const tbody = document.getElementById('studentsTable');
+            const balByName = {};
+            balances.forEach(r => balByName[r.name] = r);
+
+            tbody.innerHTML = state.students.map((s, idx) => {
+                const b = balByName[s.name] || { paidLessons: 0, done: 0, remainingLessons: 0,
+                                                  remainingRub: 0, debtLessons: 0 };
+                const percent = b.paidLessons > 0 ? Math.min(100, (b.remainingLessons / b.paidLessons) * 100) : 0;
+                let barClass = 'ok';
+                if (b.remainingLessons <= 1) barClass = 'low';
+                else if (b.remainingLessons <= 2) barClass = 'mid';
+
+                const marks = [];
+                Object.entries(state.schedule).forEach(([dateKey, slots]) => {
+                    slots.forEach((slot, sIdx) => {
+                        if (slot.free || isPersonal(slot)) return;
+                        const isThis = (isPair(slot) && slot.students.includes(s.name)) || slot.student === s.name;
+                        if (!isThis) return;
+                        if (hasHw(slot)) marks.push({ dateKey, idx: sIdx, type: 'hw', label: '📚' });
+                        if (hasNote(slot)) marks.push({ dateKey, idx: sIdx, type: 'note', label: '🗒️' });
+                        if (hasFile(slot)) marks.push({ dateKey, idx: sIdx, type: 'file', label: '📎' });
+                    });
+                });
+                const hwHtml = marks.length
+                    ? '<div class="student-hw">' + marks.map(m =>
+                        `<span class="marker ${m.type}" onclick="openView('${m.dateKey}', ${m.idx})">${m.label}</span>`
+                      ).join('') + '</div>'
+                    : '<span class="view-empty">—</span>';
+
+                const nextText = s.next ? formatDateTimeHuman(s.next) : '—';
+                const nextHtml = s.next
+                    ? `<span style="color:#6b4a9e;font-weight:700">${escapeHtml(nextText)}</span>`
+                    : `<span class="view-empty">не указано</span>`;
+
+                return `
+                    <tr>
+                        <td>${escapeHtml(s.name)}</td>
+                        <td>${escapeHtml(s.level)}</td>
+                        <td class="balance-cell">
+                            <div class="balance-line"><span class="lbl">Оплачено:</span>
+                                <span class="num">${b.paidLessons} занятий</span></div>
+                            <div class="balance-line"><span class="lbl">Проведено:</span>
+                                <span class="num gray">${b.done} из ${b.paidLessons}</span></div>
+                            <div class="balance-line"><span class="lbl">Остаток:</span>
+                                <span class="num ${b.remainingLessons <= 1 ? 'red' : 'green'}">${fmtMoney(b.remainingRub)}</span>
+                                ${b.debtLessons > 0 ? `<span class="num red">(+${b.debtLessons} в долг)</span>` : ''}</div>
+                            <div class="progress"><div class="progress-bar ${barClass}" style="width:${percent}%"></div></div>
+                        </td>
+                        <td>${nextHtml}</td>
+                        <td>${hwHtml}</td>
+                        <td style="text-align:right;white-space:nowrap">
+                            <button class="btn small ghost" onclick="openStudentModal(${idx})">✎</button>
+                            <button class="btn small danger" onclick="deleteStudent(${idx})">✕</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderPayments() {
+            const tbody = document.getElementById('paymentsTable');
+            const map = {
+                paid: { text: 'Оплачено', cls: 'paid' },
+                wait: { text: 'Ожидает', cls: 'wait' },
+                debt: { text: 'Долг', cls: 'debt' }
+            };
+            tbody.innerHTML = state.payments.map((p, idx) => {
+                const st = map[p.status] || map.wait;
+                return `
+                    <tr>
+                        <td>${escapeHtml(p.student)}</td>
+                        <td>${fmtMoney(p.amount)}</td>
+                        <td>${escapeHtml(p.date)}</td>
+                        <td><span class="badge ${st.cls}">${st.text}</span></td>
+                        <td style="text-align:right;white-space:nowrap">
+                            <button class="btn small ghost" onclick="openPaymentModal(${idx})">✎</button>
+                            <button class="btn small danger" onclick="deletePayment(${idx})">✕</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderIncome(stats) {
+            document.getElementById('incomeMonth').textContent = fmtMoney(stats.paidSum);
+            document.getElementById('incomeWeek').textContent = fmtMoney(Math.round(stats.paidSum / 4));
+            document.getElementById('potentialIncome').textContent = fmtMoney(stats.weeklyPotential);
+            document.getElementById('debtTotal').textContent = fmtMoney(stats.waitSum);
+            document.getElementById('individualCount').textContent = stats.individualCount;
+            document.getElementById('pairCount').textContent = stats.pairCount;
+            document.getElementById('doneCount').textContent = stats.doneCount;
+            document.getElementById('personalCount').textContent = stats.personalCount;
+        }
+
+        function renderRatePreview(stats) {
+            const box = document.getElementById('ratePreview');
+            if (!box) return;
+            const s = state.settings;
+            const modeText = s.pairMode === 'multiplier'
+                ? `коэффициент ×${s.ratePairMultiplier}` : 'фиксированная сумма';
+            box.innerHTML = `
+                <div>• Индивидуальное: <b style="color:#6b4a9e">${fmtMoney(stats.single)}</b></div>
+                <div>• Парное: <b style="color:#6b4a9e">${fmtMoney(stats.pair)}</b> <span style="color:#b0aabc">(${modeText})</span></div>
+                <div>• Стандартная длительность: <b style="color:#6b4a9e">${durationText(s.defaultDuration || 60)}</b></div>
+                <div>• Рабочие часы: <b style="color:#6b4a9e">${s.workStart || DEFAULT_WORK_START} – ${s.workEnd || DEFAULT_WORK_END}</b></div>
+            `;
+        }
+
+        // ===== ВКЛАДКИ =====
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+                if (tab.dataset.tab === 'settings') renderSettingsForm();
+                if (tab.dataset.tab === 'today') renderToday();
+            });
+        });
+
+        // ===== НАВИГАЦИЯ =====
+        document.getElementById('schedPrev').addEventListener('click', () => {
+            if (schedView === 'month') {
+                schedMonth.month--;
+                if (schedMonth.month < 0) { schedMonth.month = 11; schedMonth.year--; }
+            } else {
+                schedAnchor.setDate(schedAnchor.getDate() - 7);
+            }
+            renderSchedule();
+        });
+        document.getElementById('schedNext').addEventListener('click', () => {
+            if (schedView === 'month') {
+                schedMonth.month++;
+                if (schedMonth.month > 11) { schedMonth.month = 0; schedMonth.year++; }
+            } else {
+                schedAnchor.setDate(schedAnchor.getDate() + 7);
+            }
+            renderSchedule();
+        });
+        document.getElementById('schedToday').addEventListener('click', () => {
+            schedAnchor = new Date();
+            schedMonth = { year: schedAnchor.getFullYear(), month: schedAnchor.getMonth() };
+            renderSchedule();
+        });
+        document.getElementById('viewSwitch').querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                schedView = btn.dataset.view;
+                document.getElementById('viewSwitch').querySelectorAll('button').forEach(b =>
+                    b.classList.toggle('active', b === btn));
+                renderSchedule();
+            });
+        });
+
+        // ===== МОДАЛЬНЫЕ ОКНА =====
+        const overlay = document.getElementById('modalOverlay');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalForm = document.getElementById('modalForm');
+        const modalSubmit = document.getElementById('modalSubmit');
+
+        function openModal(title, formHtml, onSubmit) {
+            modalTitle.textContent = title;
+            modalForm.innerHTML = formHtml;
+            submitHandler = onSubmit;
+            overlay.classList.add('open');
+        }
+        function closeModal() {
+            overlay.classList.remove('open');
+            submitHandler = null;
+        }
+        modalSubmit.addEventListener('click', () => { if (submitHandler) submitHandler(); });
+        overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+
+        const confirmOverlay = document.getElementById('confirmOverlay');
+        const confirmIcon = document.getElementById('confirmIcon');
+        const confirmTitle = document.getElementById('confirmTitle');
+        const confirmMessage = document.getElementById('confirmMessage');
+        const confirmCancel = document.getElementById('confirmCancel');
+        const confirmOk = document.getElementById('confirmOk');
+
+        function showConfirm(opts) {
+            confirmTitle.textContent = opts.title || 'Подтверждение';
+            confirmMessage.textContent = opts.message || '';
+            confirmIcon.textContent = opts.icon || '!';
+            confirmIcon.className = 'confirm-icon ' + (opts.iconType || '');
+            confirmOk.textContent = opts.okText || 'OK';
+            confirmOk.className = 'btn ' + (opts.alertOnly ? '' : 'danger');
+            confirmCancel.style.display = opts.alertOnly ? 'none' : '';
+            confirmCallback = opts.onConfirm || null;
+            confirmOverlay.classList.add('open');
+        }
+        function closeConfirm() {
+            confirmOverlay.classList.remove('open');
+            confirmCallback = null;
+        }
+        confirmOk.addEventListener('click', () => {
+            const cb = confirmCallback;
+            closeConfirm();
+            if (cb) cb();
+        });
+        confirmCancel.addEventListener('click', closeConfirm);
+        confirmOverlay.addEventListener('click', e => { if (e.target === confirmOverlay) closeConfirm(); });
+        function showAlert(title, message, iconType) {
+            showConfirm({ title, message, okText: 'Понятно', icon: 'i', iconType: iconType || 'info', alertOnly: true });
+        }
+
+        const viewOverlay = document.getElementById('viewOverlay');
+        function openView(dateKey, idx) {
+            const slot = state.schedule[dateKey][idx];
+            if (!slot) return;
+            const date = fromDateKey(dateKey);
+            const title = document.getElementById('viewTitle');
+            const content = document.getElementById('viewContent');
+
+            let who = '';
+            if (isPair(slot)) who = slot.students.join(' и ');
+            else if (slot.student) who = slot.student;
+            else if (isPersonal(slot)) who = 'Своё дело: ' + slot.personal;
+
+            const range = timeRange(slot.time, slot.duration);
+            const statusInfo = STATUS_LABELS[slot.status] || STATUS_LABELS.planned;
+            const showStatus = !isPersonal(slot);
+            const statusLine = showStatus ? ` • ${statusInfo.icon} ${statusInfo.text}` : '';
+            title.textContent = `${formatDayHuman(date)}, ${range} — ${who}${statusLine}`;
+
+            let html = '';
+            if (hasHw(slot)) {
+                html += `<div class="view-block hw"><h4>📚 Домашнее задание</h4>
+                            <div class="view-text">${escapeHtml(slot.hw)}</div></div>`;
+            } else {
+                html += `<div class="view-block hw"><h4>📚 Домашнее задание</h4>
+                            <div class="view-empty">не задано</div></div>`;
+            }
+            if (hasFile(slot)) {
+                const f = slot.file;
+                html += `<div class="view-block hw"><h4>📎 Вложение</h4>
+                            <a class="file-download" download="${escapeHtml(f.name)}"
+                               href="${f.data}">📥 ${escapeHtml(f.name)} (${fileSizeText(f.size)})</a>
+                        </div>`;
+            }
+            if (hasNote(slot)) {
+                html += `<div class="view-block note"><h4>🗒️ Заметка преподавателя</h4>
+                            <div class="view-text">${escapeHtml(slot.note)}</div></div>`;
+            } else {
+                html += `<div class="view-block note"><h4>🗒️ Заметка преподавателя</h4>
+                            <div class="view-empty">нет</div></div>`;
+            }
+            content.innerHTML = html;
+            viewOverlay.classList.add('open');
+        }
+        function closeView() { viewOverlay.classList.remove('open'); }
+        viewOverlay.addEventListener('click', e => { if (e.target === viewOverlay) closeView(); });
+
+        document.addEventListener('keydown', e => {
+            if (e.key !== 'Escape') return;
+            if (viewOverlay.classList.contains('open')) closeView();
+            else if (confirmOverlay.classList.contains('open')) closeConfirm();
+            else if (overlay.classList.contains('open')) closeModal();
+        });
+
+        // ===== УДАЛЕНИЕ =====
+        function deleteSlot(dateKey, idx) {
+            showConfirm({
+                title: 'Удалить слот?',
+                message: 'Вместе со слотом удалятся ДЗ, заметки и файл.',
+                okText: 'Удалить',
+                onConfirm: () => {
+                    state.schedule[dateKey].splice(idx, 1);
+                    recalcDayChain(dateKey);
+                    saveState();
+                    renderAll();
+                }
+            });
+        }
+        function deleteStudent(idx) {
+            const name = state.students[idx].name;
+            showConfirm({
+                title: 'Удалить студента?',
+                message: `Студент «${name}» будет удалён из списка.`,
+                okText: 'Удалить',
+                onConfirm: () => {
+                    state.students.splice(idx, 1);
+                    saveState();
+                    renderAll();
+                }
+            });
+        }
+        function deletePayment(idx) {
+            const p = state.payments[idx];
+            showConfirm({
+                title: 'Удалить запись об оплате?',
+                message: `Оплата от «${p.student}» на ${fmtMoney(p.amount)} будет удалена.`,
+                okText: 'Удалить',
+                onConfirm: () => {
+                    state.payments.splice(idx, 1);
+                    saveState();
+                    renderAll();
+                }
+            });
+        }
+        function resetAll() {
+            showConfirm({
+                title: 'Сбросить все данные?',
+                message: 'Все ваши изменения будут удалены и заменены демо-данными.',
+                okText: 'Сбросить',
+                icon: '↺',
+                iconType: 'warn',
+                onConfirm: () => {
+                    localStorage.removeItem(STORAGE_KEY);
+                    state = loadState();
+                    renderAll();
+                    renderSettingsForm();
+                }
+            });
+        }
+        function confirmClearAllSlots() {
+            const allKeys = Object.keys(state.schedule).filter(k => (state.schedule[k] || []).length > 0);
+            const totalSlots = allKeys.reduce((s, k) => s + state.schedule[k].length, 0);
+            if (totalSlots === 0) { showAlert('Пусто', 'В расписании нет ни одного слота.', 'info'); return; }
+            const formHtml = `
+                <div class="form-group">
+                    <label>Что удалить?</label>
+                    <select id="clearScope">
+                        <option value="all">Все слоты (${totalSlots})</option>
+                    </select>
+                    <div class="form-hint">Действие нельзя отменить.</div>
+                </div>
+            `;
+            openModal('Удалить слоты', formHtml, () => {
+                state.schedule = {};
+                saveState();
+                renderAll();
+                closeModal();
+                showAlert('Готово', 'Слоты удалены.', 'info');
+            });
+        }
+
+        // ===== НАСТРОЙКИ =====
+        function renderSettingsForm() {
+            const s = state.settings;
+            document.getElementById('rateSingle').value = s.rateSingle;
+            document.getElementById('pairMode').value = s.pairMode;
+            document.getElementById('ratePairFixed').value = s.ratePairFixed;
+            document.getElementById('ratePairMultiplier').value = s.ratePairMultiplier;
+            document.getElementById('defaultDuration').value = s.defaultDuration || 60;
+            document.getElementById('gapMinutes').value = (s.gapMinutes != null ? s.gapMinutes : 0);
+            document.getElementById('workStart').value = s.workStart || DEFAULT_WORK_START;
+            document.getElementById('workEnd').value = s.workEnd || DEFAULT_WORK_END;
+            togglePairModeFields();
+            renderRatePreview(computeStats());
+            const bg = loadBg();
+            document.querySelectorAll('.bg-preset').forEach(p => {
+                p.classList.toggle('active', bg.type === 'preset' && p.dataset.bg === bg.value);
+            });
+            document.getElementById('bgUrl').value = (bg.type === 'url' ? bg.value : '');
+        }
+        function togglePairModeFields() {
+            const mode = document.getElementById('pairMode').value;
+            document.getElementById('pairFixedGroup').style.display = mode === 'fixed' ? 'block' : 'none';
+            document.getElementById('pairMultiplierGroup').style.display = mode === 'multiplier' ? 'block' : 'none';
+        }
+        document.getElementById('pairMode').addEventListener('change', togglePairModeFields);
+
+        function saveSettings() {
+            const rateSingle = Math.max(0, Number(document.getElementById('rateSingle').value) || 0);
+            const pairMode = document.getElementById('pairMode').value;
+            const ratePairFixed = Math.max(0, Number(document.getElementById('ratePairFixed').value) || 0);
+            const ratePairMultiplier = Math.max(0.1, Number(document.getElementById('ratePairMultiplier').value) || 1);
+            const defaultDuration = Math.max(15, Number(document.getElementById('defaultDuration').value) || 60);
+            const gapMinutes = Math.max(0, Number(document.getElementById('gapMinutes').value) || 0);
+            const workStart = document.getElementById('workStart').value.trim() || DEFAULT_WORK_START;
+            const workEnd = document.getElementById('workEnd').value.trim() || DEFAULT_WORK_END;
+            state.settings = { rateSingle, pairMode, ratePairFixed, ratePairMultiplier, defaultDuration, gapMinutes, workStart, workEnd };
+            Object.keys(state.schedule).forEach(dateKey => recalcDayChain(dateKey));
+            saveState();
+            renderAll();
+            showAlert('Сохранено', 'Настройки обновлены.', 'info');
+        }
+
+        // ===== ФОН =====
+        document.getElementById('bgPresets').addEventListener('click', e => {
+            const preset = e.target.closest('.bg-preset');
+            if (!preset) return;
+            saveBg({ type: 'preset', value: preset.dataset.bg });
+            showAlert('Фон обновлён', 'Пресет применён.', 'info');
+        });
+
+        document.getElementById('bgUpload').addEventListener('change', e => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            if (file.size > MAX_FILE_SIZE) {
+                showAlert('Файл слишком большой',
+                    `Максимум 100 МБ. Ваш файл: ${fileSizeText(file.size)}.`, 'warn');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = () => {
+                saveBg({ type: 'custom', data: reader.result });
+                showAlert('Готово', 'Своё фото установлено как фон.', 'info');
+            };
+            reader.onerror = () => showAlert('Ошибка', 'Не удалось прочитать файл.', 'warn');
+            reader.readAsDataURL(file);
+            e.target.value = '';
+        });
+
+        function applyBgUrl() {
+            const url = document.getElementById('bgUrl').value.trim();
+            if (!url) { showAlert('Пусто', 'Вставьте ссылку на картинку.', 'warn'); return; }
+            saveBg({ type: 'url', value: url });
+            showAlert('Готово', 'Фон по ссылке применён.', 'info');
+        }
+
+        function clearCustomBg() {
+            saveBg({ type: 'default' });
+            document.getElementById('bgUrl').value = '';
+            showAlert('Готово', 'Фон сброшен на стандартный.', 'info');
+        }
+
+        applyBg(loadBg());
+
+        // ===== DATE-TIME PICKER =====
+        function dateTimePickerHtml(id, value, placeholder) {
+            return `
+                <div class="dt-field" id="${id}">
+                    <div class="dt-display" tabindex="0">
+                        <span class="icon">📅</span>
+                        <span class="value" data-role="display"></span>
+                        <button type="button" class="clear" data-role="clear" title="Очистить">✕</button>
+                    </div>
+                    <div class="dt-picker" data-role="picker">
+                        <div class="cal-head">
+                            <button type="button" data-role="prev">‹</button>
+                            <span data-role="title"></span>
+                            <button type="button" data-role="next">›</button>
+                        </div>
+                        <div class="cal-mini-grid" data-role="grid"></div>
+                        <div class="cal-quick">
+                            <button type="button" data-quick="today">Сегодня</button>
+                            <button type="button" data-quick="tomorrow">Завтра</button>
+                            <button type="button" data-quick="monday">Ближайший Пн</button>
+                        </div>
+                        <div class="time-section" data-role="time-section">
+                            <div class="time-label">Время</div>
+                            <div class="time-wheels">
+                                <div class="wheel" data-role="wheel-h"></div>
+                                <div class="wheel-sep">:</div>
+                                <div class="wheel" data-role="wheel-m"></div>
+                            </div>
+                            <div class="time-wheels-hint">Прокрутите колесом или стрелками ↑↓</div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="${id}-value" value="${escapeHtml(value || '')}">
+                </div>
+            `;
+        }
+
+        function initDateTimePicker(id, opts) {
+            opts = opts || {};
+            const root = document.getElementById(id);
+            if (!root) return;
+            const display = root.querySelector('[data-role="display"]');
+            const clearBtn = root.querySelector('[data-role="clear"]');
+            const picker = root.querySelector('[data-role="picker"]');
+            const titleEl = root.querySelector('[data-role="title"]');
+            const gridEl = root.querySelector('[data-role="grid"]');
+            const hiddenInput = document.getElementById(id + '-value');
+            const timeSection = root.querySelector('[data-role="time-section"]');
+            const wheelH = root.querySelector('[data-role="wheel-h"]');
+            const wheelM = root.querySelector('[data-role="wheel-m"]');
+
+            let selected = parseDateTime(hiddenInput.value) || null;
+            let viewYear, viewMonth;
+
+            function updateDisplay() {
+                if (selected) {
+                    display.textContent = formatDateTimeHuman(toDateTimeString(selected));
+                    display.classList.remove('placeholder');
+                    clearBtn.style.display = '';
+                } else {
+                    display.textContent = opts.placeholder || 'Выберите дату и время';
+                    display.classList.add('placeholder');
+                    clearBtn.style.display = 'none';
+                }
+                hiddenInput.value = selected ? toDateTimeString(selected) : '';
+                if (typeof opts.onChange === 'function') opts.onChange(hiddenInput.value);
+            }
+            function openPicker() {
+                picker.classList.add('open');
+                display.classList.add('active');
+                if (!viewYear) {
+                    const base = selected || { year: new Date().getFullYear(), month: new Date().getMonth(), day: 1 };
+                    viewYear = base.year; viewMonth = base.month;
+                }
+                renderCalendar();
+                if (selected) {
+                    timeSection.classList.add('open');
+                    renderWheels();
+                }
+            }
+            function closePicker() {
+                picker.classList.remove('open');
+                display.classList.remove('active');
+            }
+
+            function renderCalendar() {
+                titleEl.textContent = `${MONTHS_RU[viewMonth]} ${viewYear}`;
+                const first = new Date(viewYear, viewMonth, 1);
+                const startDow = (first.getDay() + 6) % 7;
+                const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+                const daysInPrev = new Date(viewYear, viewMonth, 0).getDate();
+                const today = new Date();
+                const tY = today.getFullYear(), tM = today.getMonth(), tD = today.getDate();
+                let html = '';
+                DOW_RU.forEach(d => html += `<div class="dow">${d}</div>`);
+                for (let i = startDow - 1; i >= 0; i--) {
+                    html += `<div class="day other-month">${daysInPrev - i}</div>`;
+                }
+                for (let d = 1; d <= daysInMonth; d++) {
+                    const isToday = (viewYear === tY && viewMonth === tM && d === tD);
+                    const isSel = selected && selected.year === viewYear && selected.month === viewMonth && selected.day === d;
+                    let cls = 'day';
+                    if (isToday) cls += ' today';
+                    if (isSel) cls += ' selected';
+                    html += `<div class="${cls}" data-day="${d}">${d}</div>`;
+                }
+                const total = startDow + daysInMonth;
+                const trailing = (7 - (total % 7)) % 7;
+                for (let d = 1; d <= trailing; d++) html += `<div class="day other-month">${d}</div>`;
+                gridEl.innerHTML = html;
+                gridEl.querySelectorAll('.day[data-day]').forEach(el => {
+                    el.addEventListener('click', () => {
+                        const d = Number(el.dataset.day);
+                        if (!selected) selected = { year: viewYear, month: viewMonth, day: d, hour: 10, minute: 0 };
+                        else { selected.year = viewYear; selected.month = viewMonth; selected.day = d; }
+                        timeSection.classList.add('open');
+                        renderCalendar();
+                        renderWheels();
+                        updateDisplay();
+                    });
+                });
+            }
+
+            function scrollToValue(wheel, value) {
+                const item = wheel.querySelector(`.item[data-val="${value}"]`);
+                if (!item) return;
+                wheel.scrollTop = item.offsetTop - (wheel.clientHeight - item.offsetHeight) / 2;
+            }
+
+            function renderWheels() {
+                if (!selected) return;
+                const hoursRange = [];
+                for (let h = 6; h <= 23; h++) hoursRange.push(h);
+                const minutesRange = [0, 30];
+
+                wheelH.innerHTML = hoursRange.map(h =>
+                    `<div class="item" data-val="${h}">${pad2(h)}</div>`).join('');
+                wheelM.innerHTML = minutesRange.map(m =>
+                    `<div class="item" data-val="${m}">${pad2(m)}</div>`).join('');
+
+                if (!hoursRange.includes(selected.hour)) selected.hour = hoursRange[0];
+                if (!minutesRange.includes(selected.minute)) selected.minute = 0;
+
+                requestAnimationFrame(() => {
+                    scrollToValue(wheelH, selected.hour);
+                    scrollToValue(wheelM, selected.minute);
+                    updateVisual();
+                });
+
+                function makeWheelHandler(wheel, range, key) {
+                    wheel.addEventListener('wheel', e => {
+                        e.preventDefault();
+                        const delta = e.deltaY > 0 ? 1 : (e.deltaY < 0 ? -1 : 0);
+                        if (!delta) return;
+                        const idx = range.indexOf(selected[key]);
+                        const newIdx = Math.max(0, Math.min(range.length - 1, idx + delta));
+                        if (newIdx === idx) return;
+                        selected[key] = range[newIdx];
+                        scrollToValue(wheel, selected[key]);
+                        updateVisual();
+                        updateDisplay();
+                    }, { passive: false });
+                    wheel.tabIndex = 0;
+                    wheel.addEventListener('keydown', e => {
+                        if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+                        e.preventDefault();
+                        const delta = e.key === 'ArrowUp' ? -1 : 1;
+                        const idx = range.indexOf(selected[key]);
+                        const newIdx = Math.max(0, Math.min(range.length - 1, idx + delta));
+                        selected[key] = range[newIdx];
+                        scrollToValue(wheel, selected[key]);
+                        updateVisual();
+                        updateDisplay();
+                    });
+                }
+                makeWheelHandler(wheelH, hoursRange, 'hour');
+                makeWheelHandler(wheelM, minutesRange, 'minute');
+
+                wheelH.querySelectorAll('.item').forEach(it =>
+                    it.addEventListener('click', () => {
+                        selected.hour = Number(it.dataset.val);
+                        scrollToValue(wheelH, selected.hour);
+                        updateVisual(); updateDisplay();
+                    }));
+                wheelM.querySelectorAll('.item').forEach(it =>
+                    it.addEventListener('click', () => {
+                        selected.minute = Number(it.dataset.val);
+                        scrollToValue(wheelM, selected.minute);
+                        updateVisual(); updateDisplay();
+                    }));
+            }
+
+            function updateVisual() {
+                if (!selected) return;
+                wheelH.querySelectorAll('.item').forEach(it =>
+                    it.classList.toggle('selected', Number(it.dataset.val) === selected.hour));
+                wheelM.querySelectorAll('.item').forEach(it =>
+                    it.classList.toggle('selected', Number(it.dataset.val) === selected.minute));
+            }
+
+            display.addEventListener('click', e => {
+                if (e.target.closest('[data-role="clear"]')) return;
+                if (picker.classList.contains('open')) closePicker();
+                else openPicker();
+            });
+            clearBtn.addEventListener('click', e => {
+                e.stopPropagation();
+                selected = null;
+                timeSection.classList.remove('open');
+                updateDisplay();
+            });
+            picker.querySelector('[data-role="prev"]').addEventListener('click', e => {
+                e.stopPropagation();
+                viewMonth--;
+                if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+                renderCalendar();
+            });
+            picker.querySelector('[data-role="next"]').addEventListener('click', e => {
+                e.stopPropagation();
+                viewMonth++;
+                if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+                renderCalendar();
+            });
+            picker.querySelectorAll('[data-quick]').forEach(btn => {
+                btn.addEventListener('click', e => {
+                    e.stopPropagation();
+                    const now = new Date();
+                    const d = new Date(now);
+                    if (btn.dataset.quick === 'tomorrow') d.setDate(now.getDate() + 1);
+                    else if (btn.dataset.quick === 'monday') {
+                        const dow = (now.getDay() + 6) % 7;
+                        const delta = (7 - dow) % 7 || 7;
+                        d.setDate(now.getDate() + delta);
+                    }
+                    selected = {
+                        year: d.getFullYear(), month: d.getMonth(), day: d.getDate(),
+                        hour: selected ? selected.hour : 10,
+                        minute: selected ? selected.minute : 0
+                    };
+                    viewYear = selected.year; viewMonth = selected.month;
+                    timeSection.classList.add('open');
+                    renderCalendar(); renderWheels(); updateDisplay();
+                });
+            });
+
+            document.addEventListener('mousedown', function outside(ev) {
+                if (!document.body.contains(root)) { document.removeEventListener('mousedown', outside); return; }
+                if (!root.contains(ev.target)) closePicker();
+            });
+            updateDisplay();
+        }
+
+        // ===== ФАЙЛЫ =====
+        function readFile(file, cb) {
+            if (file.size > MAX_FILE_SIZE) {
+                showAlert('Файл слишком большой',
+                    `Максимум 100 МБ. Ваш файл: ${fileSizeText(file.size)}.`, 'warn');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = () => cb({
+                name: file.name, size: file.size,
+                type: file.type || 'application/octet-stream',
+                data: reader.result
+            });
+            reader.onerror = () => showAlert('Ошибка', 'Не удалось прочитать файл.', 'warn');
+            reader.readAsDataURL(file);
+        }
+        function fileUploadHtml(slot) {
+            const has = slot && slot.file && slot.file.data;
+            return `
+                <div class="form-section-title">📎 Вложение к заданию</div>
+                <div class="form-group">
+                    <div class="file-upload-area" id="fileArea">
+                        ${has
+                            ? `<div class="file-preview">
+                                    <span class="fname">${escapeHtml(slot.file.name)}</span>
+                                    <span class="fsize">${fileSizeText(slot.file.size)}</span>
+                                    <button type="button" class="fdel">✕</button>
+                               </div>`
+                            : `<label class="file-upload-btn">
+                                    📎 Прикрепить файл
+                                    <input type="file" style="display:none">
+                               </label>`
+                        }
+                    </div>
+                    <div class="form-hint">Любой тип файла, до 100 МБ.</div>
+                </div>
+            `;
+        }
+        function renderFilePreview(slot, container) {
+            const has = slot.file && slot.file.data;
+            container.innerHTML = has
+                ? `<div class="file-preview">
+                        <span class="fname">${escapeHtml(slot.file.name)}</span>
+                        <span class="fsize">${fileSizeText(slot.file.size)}</span>
+                        <button type="button" class="fdel" title="Удалить">✕</button>
+                   </div>`
+                : `<label class="file-upload-btn">
+                        📎 Прикрепить файл
+                        <input type="file" style="display:none">
+                   </label>`;
+            const fileInput = container.querySelector('input[type="file"]');
+            const fileDel = container.querySelector('.fdel');
+            if (fileInput) {
+                fileInput.addEventListener('change', e => {
+                    const file = e.target.files && e.target.files[0];
+                    if (!file) return;
+                    readFile(file, info => { slot.file = info; renderFilePreview(slot, container); });
+                });
+            }
+            if (fileDel) {
+                fileDel.addEventListener('click', () => {
+                    delete slot.file;
+                    renderFilePreview(slot, container);
+                });
+            }
+        }
+
+        // ===== ФОРМА СЛОТА =====
+        function openSlotModal(dateKey, idx, presetTime) {
+            if (!state.schedule[dateKey]) state.schedule[dateKey] = [];
+            const isNew = idx === -1;
+            const slot = isNew
+                ? { time: presetTime || '10:00', duration: state.settings.defaultDuration || 60, status: 'planned' }
+                : JSON.parse(JSON.stringify(state.schedule[dateKey][idx]));
+            if (!slot.duration) slot.duration = state.settings.defaultDuration || 60;
+            if (!slot.status) slot.status = 'planned';
+
+            const date = fromDateKey(dateKey);
+            const initialType = slotType(slot);
+            const initialStatus = slot.status;
+            const initialDuration = slot.duration;
+            const dtValue = slot.time ? `${dateKey}T${slot.time}` : `${dateKey}T10:00`;
+
+            const studentOptions = selected => state.students.map(s =>
+                `<option value="${escapeHtml(s.name)}" ${selected === s.name ? 'selected' : ''}>${escapeHtml(s.name)}</option>`).join('');
+
+            const student1 = isPair(slot) ? slot.students[0] : (slot.student || '');
+            const student2 = isPair(slot) ? slot.students[1] : '';
+            const personalText = isPersonal(slot) ? slot.personal : '';
+            const hwText = hasHw(slot) ? slot.hw : '';
+            const noteText = hasNote(slot) ? slot.note : '';
+            const isCustom1 = student1 && !state.students.some(s => s.name === student1);
+            const isCustom2 = student2 && !state.students.some(s => s.name === student2);
+            const showHwNote = (initialType === 'single' || initialType === 'pair');
+
+            const quickActive = (m) => initialDuration === m ? 'active' : '';
+            const customActive = (![60, 50].includes(initialDuration)) ? 'active' : '';
+
+            const formHtml = `
+                <div class="form-group">
+                    <label>Дата и время начала</label>
+                    ${dateTimePickerHtml('slotDT', dtValue, 'Выберите дату и время')}
+                    <div class="form-hint">Следующие слоты дня автоматически пересчитаются подряд.</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Длительность</label>
+                    <div class="duration-quick" id="durationQuick">
+                        <button type="button" data-min="60" class="${quickActive(60)}">1 час</button>
+                        <button type="button" data-min="50" class="${quickActive(50)}">50 мин</button>
+                        <button type="button" data-min="custom" class="${customActive}">Свой выбор</button>
+                    </div>
+                    <input type="number" id="slotDuration" min="15" step="5" value="${initialDuration}" style="margin-top:8px">
+                    <div class="form-hint" id="durationHint">${durationText(initialDuration)}</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Тип слота</label>
+                    <div class="type-switch" id="typeSwitch">
+                        <button type="button" data-type="single" class="${initialType === 'single' ? 'active' : ''}">🎓 Студент</button>
+                        <button type="button" data-type="pair" class="${initialType === 'pair' ? 'active' : ''}">👥 Пара</button>
+                        <button type="button" data-type="personal" class="${initialType === 'personal' ? 'active' : ''}">📝 Моё дело</button>
+                    </div>
+                    <input type="hidden" id="slotType" value="${initialType}">
+                </div>
+
+                <div id="singleBlock" style="display:${initialType === 'single' ? 'block' : 'none'}">
+                    <div class="form-group">
+                        <label>Студент</label>
+                        <select id="slotStudent">
+                            <option value="">— выберите —</option>
+                            ${studentOptions(student1)}
+                            <option value="__custom__" ${isCustom1 ? 'selected' : ''}>Другой (вручную)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="singleCustomGroup" style="display:${isCustom1 ? 'block' : 'none'}">
+                        <label>Имя студента (вручную)</label>
+                        <input type="text" id="slotStudentCustom" value="${escapeHtml(isCustom1 ? student1 : '')}">
+                    </div>
+                </div>
+
+                <div id="pairBlock" style="display:${initialType === 'pair' ? 'block' : 'none'}">
+                    <div class="form-group">
+                        <label>Первый студент</label>
+                        <select id="slotStudent1">
+                            <option value="">— выберите —</option>
+                            ${studentOptions(student1)}
+                            <option value="__custom__" ${isCustom1 ? 'selected' : ''}>Другой (вручную)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="pairCustom1Group" style="display:${isCustom1 ? 'block' : 'none'}">
+                        <label>Имя первого студента (вручную)</label>
+                        <input type="text" id="slotStudent1Custom" value="${escapeHtml(isCustom1 ? student1 : '')}">
+                    </div>
+                    <div class="form-group">
+                        <label>Второй студент</label>
+                        <select id="slotStudent2">
+                            <option value="">— выберите —</option>
+                            ${studentOptions(student2)}
+                            <option value="__custom__" ${isCustom2 ? 'selected' : ''}>Другой (вручную)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="pairCustom2Group" style="display:${isCustom2 ? 'block' : 'none'}">
+                        <label>Имя второго студента (вручную)</label>
+                        <input type="text" id="slotStudent2Custom" value="${escapeHtml(isCustom2 ? student2 : '')}">
+                    </div>
+                </div>
+
+                <div id="personalBlock" style="display:${initialType === 'personal' ? 'block' : 'none'}">
+                    <div class="form-group">
+                        <label>Что за дело?</label>
+                        <input type="text" id="slotPersonal" value="${escapeHtml(personalText)}">
+                    </div>
+                </div>
+
+                <div id="statusBlock" style="display:${showHwNote ? 'block' : 'none'}">
+                    <div class="form-section-title">📌 Статус занятия</div>
+                    <div class="status-switch" id="statusSwitch">
+                        <button type="button" data-status="planned" class="${initialStatus === 'planned' ? 'active' : ''}">🕐 Запланировано</button>
+                        <button type="button" data-status="done" class="${initialStatus === 'done' ? 'active' : ''}">✅ Проведено</button>
+                        <button type="button" data-status="cancelled" class="${initialStatus === 'cancelled' ? 'active' : ''}">❌ Отменено</button>
+                    </div>
+                    <input type="hidden" id="slotStatus" value="${initialStatus}">
+                </div>
+
+                <div id="hwNoteBlock" style="display:${showHwNote ? 'block' : 'none'}">
+                    <div class="form-section-title">📚 Учебная часть</div>
+                    <div class="form-group">
+                        <label>Домашнее задание</label>
+                        <textarea id="slotHw">${escapeHtml(hwText)}</textarea>
+                    </div>
+                    <div id="fileUploadSlot"></div>
+                    <div class="form-group">
+                        <label>Заметка для преподавателя</label>
+                        <textarea id="slotNote">${escapeHtml(noteText)}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-section-title">🔁 Повторение</div>
+                <label class="repeat-toggle">
+                    <input type="checkbox" id="repeatToggle">
+                    <span>Повторять каждую неделю в этот же день</span>
+                </label>
+                <div class="repeat-options" id="repeatOptions">
+                    <div class="form-group">
+                        <label>Сколько недель вперёд создавать?</label>
+                        <select id="repeatWeeks">
+                            <option value="1">1 неделя</option>
+                            <option value="2">2 недели</option>
+                            <option value="4" selected>4 недели</option>
+                            <option value="8">8 недель</option>
+                            <option value="12">12 недель</option>
+                            <option value="26">26 недель (полгода)</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+
+            openModal(isNew ? `Новый слот — ${formatDayHuman(date)}` : `Слот — ${formatDayHuman(date)}`, formHtml, () => {
+                const dtVal = document.getElementById('slotDT-value').value;
+                if (!dtVal) { showAlert('Не хватает данных', 'Выберите дату и время.', 'warn'); return; }
+                const parsed = parseDateTime(dtVal);
+                if (!parsed) { showAlert('Ошибка', 'Не удалось разобрать дату и время.', 'warn'); return; }
+                const newDateKey = `${parsed.year}-${pad2(parsed.month + 1)}-${pad2(parsed.day)}`;
+                const newTime = `${pad2(parsed.hour)}:${pad2(parsed.minute)}`;
+                const duration = Math.max(15, Number(document.getElementById('slotDuration').value) || 60);
+                const type = document.getElementById('slotType').value;
+                const status = document.getElementById('slotStatus').value;
+
+                let newSlot;
+                if (type === 'personal') {
+                    const text = document.getElementById('slotPersonal').value.trim();
+                    if (!text) { showAlert('Не хватает данных', 'Опишите, что за дело.', 'warn'); return; }
+                    newSlot = { time: newTime, duration, personal: text };
+                } else if (type === 'pair') {
+                    const n1 = getStudentName('slotStudent1', 'slotStudent1Custom');
+                    const n2 = getStudentName('slotStudent2', 'slotStudent2Custom');
+                    if (!n1 || !n2) { showAlert('Не хватает данных', 'Выберите обоих студентов.', 'warn'); return; }
+                    if (n1 === n2) { showAlert('Ошибка', 'Студенты не должны совпадать.', 'warn'); return; }
+                    newSlot = { time: newTime, duration, students: [n1, n2], status };
+                    attachHwNote(newSlot);
+                } else {
+                    const name = getStudentName('slotStudent', 'slotStudentCustom');
+                    if (!name) { showAlert('Не хватает данных', 'Выберите студента.', 'warn'); return; }
+                    newSlot = { time: newTime, duration, student: name, status };
+                    attachHwNote(newSlot);
+                }
+                if (slot.file && slot.file.data) newSlot.file = slot.file;
+
+                if (!isNew) state.schedule[dateKey].splice(idx, 1);
+                if (!state.schedule[newDateKey]) state.schedule[newDateKey] = [];
+                state.schedule[newDateKey].push(newSlot);
+
+                recalcDayChain(newDateKey);
+
+                const repeatToggle = document.getElementById('repeatToggle');
+                if (repeatToggle && repeatToggle.checked) {
+                    const weeks = Number(document.getElementById('repeatWeeks').value) || 4;
+                    const baseDate = fromDateKey(newDateKey);
+                    for (let w = 1; w <= weeks; w++) {
+                        const nextDate = new Date(baseDate);
+                        nextDate.setDate(baseDate.getDate() + w * 7);
+                        const nextKey = toDateKey(nextDate);
+                        if (!state.schedule[nextKey]) state.schedule[nextKey] = [];
+                        const copy = JSON.parse(JSON.stringify(newSlot));
+                        state.schedule[nextKey].push(copy);
+                        recalcDayChain(nextKey);
+                    }
+                }
+
+                saveState();
+                renderAll();
+                closeModal();
+            });
+
+            setTimeout(() => {
+                initDateTimePicker('slotDT', { placeholder: 'Выберите дату и время' });
+
+                const typeSwitch = document.getElementById('typeSwitch');
+                const slotTypeInput = document.getElementById('slotType');
+                const blocks = {
+                    single: document.getElementById('singleBlock'),
+                    pair: document.getElementById('pairBlock'),
+                    personal: document.getElementById('personalBlock')
+                };
+                const statusBlock = document.getElementById('statusBlock');
+                const hwNoteBlock = document.getElementById('hwNoteBlock');
+                const durationInput = document.getElementById('slotDuration');
+                const durationHint = document.getElementById('durationHint');
+
+                function updateQuickActive() {
+                    const val = Number(durationInput.value);
+                    document.getElementById('durationQuick').querySelectorAll('button').forEach(b => {
+                        if (b.dataset.min === 'custom') b.classList.toggle('active', ![60,50].includes(val));
+                        else b.classList.toggle('active', Number(b.dataset.min) === val);
+                    });
+                    durationHint.textContent = durationText(val);
+                }
+                document.getElementById('durationQuick').querySelectorAll('button').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        if (btn.dataset.min === 'custom') {
+                            durationInput.focus();
+                            durationInput.select();
+                        } else {
+                            durationInput.value = btn.dataset.min;
+                            updateQuickActive();
+                        }
+                    });
+                });
+                durationInput.addEventListener('input', updateQuickActive);
+                updateQuickActive();
+
+                function updateBlocks(type) {
+                    Object.entries(blocks).forEach(([k, el]) => el.style.display = k === type ? 'block' : 'none');
+                    const showLesson = (type === 'single' || type === 'pair');
+                    statusBlock.style.display = showLesson ? 'block' : 'none';
+                    hwNoteBlock.style.display = showLesson ? 'block' : 'none';
+                    slotTypeInput.value = type;
+                    typeSwitch.querySelectorAll('button').forEach(b =>
+                        b.classList.toggle('active', b.dataset.type === type));
+                }
+                typeSwitch.querySelectorAll('button').forEach(btn =>
+                    btn.addEventListener('click', () => updateBlocks(btn.dataset.type)));
+
+                const statusSwitch = document.getElementById('statusSwitch');
+                const slotStatusInput = document.getElementById('slotStatus');
+                statusSwitch.querySelectorAll('button').forEach(btn =>
+                    btn.addEventListener('click', () => {
+                        slotStatusInput.value = btn.dataset.status;
+                        statusSwitch.querySelectorAll('button').forEach(b =>
+                            b.classList.toggle('active', b === btn));
+                    }));
+
+                const bindCustom = (selId, groupId) => {
+                    const sel = document.getElementById(selId);
+                    const grp = document.getElementById(groupId);
+                    if (sel && grp) sel.addEventListener('change', () =>
+                        grp.style.display = sel.value === '__custom__' ? 'block' : 'none');
+                };
+                bindCustom('slotStudent', 'singleCustomGroup');
+                bindCustom('slotStudent1', 'pairCustom1Group');
+                bindCustom('slotStudent2', 'pairCustom2Group');
+
+                const fileContainer = document.getElementById('fileUploadSlot');
+                if (fileContainer) {
+                    fileContainer.innerHTML = fileUploadHtml(slot);
+                    const fileArea = fileContainer.querySelector('#fileArea');
+                    if (fileArea) {
+                        fileArea.removeAttribute('id');
+                        renderFilePreview(slot, fileArea);
+                    }
+                }
+
+                const repeatToggle = document.getElementById('repeatToggle');
+                const repeatOptions = document.getElementById('repeatOptions');
+                if (repeatToggle) {
+                    repeatToggle.addEventListener('change', () => {
+                        repeatOptions.classList.toggle('open', repeatToggle.checked);
+                    });
+                }
+            }, 0);
+        }
+
+        function getStudentName(selId, customId) {
+            const sel = document.getElementById(selId);
+            if (!sel) return '';
+            return sel.value === '__custom__' ? document.getElementById(customId).value.trim() : sel.value;
+        }
+        function attachHwNote(slot) {
+            const hwEl = document.getElementById('slotHw');
+            const noteEl = document.getElementById('slotNote');
+            if (hwEl) { const v = hwEl.value.trim(); if (v) slot.hw = v; }
+            if (noteEl) { const v = noteEl.value.trim(); if (v) slot.note = v; }
+        }
+
+        // ===== ФОРМА СТУДЕНТА =====
+        function openStudentModal(idx) {
+            const isNew = idx === undefined;
+            const s = isNew ? { name: '', level: '', next: '' } : state.students[idx];
+            const initialNext = s.next || '';
+
+            const formHtml = `
+                <div class="form-group">
+                    <label>Имя</label>
+                    <input type="text" id="stName" value="${escapeHtml(s.name)}">
+                </div>
+                <div class="form-group">
+                    <label>Уровень английского</label>
+                    <input type="text" id="stLevel" value="${escapeHtml(s.level)}" placeholder="A1 Beginner / B2 Upper-Int / ...">
+                </div>
+                <div class="form-group">
+                    <label>Ближайшее занятие</label>
+                    ${dateTimePickerHtml('stNext', initialNext, 'Выберите дату и время')}
+                </div>
+                <div class="form-hint">Баланс занятий считается автоматически.</div>
+            `;
+
+            openModal(isNew ? 'Добавить студента' : 'Редактировать студента', formHtml, () => {
+                const name = document.getElementById('stName').value.trim();
+                if (!name) { showAlert('Не хватает данных', 'Введите имя.', 'warn'); return; }
+                const level = document.getElementById('stLevel').value.trim();
+                const next = document.getElementById('stNext-value').value;
+                const obj = { name, level, next };
+                if (isNew) state.students.push(obj);
+                else state.students[idx] = obj;
+                saveState();
+                renderAll();
+                closeModal();
+            });
+            setTimeout(() => initDateTimePicker('stNext', { placeholder: 'Выберите дату и время' }), 0);
+        }
+
+        // ===== ФОРМА ОПЛАТЫ =====
+        function openPaymentModal(idx) {
+            const isNew = idx === undefined;
+            const p = isNew
+                ? { student: '', amount: 0, date: new Date().toLocaleDateString('ru-RU'), status: 'paid' }
+                : state.payments[idx];
+            const studentOptions = state.students.map(s =>
+                `<option value="${escapeHtml(s.name)}" ${p.student === s.name ? 'selected' : ''}>${escapeHtml(s.name)}</option>`).join('');
+            const stats = computeStats();
+            const isCustom = p.student && !state.students.some(s => s.name === p.student);
+
+            const formHtml = `
+                <div class="form-group">
+                    <label>Студент</label>
+                    <select id="payStudent">
+                        <option value="">— выберите —</option>
+                        ${studentOptions}
+                        <option value="__custom__" ${isCustom ? 'selected' : ''}>Другой (вручную)</option>
+                    </select>
+                </div>
+                <div class="form-group" id="payCustomGroup" style="display:${isCustom ? 'block' : 'none'}">
+                    <label>Имя студента (вручную)</label>
+                    <input type="text" id="payStudentCustom" value="${escapeHtml(isCustom ? p.student : '')}">
+                </div>
+                <div class="form-group">
+                    <label>Сумма, ₽</label>
+                    <input type="number" id="payAmount" min="0" value="${p.amount}">
+                    <div class="form-hint">
+                        Индивидуальное: ${fmtMoney(stats.single)} • парное: ${fmtMoney(stats.pair)}<br>
+                        <button type="button" class="btn small ghost" style="margin-top:8px" onclick="applyRate()">Подставить из тарифа</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Дата оплаты</label>
+                    <input type="text" id="payDate" value="${escapeHtml(p.date)}" placeholder="01.10.2026">
+                </div>
+                <div class="form-group">
+                    <label>Статус</label>
+                    <select id="payStatus">
+                        <option value="paid" ${p.status === 'paid' ? 'selected' : ''}>Оплачено</option>
+                        <option value="wait" ${p.status === 'wait' ? 'selected' : ''}>Ожидает</option>
+                        <option value="debt" ${p.status === 'debt' ? 'selected' : ''}>Долг</option>
+                    </select>
+                </div>
+            `;
+
+            window.applyRate = function () {
+                const name = document.getElementById('payStudent').value === '__custom__'
+                    ? document.getElementById('payStudentCustom').value.trim()
+                    : document.getElementById('payStudent').value;
+                if (!name) { showAlert('Сначала выберите студента', 'Без имени тариф не подобрать.', 'warn'); return; }
+                let foundPair = false, foundSingle = false;
+                Object.values(state.schedule).forEach(slots => slots.forEach(slot => {
+                    if (slot.free || isPersonal(slot)) return;
+                    if (isPair(slot) && slot.students.includes(name)) foundPair = true;
+                    else if (slot.student === name) foundSingle = true;
+                }));
+                let rate = stats.single, label = 'индивидуальное';
+                if (foundPair && !foundSingle) { rate = stats.pair > 0 ? Math.round(stats.pair / 2) : stats.single; label = 'парное (доля)'; }
+                else if (foundPair && foundSingle) label = 'индивидуальное (есть и парные)';
+                document.getElementById('payAmount').value = rate;
+                showAlert('Подставлено', `Сумма за ${label}: ${fmtMoney(rate)}.`, 'info');
+            };
+
+            openModal(isNew ? 'Добавить оплату' : 'Редактировать оплату', formHtml, () => {
+                const sel = document.getElementById('payStudent');
+                const student = sel.value === '__custom__'
+                    ? document.getElementById('payStudentCustom').value.trim() : sel.value;
+                if (!student) { showAlert('Не хватает данных', 'Выберите студента.', 'warn'); return; }
+                const amount = Math.max(0, Number(document.getElementById('payAmount').value) || 0);
+                const date = document.getElementById('payDate').value.trim();
+                const status = document.getElementById('payStatus').value;
+                const obj = { student, amount, date, status };
+                if (isNew) state.payments.push(obj);
+                else state.payments[idx] = obj;
+                saveState();
+                renderAll();
+                closeModal();
+            });
+            setTimeout(() => {
+                const sel = document.getElementById('payStudent');
+                const customGroup = document.getElementById('payCustomGroup');
+                sel.addEventListener('change', () => {
+                    customGroup.style.display = sel.value === '__custom__' ? 'block' : 'none';
+                });
+            }, 0);
+        }
+
+        // ===== СТАРТ =====
+        renderAll();
+        renderSettingsForm();
+    </script>
+</body>
+</html>
