@@ -1897,18 +1897,12 @@
         const isDone = s => s.status === 'done';
         const isCancelled = s => s.status === 'cancelled';
 
-        // Два имени в слоте = пара. Больше никаких условий.
+        // Два имени в слоте = пара.
         function hasTwoStudents(s) {
             return Array.isArray(s.students) && s.students.length >= 2;
         }
-
-        // Оставляем isPair как синоним — для совместимости
         const isPair = hasTwoStudents;
-
-        // Совместимость со старым кодом
-        function isRealPair(s) {
-            return hasTwoStudents(s);
-        }
+        function isRealPair(s) { return hasTwoStudents(s); }
 
         function pairKey(a, b) {
             return [a, b].filter(Boolean).sort().join('+');
@@ -2285,7 +2279,6 @@
             const seen = new Set();
             const entities = [];
 
-            // 1) Из карточек студентов
             state.students.forEach(s => {
                 if (s.type === 'pair' && s.partner) {
                     const key = pairKey(s.name, s.partner);
@@ -2299,7 +2292,6 @@
                 }
             });
 
-            // 2) Из слотов расписания — пары, которых ещё нет в списке
             Object.values(state.schedule).forEach(slots => {
                 slots.forEach(slot => {
                     if (slot.free || isPersonal(slot)) return;
@@ -2835,7 +2827,6 @@
             const balByKey = {};
             balances.forEach(r => balByKey[r.key] = r);
 
-            // Список «сущностей»: индивидуальные + пары, без отдельных партнёров
             const seen = new Set();
             const rows = [];
 
@@ -2860,7 +2851,6 @@
                 }
             });
 
-            // Пары из расписания, которых ещё нет в списке студентов
             Object.values(state.schedule).forEach(slots => {
                 slots.forEach(slot => {
                     if (slot.free || isPersonal(slot)) return;
@@ -2924,9 +2914,8 @@
                 const editBtn = (row.studentIdx !== undefined)
                     ? `<button class="btn small ghost" onclick="openStudentModal(${row.studentIdx})">✎</button>`
                     : '';
-                const delBtn = (row.studentIdx !== undefined)
-                    ? `<button class="btn small danger" onclick="deleteStudent(${row.studentIdx})">✕</button>`
-                    : '';
+                // Кнопка удаления видна всегда
+                const delBtn = `<button class="btn small danger" onclick='deleteStudentRow(${JSON.stringify(row)})'>✕</button>`;
 
                 return `
                     <tr>
@@ -3249,6 +3238,61 @@
                     state.students.forEach(x => {
                         if (x.partner === name) { x.partner = ''; x.type = 'single'; }
                     });
+                    saveState();
+                    renderAll();
+                }
+            });
+        }
+        // Универсальное удаление строки: по индексу, или (для пар из расписания) по ключу
+        function deleteStudentRow(row) {
+            if (row.studentIdx !== undefined) {
+                deleteStudent(row.studentIdx);
+                return;
+            }
+            const isPairRow = row.type === 'pair';
+            const parts = isPairRow ? row.key.split('+') : [];
+            const a = parts[0] || '';
+            const b = parts[1] || '';
+
+            showConfirm({
+                title: isPairRow ? 'Удалить пару?' : 'Удалить студента?',
+                message: isPairRow
+                    ? `Пара «${a} + ${b}» и все её слоты в расписании будут удалены.`
+                    : `Студент «${row.name}» будет удалён из списка и расписания.`,
+                okText: 'Удалить',
+                onConfirm: () => {
+                    if (isPairRow) {
+                        state.students = state.students.filter(s => !(
+                            (s.name === a && s.partner === b) ||
+                            (s.name === b && s.partner === a)
+                        ));
+                    } else {
+                        state.students = state.students.filter(s => s.name !== row.key);
+                        state.students.forEach(x => {
+                            if (x.partner === row.key) { x.partner = ''; x.type = 'single'; }
+                        });
+                    }
+
+                    const toRemove = [];
+                    Object.entries(state.schedule).forEach(([dateKey, slots]) => {
+                        slots.forEach((slot, sIdx) => {
+                            if (slot.free || isPersonal(slot)) return;
+                            if (isPairRow) {
+                                if (hasTwoStudents(slot)) {
+                                    const key2 = pairKey(slot.students[0], slot.students[1]);
+                                    if (key2 === row.key) toRemove.push({ dateKey, idx: sIdx });
+                                }
+                            } else {
+                                if (slot.student === row.key) toRemove.push({ dateKey, idx: sIdx });
+                            }
+                        });
+                    });
+                    toRemove.sort((x, y) => y.idx - x.idx);
+                    toRemove.forEach(({ dateKey, idx }) => {
+                        state.schedule[dateKey].splice(idx, 1);
+                        recalcDayChain(dateKey);
+                    });
+
                     saveState();
                     renderAll();
                 }
@@ -3761,7 +3805,6 @@
             const initialDuration = slot.duration;
             const dtValue = slot.time ? `${dateKey}T${slot.time}` : `${dateKey}T10:00`;
 
-            // Все студенты и пары из расписания для выпадающих списков
             const seenPairs = new Set();
             const allPairs = [];
             state.students.forEach(s => {
@@ -4062,7 +4105,6 @@
                 bindCustom('slotStudent', 'singleCustomGroup');
                 bindCustom('slotPair', 'pairCustomGroup');
 
-                // Подставим текущие значения в списки
                 const singleSel = document.getElementById('slotStudent');
                 if (singleSel && singleSelected && !state.students.some(s => s.name === singleSelected && (s.type !== 'pair' || !s.partner))) {
                     singleSel.value = '__custom__';
@@ -4243,7 +4285,6 @@
                 .map(s => `<option value="${escapeHtml(s.name)}" ${p.payType === 'single' && p.student === s.name ? 'selected' : ''}>${escapeHtml(s.name)}</option>`)
                 .join('');
 
-            // Собираем пары: из карточек + из слотов расписания
             const seenPair = new Set();
             const pairOptionsArr = [];
             state.students.forEach(s => {
