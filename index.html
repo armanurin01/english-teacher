@@ -3,11 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Преподаватель английского</title>
+    <title>Fluently — панель преподавателя</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         html, body { width: 100%; min-height: 100vh; }
+
+        :root {
+            --accent-1: #b8a4d4;
+            --accent-2: #c9b8dd;
+            --accent-solid: #6b4a9e;
+            --accent-soft: rgba(200, 185, 220, 0.25);
+            --accent-soft-strong: rgba(200, 185, 220, 0.45);
+            --panel-alpha: 0.84;
+            --panel-blur: 14px;
+        }
 
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
@@ -24,22 +34,63 @@
             width: 100%;
             max-width: 100%;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.84);
-            border: 1px solid rgba(180, 170, 200, 0.25);
+            background: rgba(255, 255, 255, var(--panel-alpha));
+            border: 1px solid var(--accent-soft);
             border-radius: 20px;
             padding: 28px 28px;
-            backdrop-filter: blur(14px);
+            backdrop-filter: blur(var(--panel-blur));
             box-shadow: 0 20px 50px rgba(140, 130, 160, 0.15);
+            transition: background 0.3s ease, backdrop-filter 0.3s ease;
         }
 
-        header { text-align: center; margin-bottom: 20px; }
+        header { text-align: center; margin-bottom: 20px; position: relative; }
 
         h1 {
-            font-size: 2.3em;
-            margin-bottom: 6px;
-            color: #6b4a9e;
+            font-size: 2.4em;
+            margin-bottom: 4px;
+            color: var(--accent-solid);
             font-weight: 800;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.6px;
+        }
+        .subtitle {
+            font-size: 0.9em;
+            color: #9a94a8;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--accent-soft-strong);
+            color: var(--accent-solid);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.82em;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+        .logout-btn:hover { background: var(--accent-soft-strong); transform: translateY(-2px); }
+
+        .user-badge {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--accent-soft-strong);
+            color: var(--accent-solid);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.82em;
+            font-weight: 700;
         }
 
         .tabs {
@@ -48,11 +99,12 @@
             gap: 8px;
             justify-content: center;
             margin-bottom: 22px;
+            margin-top: 18px;
         }
 
         .tab {
             background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(180, 170, 200, 0.3);
+            border: 1px solid var(--accent-soft-strong);
             color: #7d7690;
             padding: 10px 20px;
             border-radius: 30px;
@@ -62,12 +114,12 @@
             white-space: nowrap;
             font-weight: 700;
         }
-        .tab:hover { background: rgba(200, 185, 220, 0.3); transform: translateY(-2px); }
+        .tab:hover { background: var(--accent-soft-strong); transform: translateY(-2px); }
         .tab.active {
-            background: linear-gradient(135deg, #b8a4d4, #c9b8dd);
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
             color: #fff;
             border-color: transparent;
-            box-shadow: 0 8px 22px rgba(160, 140, 190, 0.35);
+            box-shadow: 0 8px 22px var(--accent-soft-strong);
         }
         .tab.today-tab {
             background: linear-gradient(135deg, #a8c9b8, #8fbfa8);
@@ -102,20 +154,20 @@
 
         h2 {
             font-size: 1.6em;
-            color: #6b4a9e;
+            color: var(--accent-solid);
             font-weight: 800;
             letter-spacing: -0.3px;
         }
         h3 {
             font-size: 1.1em;
             margin-bottom: 12px;
-            color: #7a5fa8;
+            color: var(--accent-solid);
             font-weight: 700;
         }
 
         .btn {
             display: inline-block;
-            background: linear-gradient(135deg, #b8a4d4, #c9b8dd);
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
             color: #fff;
             text-decoration: none;
             padding: 10px 22px;
@@ -125,18 +177,18 @@
             border: none;
             cursor: pointer;
             transition: transform 0.25s ease, box-shadow 0.25s ease;
-            box-shadow: 0 8px 20px rgba(160, 140, 190, 0.25);
+            box-shadow: 0 8px 20px var(--accent-soft-strong);
             font-family: inherit;
         }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(160, 140, 190, 0.4); }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 26px var(--accent-soft-strong); }
         .btn.small { padding: 6px 14px; font-size: 0.8em; box-shadow: none; }
         .btn.ghost {
             background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(180, 170, 200, 0.4);
+            border: 1px solid var(--accent-soft-strong);
             box-shadow: none;
             color: #7d7690;
         }
-        .btn.ghost:hover { background: rgba(200, 185, 220, 0.35); box-shadow: none; }
+        .btn.ghost:hover { background: var(--accent-soft-strong); box-shadow: none; }
         .btn.danger {
             background: linear-gradient(135deg, #d9a3a3, #c98e8e);
             box-shadow: 0 8px 20px rgba(200, 140, 140, 0.25);
@@ -153,8 +205,8 @@
 
         /* ===== Сегодня ===== */
         .today-hero {
-            background: linear-gradient(135deg, rgba(184, 164, 212, 0.25), rgba(200, 185, 220, 0.15));
-            border: 1px solid rgba(180, 170, 200, 0.35);
+            background: linear-gradient(135deg, var(--accent-soft-strong), var(--accent-soft));
+            border: 1px solid var(--accent-soft-strong);
             border-radius: 18px;
             padding: 24px 28px;
             margin-bottom: 22px;
@@ -167,7 +219,7 @@
         .today-hero-date {
             font-size: 1.85em;
             font-weight: 800;
-            color: #6b4a9e;
+            color: var(--accent-solid);
             letter-spacing: -0.4px;
         }
         .today-hero-day {
@@ -186,7 +238,7 @@
         .today-hero-stat .val {
             font-size: 1.7em;
             font-weight: 800;
-            color: #6b4a9e;
+            color: var(--accent-solid);
             line-height: 1.1;
         }
         .today-hero-stat .lbl {
@@ -207,11 +259,11 @@
             font-size: 1.02em;
             background: rgba(255, 255, 255, 0.5);
             border-radius: 14px;
-            border: 1px dashed rgba(180, 170, 200, 0.4);
+            border: 1px dashed var(--accent-soft-strong);
         }
         .today-item {
             background: rgba(255, 255, 255, 0.75);
-            border: 1px solid rgba(180, 170, 200, 0.3);
+            border: 1px solid var(--accent-soft-strong);
             border-radius: 14px;
             padding: 14px 18px;
             display: flex;
@@ -231,7 +283,7 @@
             text-align: center;
             min-width: 100px;
         }
-        .today-item-time .start { font-size: 1.25em; font-weight: 800; color: #6b4a9e; line-height: 1.1; }
+        .today-item-time .start { font-size: 1.25em; font-weight: 800; color: var(--accent-solid); line-height: 1.1; }
         .today-item-time .range { font-size: 0.82em; color: #7a5fa8; font-weight: 600; margin-top: 2px; }
         .today-item-time .dur { font-size: 0.75em; color: #9a94a8; font-weight: 600; margin-top: 4px; }
         .today-item-body { flex: 1; min-width: 0; }
@@ -247,8 +299,8 @@
             padding: 2px 9px;
             border-radius: 10px;
             font-weight: 700;
-            background: rgba(200, 185, 220, 0.4);
-            color: #6b4a9e;
+            background: var(--accent-soft-strong);
+            color: var(--accent-solid);
         }
         .today-tag.pair { background: rgba(180, 200, 220, 0.5); color: #2d4d70; }
         .today-tag.done { background: rgba(168, 201, 184, 0.5); color: #2e6a4e; }
@@ -262,7 +314,7 @@
             flex-direction: column;
             gap: 4px;
         }
-        .today-item-info b { color: #6b4a9e; }
+        .today-item-info b { color: var(--accent-solid); }
         .today-item-info .hw-line {
             background: rgba(224, 207, 160, 0.25);
             border-left: 3px solid rgba(200, 180, 130, 0.7);
@@ -276,10 +328,10 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: rgba(200, 185, 220, 0.3);
+            background: var(--accent-soft-strong);
             padding: 4px 10px;
             border-radius: 8px;
-            color: #6b4a9e;
+            color: var(--accent-solid);
             font-weight: 700;
             text-decoration: none;
             margin-top: 4px;
@@ -297,15 +349,15 @@
             font-size: 0.8em;
             font-weight: 700;
             border-radius: 10px;
-            border: 1px solid rgba(180, 170, 200, 0.5);
+            border: 1px solid var(--accent-soft-strong);
             background: rgba(255, 255, 255, 0.9);
-            color: #6b4a9e;
+            color: var(--accent-solid);
             cursor: pointer;
             transition: all 0.2s ease;
             font-family: inherit;
             white-space: nowrap;
         }
-        .today-item-actions button:hover { background: rgba(200, 185, 220, 0.5); }
+        .today-item-actions button:hover { background: var(--accent-soft-strong); }
         .today-item-actions button.mark { color: #4a8a6c; border-color: rgba(74, 138, 108, 0.5); }
         .today-item-actions button.mark:hover { background: rgba(168, 201, 184, 0.6); color: #fff; }
         .today-item-actions button.mark.done {
@@ -322,13 +374,13 @@
             margin-bottom: 25px;
         }
         .stat-card {
-            background: rgba(200, 185, 220, 0.18);
-            border: 1px solid rgba(180, 170, 200, 0.3);
+            background: var(--accent-soft);
+            border: 1px solid var(--accent-soft-strong);
             border-radius: 16px;
             padding: 20px;
             text-align: center;
         }
-        .stat-card .value { font-size: 1.8em; font-weight: 800; color: #6b4a9e; margin-bottom: 6px; }
+        .stat-card .value { font-size: 1.8em; font-weight: 800; color: var(--accent-solid); margin-bottom: 6px; }
         .stat-card .label { font-size: 0.88em; color: #9a94a8; font-weight: 600; }
         .stat-card.highlight { background: rgba(168, 201, 184, 0.22); border-color: rgba(143, 191, 168, 0.4); }
         .stat-card.highlight .value { color: #4a8a6c; }
@@ -339,23 +391,23 @@
         th, td {
             padding: 12px 14px;
             text-align: left;
-            border-bottom: 1px solid rgba(180, 170, 200, 0.2);
+            border-bottom: 1px solid var(--accent-soft);
             vertical-align: middle;
         }
         th {
-            color: #6b4a9e;
+            color: var(--accent-solid);
             font-weight: 800;
             font-size: 0.85em;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
         tbody tr { transition: background 0.2s ease; }
-        tbody tr:hover { background: rgba(200, 185, 220, 0.12); }
+        tbody tr:hover { background: var(--accent-soft); }
 
         .progress {
             width: 100%;
             height: 8px;
-            background: rgba(180, 170, 200, 0.2);
+            background: var(--accent-soft);
             border-radius: 4px;
             overflow: hidden;
             margin-top: 6px;
@@ -363,19 +415,19 @@
         .progress-bar {
             height: 100%;
             border-radius: 4px;
-            background: linear-gradient(90deg, #b8a4d4, #c9b8dd);
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
             transition: width 0.4s ease;
         }
         .progress-bar.low { background: linear-gradient(90deg, #d9a3a3, #c98e8e); }
         .progress-bar.mid { background: linear-gradient(90deg, #e0cfa0, #d4bd88); }
         .progress-bar.ok  { background: linear-gradient(90deg, #a8c9b8, #8fbfa8); }
 
-        .num { font-weight: 800; color: #6b4a9e; }
+        .num { font-weight: 800; color: var(--accent-solid); }
         .num.green { color: #4a8a6c; }
         .num.red   { color: #a85a5a; }
         .num.gray  { color: #9a94a8; }
 
-        /* ===== Расписание (уменьшено) ===== */
+        /* ===== Расписание ===== */
         .sched-toolbar {
             display: flex;
             justify-content: space-between;
@@ -387,7 +439,7 @@
         .sched-title {
             font-size: 1.3em;
             font-weight: 800;
-            color: #6b4a9e;
+            color: var(--accent-solid);
             flex: 1;
             text-align: center;
             min-width: 200px;
@@ -400,8 +452,8 @@
         .sched-view-switch {
             display: flex;
             gap: 4px;
-            background: rgba(200, 185, 220, 0.2);
-            border: 1px solid rgba(180, 170, 200, 0.35);
+            background: var(--accent-soft);
+            border: 1px solid var(--accent-soft-strong);
             border-radius: 12px;
             padding: 3px;
             flex-wrap: wrap;
@@ -420,12 +472,11 @@
             white-space: nowrap;
         }
         .sched-view-switch button.active {
-            background: linear-gradient(135deg, #b8a4d4, #c9b8dd);
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
             color: #fff;
-            box-shadow: 0 3px 10px rgba(160, 140, 190, 0.3);
+            box-shadow: 0 3px 10px var(--accent-soft-strong);
         }
 
-        /* Сетка недели: 4 + 3 */
         .week-view-grid {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -435,7 +486,7 @@
 
         .week-day {
             background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(180, 170, 200, 0.3);
+            border: 1px solid var(--accent-soft-strong);
             border-radius: 14px;
             padding: 14px 12px;
             min-height: 220px;
@@ -445,9 +496,9 @@
             transition: all 0.2s ease;
         }
         .week-day.today {
-            border: 2px solid #b8a4d4;
-            background: rgba(200, 185, 220, 0.25);
-            box-shadow: 0 6px 18px rgba(160, 140, 190, 0.18);
+            border: 2px solid var(--accent-1);
+            background: var(--accent-soft);
+            box-shadow: 0 6px 18px var(--accent-soft-strong);
         }
         .week-day.sunday { background: rgba(217, 163, 163, 0.08); }
         .week-day.drag-over {
@@ -457,20 +508,20 @@
         .week-day-head {
             text-align: center;
             padding-bottom: 8px;
-            border-bottom: 1px solid rgba(180, 170, 200, 0.25);
+            border-bottom: 1px solid var(--accent-soft-strong);
             margin-bottom: 2px;
         }
         .week-day-name {
             font-size: 1em;
             font-weight: 800;
-            color: #6b4a9e;
+            color: var(--accent-solid);
             text-transform: uppercase;
             letter-spacing: 0.4px;
         }
         .week-day-date {
             font-size: 1.2em;
             font-weight: 800;
-            color: #6b4a9e;
+            color: var(--accent-solid);
             margin-top: 2px;
         }
         .week-day.today .week-day-date { color: #8b7aa8; }
@@ -486,24 +537,26 @@
             font-size: 0.85em;
             text-align: center;
             padding: 24px 10px;
-            border: 2px dashed rgba(180, 170, 200, 0.4);
+            border: 2px dashed var(--accent-soft-strong);
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.2s ease;
         }
         .week-day-empty:hover {
-            border-color: #b8a4d4;
-            background: rgba(200, 185, 220, 0.15);
+            border-color: var(--accent-1);
+            background: var(--accent-soft);
             color: #8b7aa8;
         }
-        .week-day-empty .plus { font-size: 1.6em; font-weight: 300; color: #b8a4d4; line-height: 1; }
+        .week-day-empty .plus { font-size: 1.6em; font-weight: 300; color: var(--accent-1); line-height: 1; }
+        .week-day-empty.readonly { cursor: default; }
+        .week-day-empty.readonly:hover { border-color: var(--accent-soft-strong); background: transparent; color: #b0aabc; }
 
         .week-day-add {
             width: 100%;
             margin-top: auto;
             padding: 8px;
             border-radius: 9px;
-            border: 1px dashed rgba(180, 170, 200, 0.6);
+            border: 1px dashed var(--accent-soft-strong);
             background: transparent;
             color: #9a94a8;
             cursor: pointer;
@@ -513,9 +566,9 @@
             transition: all 0.2s ease;
         }
         .week-day-add:hover {
-            border-color: #b8a4d4;
-            color: #6b4a9e;
-            background: rgba(200, 185, 220, 0.2);
+            border-color: var(--accent-1);
+            color: var(--accent-solid);
+            background: var(--accent-soft);
         }
 
         .week-slot {
@@ -530,10 +583,11 @@
             border: 1px solid transparent;
             overflow: hidden;
         }
+        .week-slot.readonly { cursor: default; }
         .week-slot.busy {
-            background: rgba(200, 185, 220, 0.45);
-            border-color: rgba(180, 170, 200, 0.6);
-            color: #6b4a9e;
+            background: var(--accent-soft-strong);
+            border-color: var(--accent-soft-strong);
+            color: var(--accent-solid);
         }
         .week-slot.pair {
             background: rgba(180, 200, 220, 0.5);
@@ -545,7 +599,7 @@
             border: 1px dashed rgba(200, 180, 130, 0.7);
             color: #8a7040;
         }
-        .week-slot .slot-time { font-weight: 800; font-size: 0.95em; color: #6b4a9e; letter-spacing: 0.2px; }
+        .week-slot .slot-time { font-weight: 800; font-size: 0.95em; color: var(--accent-solid); letter-spacing: 0.2px; }
         .week-slot.pair .slot-time { color: #2d4d70; }
         .week-slot.personal .slot-time { color: #6b4d1e; }
         .week-slot .slot-name {
@@ -576,14 +630,14 @@
             text-align: center;
             font-size: 0.9em;
             font-weight: 800;
-            color: #6b4a9e;
+            color: var(--accent-solid);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             padding: 8px 4px;
         }
         .cal-cell {
             background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(180, 170, 200, 0.3);
+            border: 1px solid var(--accent-soft-strong);
             border-radius: 10px;
             padding: 8px;
             min-height: 100px;
@@ -593,8 +647,9 @@
             transition: all 0.2s ease;
             cursor: pointer;
         }
+        .cal-cell.readonly { cursor: default; }
         .cal-cell.other-month { opacity: 0.35; background: rgba(255, 255, 255, 0.3); }
-        .cal-cell.today { border: 2px solid #b8a4d4; background: rgba(200, 185, 220, 0.25); }
+        .cal-cell.today { border: 2px solid var(--accent-1); background: var(--accent-soft); }
         .cal-cell.sunday { background: rgba(217, 163, 163, 0.08); }
         .cal-cell.drag-over {
             background: rgba(168, 201, 184, 0.3);
@@ -606,12 +661,12 @@
             align-items: center;
             margin-bottom: 3px;
         }
-        .cal-cell-date { font-weight: 800; font-size: 0.95em; color: #6b4a9e; }
+        .cal-cell-date { font-weight: 800; font-size: 0.95em; color: var(--accent-solid); }
         .cal-cell-month { font-size: 0.72em; color: #b0aabc; font-weight: 600; }
         .cal-cell-count {
             font-size: 0.72em;
-            color: #6b4a9e;
-            background: rgba(200, 185, 220, 0.4);
+            color: var(--accent-solid);
+            background: var(--accent-soft-strong);
             padding: 2px 7px;
             border-radius: 8px;
             font-weight: 700;
@@ -626,7 +681,8 @@
             cursor: pointer;
             font-weight: 600;
         }
-        .mini-slot.busy { background: rgba(200, 185, 220, 0.45); color: #6b4a9e; }
+        .mini-slot.readonly { cursor: default; }
+        .mini-slot.busy { background: var(--accent-soft-strong); color: var(--accent-solid); }
         .mini-slot.pair { background: rgba(180, 200, 220, 0.55); color: #4a6b9e; }
         .mini-slot.personal { background: rgba(224, 207, 160, 0.35); color: #8a7040; font-style: italic; }
         .mini-slot.drop-highlight {
@@ -648,7 +704,7 @@
 
         .free-day {
             background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(180, 170, 200, 0.3);
+            border: 1px solid var(--accent-soft-strong);
             border-radius: 14px;
             padding: 14px 12px;
             min-height: 200px;
@@ -657,27 +713,27 @@
             gap: 8px;
         }
         .free-day.today {
-            border: 2px solid #b8a4d4;
-            background: rgba(200, 185, 220, 0.22);
+            border: 2px solid var(--accent-1);
+            background: var(--accent-soft);
         }
         .free-day.sunday { background: rgba(217, 163, 163, 0.08); }
         .free-day-head {
             text-align: center;
             padding-bottom: 8px;
-            border-bottom: 1px solid rgba(180, 170, 200, 0.25);
+            border-bottom: 1px solid var(--accent-soft-strong);
             margin-bottom: 2px;
         }
         .free-day-name {
             font-size: 1em;
             font-weight: 800;
-            color: #6b4a9e;
+            color: var(--accent-solid);
             text-transform: uppercase;
             letter-spacing: 0.4px;
         }
         .free-day-date {
             font-size: 1.2em;
             font-weight: 800;
-            color: #6b4a9e;
+            color: var(--accent-solid);
             margin-top: 2px;
         }
         .free-day.today .free-day-date { color: #8b7aa8; }
@@ -734,7 +790,7 @@
             color: #8a7aa8;
             font-weight: 700;
             padding-top: 6px;
-            border-top: 1px solid rgba(180, 170, 200, 0.2);
+            border-top: 1px solid var(--accent-soft);
         }
 
         .legend {
@@ -744,12 +800,12 @@
             justify-content: center;
             margin-bottom: 16px;
             font-size: 0.9em;
-            color: #6b4a9e;
+            color: var(--accent-solid);
             font-weight: 600;
         }
         .legend span { display: inline-flex; align-items: center; gap: 6px; }
         .legend .dot { width: 12px; height: 12px; border-radius: 4px; display: inline-block; }
-        .legend .dot.busy { background: rgba(200, 185, 220, 0.7); border: 1px solid rgba(180, 170, 200, 0.9); }
+        .legend .dot.busy { background: var(--accent-soft-strong); border: 1px solid var(--accent-soft-strong); }
         .legend .dot.pair { background: rgba(180, 200, 220, 0.8); border: 1px solid rgba(150, 180, 210, 1); }
         .legend .dot.personal { background: rgba(224, 207, 160, 0.5); border: 1px dashed rgba(200, 180, 130, 1); }
         .legend .dot.free { background: rgba(168, 201, 184, 0.5); border: 1px dashed rgba(143, 191, 168, 1); }
@@ -780,7 +836,7 @@
 
         .modal {
             background: #fbf9fd;
-            border: 1px solid rgba(180, 170, 200, 0.35);
+            border: 1px solid var(--accent-soft-strong);
             border-radius: 18px;
             padding: 28px;
             width: 100%;
@@ -793,7 +849,7 @@
         .modal h3 {
             margin-bottom: 18px;
             font-size: 1.3em;
-            color: #6b4a9e;
+            color: var(--accent-solid);
             font-weight: 800;
         }
 
@@ -801,7 +857,7 @@
         .form-group label {
             display: block;
             font-size: 0.85em;
-            color: #6b4a9e;
+            color: var(--accent-solid);
             margin-bottom: 6px;
             font-weight: 700;
         }
@@ -811,7 +867,7 @@
             width: 100%;
             padding: 10px 13px;
             border-radius: 10px;
-            border: 1px solid rgba(180, 170, 200, 0.4);
+            border: 1px solid var(--accent-soft-strong);
             background: rgba(255, 255, 255, 0.8);
             color: #4a4552;
             font-size: 0.95em;
@@ -824,8 +880,8 @@
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
-            border-color: #b8a4d4;
-            box-shadow: 0 0 0 3px rgba(184, 164, 212, 0.2);
+            border-color: var(--accent-1);
+            box-shadow: 0 0 0 3px var(--accent-soft);
         }
         .form-group select option { background: #fbf9fd; color: #4a4552; }
 
@@ -834,12 +890,12 @@
         .form-section-title {
             font-size: 0.88em;
             font-weight: 800;
-            color: #6b4a9e;
+            color: var(--accent-solid);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin: 18px 0 10px;
             padding-top: 14px;
-            border-top: 1px solid rgba(180, 170, 200, 0.25);
+            border-top: 1px solid var(--accent-soft);
         }
         .form-section-title:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
 
@@ -853,8 +909,8 @@
         .type-switch {
             display: flex;
             gap: 6px;
-            background: rgba(200, 185, 220, 0.15);
-            border: 1px solid rgba(180, 170, 200, 0.3);
+            background: var(--accent-soft);
+            border: 1px solid var(--accent-soft-strong);
             border-radius: 12px;
             padding: 5px;
             margin-bottom: 14px;
@@ -875,9 +931,9 @@
             transition: all 0.25s ease;
         }
         .type-switch button.active {
-            background: linear-gradient(135deg, #b8a4d4, #c9b8dd);
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
             color: #fff;
-            box-shadow: 0 4px 12px rgba(160, 140, 190, 0.3);
+            box-shadow: 0 4px 12px var(--accent-soft-strong);
         }
 
         .duration-quick {
@@ -889,7 +945,7 @@
         .duration-quick button {
             padding: 6px 13px;
             border-radius: 20px;
-            border: 1px solid rgba(180, 170, 200, 0.4);
+            border: 1px solid var(--accent-soft-strong);
             background: rgba(255, 255, 255, 0.7);
             color: #7d7690;
             font-size: 0.82em;
@@ -899,12 +955,12 @@
             transition: all 0.2s ease;
         }
         .duration-quick button:hover {
-            background: rgba(200, 185, 220, 0.35);
-            border-color: #b8a4d4;
-            color: #6b4a9e;
+            background: var(--accent-soft-strong);
+            border-color: var(--accent-1);
+            color: var(--accent-solid);
         }
         .duration-quick button.active {
-            background: linear-gradient(135deg, #b8a4d4, #c9b8dd);
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
             color: #fff;
             border-color: transparent;
         }
@@ -915,7 +971,7 @@
             min-width: 110px;
             padding: 10px 12px;
             border-radius: 10px;
-            border: 1px solid rgba(180, 170, 200, 0.4);
+            border: 1px solid var(--accent-soft-strong);
             background: rgba(255, 255, 255, 0.7);
             color: #7d7690;
             font-size: 0.85em;
@@ -925,11 +981,11 @@
             transition: all 0.2s ease;
         }
         .status-switch button:hover {
-            background: rgba(200, 185, 220, 0.35);
-            border-color: #b8a4d4;
+            background: var(--accent-soft-strong);
+            border-color: var(--accent-1);
         }
         .status-switch button.active[data-status="planned"] {
-            background: linear-gradient(135deg, #b8a4d4, #c9b8dd);
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
             color: #fff;
             border-color: transparent;
         }
@@ -950,17 +1006,17 @@
             gap: 10px;
             padding: 11px 14px;
             border-radius: 10px;
-            background: rgba(200, 185, 220, 0.18);
-            border: 1px solid rgba(180, 170, 200, 0.4);
+            background: var(--accent-soft);
+            border: 1px solid var(--accent-soft-strong);
             cursor: pointer;
             font-size: 0.9em;
-            color: #6b4a9e;
+            color: var(--accent-solid);
             font-weight: 700;
             user-select: none;
             transition: all 0.2s ease;
         }
-        .repeat-toggle:hover { background: rgba(200, 185, 220, 0.3); }
-        .repeat-toggle input { width: 18px; height: 18px; accent-color: #b8a4d4; cursor: pointer; flex-shrink: 0; }
+        .repeat-toggle:hover { background: var(--accent-soft-strong); }
+        .repeat-toggle input { width: 18px; height: 18px; accent-color: var(--accent-1); cursor: pointer; flex-shrink: 0; }
         .repeat-options { margin-top: 10px; display: none; }
         .repeat-options.open { display: block; }
 
@@ -972,32 +1028,62 @@
         }
         .settings-card {
             background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(180, 170, 200, 0.3);
+            border: 1px solid var(--accent-soft-strong);
             border-radius: 16px;
             padding: 22px;
         }
-        .settings-card h3 { margin-bottom: 16px; font-size: 1.1em; color: #6b4a9e; font-weight: 800; }
+        .settings-card h3 { margin-bottom: 16px; font-size: 1.1em; color: var(--accent-solid); font-weight: 800; }
 
         .bg-presets {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
             gap: 10px;
             margin-bottom: 14px;
         }
         .bg-preset {
-            height: 68px;
+            height: 60px;
             border-radius: 10px;
             border: 2px solid transparent;
             cursor: pointer;
             transition: all 0.2s ease;
+            position: relative;
         }
-        .bg-preset:hover { transform: scale(1.05); border-color: #b8a4d4; }
-        .bg-preset.active { border-color: #6b4a9e; box-shadow: 0 0 0 2px #b8a4d4; }
+        .bg-preset:hover { transform: scale(1.05); border-color: var(--accent-1); }
+        .bg-preset.active { border-color: var(--accent-solid); box-shadow: 0 0 0 2px var(--accent-1); }
         .bg-preset.default { background: linear-gradient(135deg, #f6f2ee 0%, #ece6f2 50%, #e8eef2 100%); }
         .bg-preset.lavender { background: linear-gradient(135deg, #e8e2f2 0%, #d6c9e8 50%, #c5b6dc 100%); }
         .bg-preset.warm { background: linear-gradient(135deg, #f8e8d8 0%, #f0d0b8 50%, #e8b898 100%); }
         .bg-preset.mint { background: linear-gradient(135deg, #e0f0e8 0%, #c8e8d8 50%, #b0d8c8 100%); }
         .bg-preset.dark { background: linear-gradient(135deg, #4a4258 0%, #3a3448 50%, #2d2838 100%); }
+        .bg-preset.ocean { background: linear-gradient(135deg, #d4e8f0 0%, #a8c8e0 50%, #7ba8d0 100%); }
+        .bg-preset.sunset { background: linear-gradient(135deg, #ffe0d0 0%, #ffb8a0 50%, #e89080 100%); }
+        .bg-preset.forest { background: linear-gradient(135deg, #d8e8d0 0%, #a8c8a0 50%, #7ba878 100%); }
+        .bg-preset.rose { background: linear-gradient(135deg, #f8e0e8 0%, #f0b8c8 50%, #e890a8 100%); }
+        .bg-preset.starry { background: linear-gradient(135deg, #2a2a4a 0%, #3a3a5e 50%, #4a4a78 100%); }
+
+        .theme-presets {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .theme-preset {
+            height: 50px;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .theme-preset:hover { transform: scale(1.05); }
+        .theme-preset.active { border-color: #fff; box-shadow: 0 0 0 2px var(--accent-solid); }
+        .theme-preset::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.3) 50%);
+        }
 
         .bg-upload-btn {
             display: inline-flex;
@@ -1005,7 +1091,7 @@
             gap: 6px;
             padding: 9px 16px;
             border-radius: 10px;
-            border: 1px dashed rgba(180, 170, 200, 0.6);
+            border: 1px dashed var(--accent-soft-strong);
             background: rgba(255, 255, 255, 0.7);
             color: #7d7690;
             font-size: 0.88em;
@@ -1015,9 +1101,24 @@
             transition: all 0.2s ease;
         }
         .bg-upload-btn:hover {
-            background: rgba(200, 185, 220, 0.3);
-            border-color: #b8a4d4;
-            color: #6b4a9e;
+            background: var(--accent-soft-strong);
+            border-color: var(--accent-1);
+            color: var(--accent-solid);
+        }
+
+        /* Ползунки в настройках — короче вдвое */
+        .range-slider {
+            width: 50%;
+            margin-top: 8px;
+            accent-color: var(--accent-1);
+            display: block;
+        }
+        .range-value {
+            display: inline-block;
+            font-size: 0.82em;
+            color: var(--accent-solid);
+            font-weight: 700;
+            margin-left: 6px;
         }
 
         .confirm-body { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 4px; }
@@ -1034,22 +1135,22 @@
             border: 1px solid rgba(201, 142, 142, 0.4);
             color: #a85a5a;
         }
-        .confirm-icon.info { background: rgba(200, 185, 220, 0.25); border-color: rgba(180, 170, 200, 0.5); color: #6b4a9e; }
+        .confirm-icon.info { background: var(--accent-soft); border-color: var(--accent-soft-strong); color: var(--accent-solid); }
         .confirm-icon.warn { background: rgba(224, 207, 160, 0.3); border-color: rgba(212, 189, 136, 0.5); color: #8a7040; }
         .confirm-text { flex: 1; }
         .confirm-text h3 { margin-bottom: 8px; font-size: 1.18em; color: #4a4552; font-weight: 800; }
         .confirm-text p { font-size: 0.92em; color: #7d7690; line-height: 1.5; }
 
         .view-block {
-            background: rgba(200, 185, 220, 0.12);
-            border: 1px solid rgba(180, 170, 200, 0.3);
+            background: var(--accent-soft);
+            border: 1px solid var(--accent-soft-strong);
             border-radius: 12px;
             padding: 14px;
             margin-bottom: 12px;
         }
         .view-block h4 {
             font-size: 0.88em;
-            color: #6b4a9e;
+            color: var(--accent-solid);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 8px;
@@ -1085,17 +1186,34 @@
             padding: 1px 7px;
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(180, 170, 200, 0.4);
+            border: 1px solid var(--accent-soft-strong);
             color: #7d7690;
             cursor: pointer;
             transition: all 0.2s ease;
             white-space: nowrap;
             font-weight: 600;
         }
-        .marker:hover { background: rgba(200, 185, 220, 0.5); border-color: #b8a4d4; }
+        .marker:hover { background: var(--accent-soft-strong); border-color: var(--accent-1); }
         .marker.hw { background: rgba(224, 207, 160, 0.4); border-color: rgba(200, 180, 130, 0.6); color: #8a7040; }
         .marker.note { background: rgba(180, 200, 220, 0.4); border-color: rgba(150, 180, 210, 0.6); color: #4a6b9e; }
-        .marker.file { background: rgba(200, 185, 220, 0.4); border-color: rgba(180, 170, 200, 0.6); color: #6b4a9e; }
+        .marker.file { background: var(--accent-soft-strong); border-color: var(--accent-soft-strong); color: var(--accent-solid); }
+
+        .student-type-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.78em;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .student-type-badge.single {
+            background: var(--accent-soft-strong);
+            color: var(--accent-solid);
+        }
+        .student-type-badge.pair {
+            background: rgba(180, 200, 220, 0.5);
+            color: #2d4d70;
+        }
 
         /* ===== Date-time picker ===== */
         .dt-field { position: relative; }
@@ -1104,16 +1222,16 @@
             align-items: center;
             gap: 8px;
             padding: 10px 12px;
-            border: 1px solid rgba(180, 170, 200, 0.4);
+            border: 1px solid var(--accent-soft-strong);
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.8);
             cursor: pointer;
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
             min-height: 44px;
         }
-        .dt-display:hover { border-color: #b8a4d4; }
-        .dt-display.active { border-color: #b8a4d4; box-shadow: 0 0 0 3px rgba(184, 164, 212, 0.2); }
-        .dt-display .icon { font-size: 1.1em; color: #6b4a9e; flex-shrink: 0; }
+        .dt-display:hover { border-color: var(--accent-1); }
+        .dt-display.active { border-color: var(--accent-1); box-shadow: 0 0 0 3px var(--accent-soft); }
+        .dt-display .icon { font-size: 1.1em; color: var(--accent-solid); flex-shrink: 0; }
         .dt-display .value {
             flex: 1;
             font-size: 0.95em;
@@ -1143,7 +1261,7 @@
             left: 0;
             right: 0;
             background: #fbf9fd;
-            border: 1px solid rgba(180, 170, 200, 0.4);
+            border: 1px solid var(--accent-soft-strong);
             border-radius: 14px;
             box-shadow: 0 18px 40px rgba(140, 130, 160, 0.25);
             padding: 16px;
@@ -1159,11 +1277,11 @@
             align-items: center;
             margin-bottom: 10px;
             font-weight: 800;
-            color: #6b4a9e;
+            color: var(--accent-solid);
         }
         .cal-head button {
-            background: rgba(200, 185, 220, 0.2);
-            border: 1px solid rgba(180, 170, 200, 0.4);
+            background: var(--accent-soft);
+            border: 1px solid var(--accent-soft-strong);
             color: #7d7690;
             width: 28px;
             height: 28px;
@@ -1172,7 +1290,7 @@
             font-size: 0.9em;
             transition: all 0.15s ease;
         }
-        .cal-head button:hover { background: rgba(200, 185, 220, 0.45); border-color: #b8a4d4; }
+        .cal-head button:hover { background: var(--accent-soft-strong); border-color: var(--accent-1); }
 
         .cal-mini-grid {
             display: grid;
@@ -1183,7 +1301,7 @@
         .cal-mini-grid .dow {
             text-align: center;
             font-size: 0.75em;
-            color: #6b4a9e;
+            color: var(--accent-solid);
             padding: 4px 0;
             font-weight: 800;
         }
@@ -1198,11 +1316,11 @@
             user-select: none;
             font-weight: 600;
         }
-        .cal-mini-grid .day:hover { background: rgba(200, 185, 220, 0.3); }
+        .cal-mini-grid .day:hover { background: var(--accent-soft-strong); }
         .cal-mini-grid .day.other-month { color: #c8c2d4; }
-        .cal-mini-grid .day.today { font-weight: 800; color: #6b4a9e; }
+        .cal-mini-grid .day.today { font-weight: 800; color: var(--accent-solid); }
         .cal-mini-grid .day.selected {
-            background: linear-gradient(135deg, #b8a4d4, #c9b8dd);
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
             color: #fff;
             font-weight: 800;
         }
@@ -1211,7 +1329,7 @@
         .cal-quick button {
             padding: 5px 10px;
             border-radius: 14px;
-            border: 1px solid rgba(180, 170, 200, 0.4);
+            border: 1px solid var(--accent-soft-strong);
             background: rgba(255, 255, 255, 0.7);
             color: #7d7690;
             font-size: 0.8em;
@@ -1221,21 +1339,21 @@
             transition: all 0.15s ease;
         }
         .cal-quick button:hover {
-            background: rgba(200, 185, 220, 0.35);
-            border-color: #b8a4d4;
-            color: #6b4a9e;
+            background: var(--accent-soft-strong);
+            border-color: var(--accent-1);
+            color: var(--accent-solid);
         }
 
         .time-section {
             display: none;
-            border-top: 1px solid rgba(180, 170, 200, 0.3);
+            border-top: 1px solid var(--accent-soft-strong);
             padding-top: 12px;
             margin-top: 4px;
         }
         .time-section.open { display: block; }
         .time-section .time-label {
             font-size: 0.82em;
-            color: #6b4a9e;
+            color: var(--accent-solid);
             text-align: center;
             margin-bottom: 8px;
             font-weight: 800;
@@ -1256,7 +1374,7 @@
             transform: translateX(-50%);
             width: 110px;
             height: 1px;
-            background: rgba(184, 164, 212, 0.5);
+            background: var(--accent-soft-strong);
         }
         .time-wheels::before { top: calc(50% - 18px); }
         .time-wheels::after { top: calc(50% + 18px); }
@@ -1287,8 +1405,8 @@
             user-select: none;
             font-weight: 600;
         }
-        .wheel .item.selected { color: #6b4a9e; font-weight: 800; font-size: 1.15em; }
-        .wheel-sep { font-size: 1.3em; color: #6b4a9e; font-weight: 800; z-index: 2; }
+        .wheel .item.selected { color: var(--accent-solid); font-weight: 800; font-size: 1.15em; }
+        .wheel-sep { font-size: 1.3em; color: var(--accent-solid); font-weight: 800; z-index: 2; }
         .time-wheels-hint { text-align: center; font-size: 0.72em; color: #b0aabc; margin-top: 8px; }
 
         .file-upload-area { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -1298,7 +1416,7 @@
             gap: 6px;
             padding: 9px 16px;
             border-radius: 10px;
-            border: 1px dashed rgba(180, 170, 200, 0.6);
+            border: 1px dashed var(--accent-soft-strong);
             background: rgba(255, 255, 255, 0.7);
             color: #7d7690;
             font-size: 0.85em;
@@ -1307,20 +1425,20 @@
             cursor: pointer;
             transition: all 0.2s ease;
         }
-        .file-upload-btn:hover { background: rgba(200, 185, 220, 0.3); border-color: #b8a4d4; color: #6b4a9e; }
+        .file-upload-btn:hover { background: var(--accent-soft-strong); border-color: var(--accent-1); color: var(--accent-solid); }
         .file-preview {
             display: flex;
             align-items: center;
             gap: 8px;
             padding: 8px 12px;
             border-radius: 10px;
-            background: rgba(200, 185, 220, 0.25);
-            border: 1px solid rgba(180, 170, 200, 0.4);
+            background: var(--accent-soft-strong);
+            border: 1px solid var(--accent-soft-strong);
             font-size: 0.85em;
             max-width: 100%;
             overflow: hidden;
         }
-        .file-preview .fname { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #6b4a9e; font-weight: 700; }
+        .file-preview .fname { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--accent-solid); font-weight: 700; }
         .file-preview .fsize { font-size: 0.85em; color: #a89fba; flex-shrink: 0; }
         .file-preview .fdel { background: transparent; border: none; color: #a85a5a; cursor: pointer; font-size: 0.9em; padding: 2px 6px; border-radius: 6px; }
         .file-preview .fdel:hover { background: rgba(217, 163, 163, 0.3); }
@@ -1331,18 +1449,171 @@
             gap: 6px;
             padding: 6px 12px;
             border-radius: 8px;
-            background: rgba(200, 185, 220, 0.3);
-            border: 1px solid rgba(180, 170, 200, 0.5);
-            color: #6b4a9e;
+            background: var(--accent-soft-strong);
+            border: 1px solid var(--accent-soft-strong);
+            color: var(--accent-solid);
             font-size: 0.85em;
             font-weight: 700;
             text-decoration: none;
             cursor: pointer;
             transition: all 0.15s ease;
         }
-        .file-download:hover { background: rgba(200, 185, 220, 0.5); border-color: #b8a4d4; }
+        .file-download:hover { background: var(--accent-soft-strong); border-color: var(--accent-1); }
 
         footer { margin-top: 40px; text-align: center; font-size: 0.85em; color: #b0aabc; }
+
+        /* ===== ЭКРАН АВТОРИЗАЦИИ ===== */
+        .auth-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #f6f2ee 0%, #ece6f2 50%, #e8eef2 100%);
+            background-attachment: fixed;
+        }
+        .auth-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--accent-soft-strong);
+            border-radius: 22px;
+            padding: 38px 36px;
+            width: 100%;
+            max-width: 460px;
+            box-shadow: 0 25px 60px rgba(140, 130, 160, 0.3);
+            animation: scaleIn 0.3s ease;
+        }
+        .auth-title {
+            text-align: center;
+            margin-bottom: 6px;
+            font-size: 2em;
+            color: var(--accent-solid);
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .auth-sub {
+            text-align: center;
+            font-size: 0.85em;
+            color: #9a94a8;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            font-weight: 600;
+            margin-bottom: 26px;
+        }
+        .auth-tabs {
+            display: flex;
+            gap: 6px;
+            background: var(--accent-soft);
+            border: 1px solid var(--accent-soft-strong);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 20px;
+        }
+        .auth-tabs button {
+            flex: 1;
+            padding: 10px 8px;
+            border-radius: 9px;
+            border: none;
+            background: transparent;
+            color: #7d7690;
+            font-size: 0.9em;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .auth-tabs button.active {
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            color: #fff;
+            box-shadow: 0 4px 12px var(--accent-soft-strong);
+        }
+        .auth-tab-panel { display: none; }
+        .auth-tab-panel.active { display: block; animation: fadeIn 0.25s ease; }
+        .auth-error {
+            background: rgba(217, 163, 163, 0.25);
+            border: 1px solid rgba(201, 142, 142, 0.5);
+            color: #a85a5a;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.88em;
+            margin-bottom: 14px;
+            font-weight: 600;
+            display: none;
+        }
+        .auth-error.show { display: block; }
+        .auth-divider {
+            text-align: center;
+            margin: 20px 0 16px;
+            color: #b0aabc;
+            font-size: 0.82em;
+            font-weight: 600;
+            position: relative;
+        }
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 30%;
+            height: 1px;
+            background: var(--accent-soft-strong);
+        }
+        .auth-divider::before { left: 0; }
+        .auth-divider::after { right: 0; }
+        .btn-guest {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1.5px dashed var(--accent-soft-strong);
+            background: rgba(255, 255, 255, 0.6);
+            color: var(--accent-solid);
+            font-size: 0.92em;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-guest:hover {
+            background: var(--accent-soft);
+            border-style: solid;
+            transform: translateY(-2px);
+        }
+        .auth-submit {
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            color: #fff;
+            font-size: 0.95em;
+            font-family: inherit;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 10px 22px var(--accent-soft-strong);
+        }
+        .auth-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 28px var(--accent-soft-strong);
+        }
+        .guest-banner {
+            background: rgba(224, 207, 160, 0.3);
+            border: 1px solid rgba(212, 189, 136, 0.6);
+            color: #8a7040;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 0.88em;
+            font-weight: 700;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .guest-banner span { margin-right: 6px; }
+
+        body.guest .tab:not([data-tab="schedule"]) { display: none; }
+        body.guest .logout-btn { background: linear-gradient(135deg, #e0cfa0, #d4bd88); color: #6b4d1e; border-color: transparent; }
 
         @media (max-width: 1200px) {
             .week-view-grid,
@@ -1375,9 +1646,63 @@
     </style>
 </head>
 <body>
-    <div class="container">
+
+    <!-- ============= ЭКРАН ВХОДА ============= -->
+    <div class="auth-screen" id="authScreen">
+        <div class="auth-card">
+            <div class="auth-title">Fluently</div>
+            <div class="auth-sub">панель преподавателя английского</div>
+
+            <div class="auth-tabs">
+                <button type="button" data-auth="login" class="active">Вход</button>
+                <button type="button" data-auth="register">Регистрация</button>
+            </div>
+
+            <div class="auth-error" id="authError"></div>
+
+            <div class="auth-tab-panel active" id="loginPanel">
+                <div class="form-group">
+                    <label>Логин</label>
+                    <input type="text" id="loginName" placeholder="Введите логин" autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input type="password" id="loginPass" placeholder="Введите пароль" autocomplete="current-password">
+                </div>
+                <button type="button" class="auth-submit" id="loginBtn">Войти</button>
+            </div>
+
+            <div class="auth-tab-panel" id="registerPanel">
+                <div class="form-group">
+                    <label>Логин</label>
+                    <input type="text" id="regName" placeholder="Придумайте логин" autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input type="password" id="regPass" placeholder="Придумайте пароль (мин. 4 символа)" autocomplete="new-password">
+                </div>
+                <div class="form-group">
+                    <label>Повторите пароль</label>
+                    <input type="password" id="regPass2" placeholder="Повторите пароль" autocomplete="new-password">
+                </div>
+                <button type="button" class="auth-submit" id="registerBtn">Зарегистрироваться</button>
+            </div>
+
+            <div class="auth-divider">или</div>
+            <button type="button" class="btn-guest" id="guestBtn">👀 Войти как гость</button>
+            <div class="form-hint" style="text-align:center;margin-top:12px">
+                Гостю доступна только вкладка «Расписание» в режиме просмотра.
+            </div>
+        </div>
+    </div>
+
+    <!-- ============= ОСНОВНОЙ ИНТЕРФЕЙС ============= -->
+    <div class="container" id="appContainer" style="display:none">
         <header>
-            <h1>Преподаватель английского</h1>
+            <div class="user-badge" id="userBadge">👤 Учитель</div>
+            <h1>Fluently</h1>
+            <div class="subtitle">панель преподавателя английского</div>
+            <button type="button" class="logout-btn" id="logoutBtn">🚪 Выйти</button>
         </header>
 
         <div class="tabs">
@@ -1424,7 +1749,7 @@
         <section class="section" id="schedule">
             <div class="section-head">
                 <h2>Расписание</h2>
-                <button class="btn danger" onclick="confirmClearAllSlots()">🗑 Удалить все слоты</button>
+                <button class="btn danger" onclick="confirmClearAllSlots()" id="clearAllBtn">🗑 Удалить все слоты</button>
             </div>
 
             <div class="sched-toolbar">
@@ -1439,6 +1764,10 @@
                     <button type="button" data-view="month">Месяц</button>
                     <button type="button" data-view="free">🕐 Свободные</button>
                 </div>
+            </div>
+
+            <div class="guest-banner" id="guestBanner" style="display:none">
+                <span>👀</span> Режим гостя — только просмотр расписания
             </div>
 
             <div class="legend" id="schedLegend">
@@ -1461,6 +1790,7 @@
                     <tr>
                         <th>Студент</th>
                         <th>Уровень</th>
+                        <th>Тип</th>
                         <th>Баланс занятий</th>
                         <th>Ближайшее занятие</th>
                         <th>ДЗ / заметки</th>
@@ -1599,11 +1929,16 @@
                 <div class="settings-card" style="grid-column: 1 / -1;">
                     <h3>🎨 Фон сайта</h3>
                     <div class="bg-presets" id="bgPresets">
-                        <div class="bg-preset default" data-bg="default" title="Светлый пастельный"></div>
-                        <div class="bg-preset lavender" data-bg="lavender" title="Лавандовый"></div>
+                        <div class="bg-preset default" data-bg="default" title="Светлый"></div>
+                        <div class="bg-preset lavender" data-bg="lavender" title="Лаванда"></div>
                         <div class="bg-preset warm" data-bg="warm" title="Тёплый"></div>
-                        <div class="bg-preset mint" data-bg="mint" title="Мятный"></div>
+                        <div class="bg-preset mint" data-bg="mint" title="Мята"></div>
+                        <div class="bg-preset ocean" data-bg="ocean" title="Океан"></div>
+                        <div class="bg-preset sunset" data-bg="sunset" title="Закат"></div>
+                        <div class="bg-preset forest" data-bg="forest" title="Лес"></div>
+                        <div class="bg-preset rose" data-bg="rose" title="Роза"></div>
                         <div class="bg-preset dark" data-bg="dark" title="Тёмный"></div>
+                        <div class="bg-preset starry" data-bg="starry" title="Звёздный"></div>
                     </div>
                     <div class="form-group">
                         <label>Или загрузите своё изображение</label>
@@ -1623,6 +1958,29 @@
                             <button type="button" class="btn small" onclick="applyBgUrl()">Применить</button>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label>Прозрачность панели: <span class="range-value" id="panelAlphaValue">84%</span></label>
+                        <input type="range" min="30" max="100" value="84" class="range-slider" id="panelAlpha">
+                    </div>
+                    <div class="form-group">
+                        <label>Размытие панели: <span class="range-value" id="panelBlurValue">14px</span></label>
+                        <input type="range" min="0" max="30" value="14" class="range-slider" id="panelBlur">
+                    </div>
+                </div>
+
+                <div class="settings-card" style="grid-column: 1 / -1;">
+                    <h3>🌈 Тема оформления (акцентный цвет)</h3>
+                    <div class="theme-presets" id="themePresets">
+                        <div class="theme-preset" data-theme="lavender" style="background:linear-gradient(135deg,#b8a4d4,#c9b8dd)" title="Лаванда"></div>
+                        <div class="theme-preset" data-theme="mint" style="background:linear-gradient(135deg,#8fbfa8,#a8c9b8)" title="Мята"></div>
+                        <div class="theme-preset" data-theme="rose" style="background:linear-gradient(135deg,#d99aa8,#e8b8c4)" title="Роза"></div>
+                        <div class="theme-preset" data-theme="ocean" style="background:linear-gradient(135deg,#7ba8d0,#a8c8e0)" title="Океан"></div>
+                        <div class="theme-preset" data-theme="sunset" style="background:linear-gradient(135deg,#e89080,#f0b8a0)" title="Закат"></div>
+                        <div class="theme-preset" data-theme="forest" style="background:linear-gradient(135deg,#7ba878,#a8c8a0)" title="Лес"></div>
+                        <div class="theme-preset" data-theme="coffee" style="background:linear-gradient(135deg,#a8886a,#c8a888)" title="Кофе"></div>
+                        <div class="theme-preset" data-theme="night" style="background:linear-gradient(135deg,#5a4a78,#7a6a98)" title="Ночь"></div>
+                    </div>
+                    <div class="form-hint">Меняет цвет кнопок, акцентов и заголовков по всей панели.</div>
                 </div>
             </div>
 
@@ -1632,7 +1990,7 @@
         </section>
 
         <footer>
-            Панель преподавателя английского • 15.10.2026
+            Fluently • панель преподавателя английского
         </footer>
     </div>
 
@@ -1678,20 +2036,38 @@
 
         const STORAGE_KEY = 'englishTeacherPanel_v1';
         const BG_KEY = 'englishTeacherPanel_bg';
+        const THEME_KEY = 'englishTeacherPanel_theme';
+        const USERS_KEY = 'englishTeacherPanel_users';
+        const SESSION_KEY = 'englishTeacherPanel_session';
         const CURRENCY = '₽';
         const SLOT_STEP_MIN = 30;
         const MAX_FILE_SIZE = 100 * 1024 * 1024;
 
-        // Рабочие часы по умолчанию
         const DEFAULT_WORK_START = '09:00';
-        const DEFAULT_WORK_END = '21:00'; // последнее занятие начинается в 21:00
+        const DEFAULT_WORK_END = '21:00';
 
         const BG_PRESETS = {
             default:  'linear-gradient(135deg, #f6f2ee 0%, #ece6f2 50%, #e8eef2 100%)',
             lavender: 'linear-gradient(135deg, #e8e2f2 0%, #d6c9e8 50%, #c5b6dc 100%)',
             warm:     'linear-gradient(135deg, #f8e8d8 0%, #f0d0b8 50%, #e8b898 100%)',
             mint:     'linear-gradient(135deg, #e0f0e8 0%, #c8e8d8 50%, #b0d8c8 100%)',
-            dark:     'linear-gradient(135deg, #4a4258 0%, #3a3448 50%, #2d2838 100%)'
+            ocean:    'linear-gradient(135deg, #d4e8f0 0%, #a8c8e0 50%, #7ba8d0 100%)',
+            sunset:   'linear-gradient(135deg, #ffe0d0 0%, #ffb8a0 50%, #e89080 100%)',
+            forest:   'linear-gradient(135deg, #d8e8d0 0%, #a8c8a0 50%, #7ba878 100%)',
+            rose:     'linear-gradient(135deg, #f8e0e8 0%, #f0b8c8 50%, #e890a8 100%)',
+            dark:     'linear-gradient(135deg, #4a4258 0%, #3a3448 50%, #2d2838 100%)',
+            starry:   'linear-gradient(135deg, #2a2a4a 0%, #3a3a5e 50%, #4a4a78 100%)'
+        };
+
+        const THEMES = {
+            lavender: { a1: '#b8a4d4', a2: '#c9b8dd', solid: '#6b4a9e', soft: 'rgba(200, 185, 220, 0.25)', softStrong: 'rgba(200, 185, 220, 0.45)' },
+            mint:     { a1: '#8fbfa8', a2: '#a8c9b8', solid: '#2e6a4e', soft: 'rgba(168, 201, 184, 0.25)', softStrong: 'rgba(168, 201, 184, 0.45)' },
+            rose:     { a1: '#d99aa8', a2: '#e8b8c4', solid: '#a84a5e', soft: 'rgba(232, 184, 196, 0.25)', softStrong: 'rgba(232, 184, 196, 0.45)' },
+            ocean:    { a1: '#7ba8d0', a2: '#a8c8e0', solid: '#2d4d70', soft: 'rgba(168, 200, 224, 0.25)', softStrong: 'rgba(168, 200, 224, 0.45)' },
+            sunset:   { a1: '#e89080', a2: '#f0b8a0', solid: '#a8503e', soft: 'rgba(240, 184, 160, 0.25)', softStrong: 'rgba(240, 184, 160, 0.45)' },
+            forest:   { a1: '#7ba878', a2: '#a8c8a0', solid: '#3e6b3e', soft: 'rgba(168, 200, 160, 0.25)', softStrong: 'rgba(168, 200, 160, 0.45)' },
+            coffee:   { a1: '#a8886a', a2: '#c8a888', solid: '#6b4d2e', soft: 'rgba(200, 168, 136, 0.25)', softStrong: 'rgba(200, 168, 136, 0.45)' },
+            night:    { a1: '#5a4a78', a2: '#7a6a98', solid: '#3a2e58', soft: 'rgba(122, 106, 152, 0.25)', softStrong: 'rgba(122, 106, 152, 0.45)' }
         };
 
         const STATUS_LABELS = {
@@ -1728,13 +2104,16 @@
         ];
 
         const DEFAULT_STUDENTS = [
-            { name: 'Анна', level: 'B1 Intermediate', next: '' },
-            { name: 'Максим', level: 'A2 Elementary', next: '' },
-            { name: 'Ольга', level: 'B2 Upper-Int', next: '' },
-            { name: 'Дмитрий', level: 'C1 Advanced', next: '' },
-            { name: 'София', level: 'A1 Beginner', next: '' },
-            { name: 'Артём', level: 'B1 Intermediate', next: '' }
+            { name: 'Анна', level: 'B1 Intermediate', next: '', type: 'single' },
+            { name: 'Максим', level: 'A2 Elementary', next: '', type: 'single' },
+            { name: 'Ольга', level: 'B2 Upper-Int', next: '', type: 'pair' },
+            { name: 'Дмитрий', level: 'C1 Advanced', next: '', type: 'single' },
+            { name: 'София', level: 'A1 Beginner', next: '', type: 'pair' },
+            { name: 'Артём', level: 'B1 Intermediate', next: '', type: 'single' }
         ];
+
+        // ===== РОЛЬ =====
+        let currentRole = 'teacher'; // 'teacher' | 'guest'
 
         // ===== ХЕЛПЕРЫ =====
         const pad2 = n => String(n).padStart(2, '0');
@@ -1757,6 +2136,10 @@
             if (isPersonal(s)) return 'personal';
             if (isPair(s)) return 'pair';
             return 'single';
+        }
+        function getStudentType(name) {
+            const st = state.students.find(x => x.name === name);
+            return st && st.type ? st.type : 'single';
         }
         function timeToMinutes(time) {
             const m = /^(\d{1,2}):(\d{2})$/.exec(time || '');
@@ -1822,7 +2205,7 @@
             });
         }
 
-        // ===== ФОН =====
+        // ===== ФОН И ТЕМА =====
         function loadBg() {
             try {
                 const raw = localStorage.getItem(BG_KEY);
@@ -1853,6 +2236,43 @@
                 showAlert('Ошибка', 'Не удалось сохранить фон.', 'warn');
             }
             applyBg(bg);
+        }
+
+        function loadTheme() {
+            try {
+                const raw = localStorage.getItem(THEME_KEY);
+                if (raw) return JSON.parse(raw);
+            } catch (e) { /* ignore */ }
+            return { name: 'lavender', alpha: 84, blur: 14 };
+        }
+        function applyTheme(t) {
+            const theme = THEMES[t.name] || THEMES.lavender;
+            document.documentElement.style.setProperty('--accent-1', theme.a1);
+            document.documentElement.style.setProperty('--accent-2', theme.a2);
+            document.documentElement.style.setProperty('--accent-solid', theme.solid);
+            document.documentElement.style.setProperty('--accent-soft', theme.soft);
+            document.documentElement.style.setProperty('--accent-soft-strong', theme.softStrong);
+            document.documentElement.style.setProperty('--panel-alpha', (t.alpha != null ? t.alpha : 84) / 100);
+            document.documentElement.style.setProperty('--panel-blur', (t.blur != null ? t.blur : 14) + 'px');
+
+            document.querySelectorAll('.theme-preset').forEach(p => {
+                p.classList.toggle('active', p.dataset.theme === t.name);
+            });
+
+            const alphaEl = document.getElementById('panelAlpha');
+            const blurEl = document.getElementById('panelBlur');
+            const alphaVal = document.getElementById('panelAlphaValue');
+            const blurVal = document.getElementById('panelBlurValue');
+            if (alphaEl) alphaEl.value = t.alpha != null ? t.alpha : 84;
+            if (blurEl) blurEl.value = t.blur != null ? t.blur : 14;
+            if (alphaVal) alphaVal.textContent = (t.alpha != null ? t.alpha : 84) + '%';
+            if (blurVal) blurVal.textContent = (t.blur != null ? t.blur : 14) + 'px';
+        }
+        function saveTheme(t) {
+            try {
+                localStorage.setItem(THEME_KEY, JSON.stringify(t));
+            } catch (e) { /* ignore */ }
+            applyTheme(t);
         }
 
         // ===== ДАТЫ =====
@@ -1893,6 +2313,145 @@
             return m;
         }
 
+        // ===== АВТОРИЗАЦИЯ =====
+        function loadUsers() {
+            try {
+                const raw = localStorage.getItem(USERS_KEY);
+                if (raw) return JSON.parse(raw);
+            } catch (e) { /* ignore */ }
+            return [];
+        }
+        function saveUsers(users) {
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        }
+        function loadSession() {
+            try {
+                const raw = localStorage.getItem(SESSION_KEY);
+                if (raw) return JSON.parse(raw);
+            } catch (e) { /* ignore */ }
+            return null;
+        }
+        function saveSession(session) {
+            if (session) localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+            else localStorage.removeItem(SESSION_KEY);
+        }
+        async function sha256(str) {
+            const enc = new TextEncoder().encode(str);
+            const buf = await crypto.subtle.digest('SHA-256', enc);
+            return Array.from(new Uint8Array(buf))
+                .map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+        function showAuthError(msg) {
+            const el = document.getElementById('authError');
+            el.textContent = msg;
+            el.classList.add('show');
+        }
+        function clearAuthError() {
+            const el = document.getElementById('authError');
+            el.textContent = '';
+            el.classList.remove('show');
+        }
+
+        function switchAuthTab(name) {
+            document.querySelectorAll('.auth-tabs button').forEach(b => {
+                b.classList.toggle('active', b.dataset.auth === name);
+            });
+            document.getElementById('loginPanel').classList.toggle('active', name === 'login');
+            document.getElementById('registerPanel').classList.toggle('active', name === 'register');
+            clearAuthError();
+        }
+
+        async function doRegister() {
+            clearAuthError();
+            const name = document.getElementById('regName').value.trim();
+            const p1 = document.getElementById('regPass').value;
+            const p2 = document.getElementById('regPass2').value;
+            if (!name) { showAuthError('Введите логин.'); return; }
+            if (p1.length < 4) { showAuthError('Пароль должен быть не короче 4 символов.'); return; }
+            if (p1 !== p2) { showAuthError('Пароли не совпадают.'); return; }
+            const users = loadUsers();
+            if (users.some(u => u.name.toLowerCase() === name.toLowerCase())) {
+                showAuthError('Такой логин уже занят.');
+                return;
+            }
+            const hash = await sha256(p1);
+            users.push({ name, hash });
+            saveUsers(users);
+            saveSession({ name, role: 'teacher' });
+            startApp({ name, role: 'teacher' });
+        }
+
+        async function doLogin() {
+            clearAuthError();
+            const name = document.getElementById('loginName').value.trim();
+            const pass = document.getElementById('loginPass').value;
+            if (!name || !pass) { showAuthError('Введите логин и пароль.'); return; }
+            const users = loadUsers();
+            const u = users.find(x => x.name.toLowerCase() === name.toLowerCase());
+            if (!u) { showAuthError('Пользователь не найден.'); return; }
+            const hash = await sha256(pass);
+            if (hash !== u.hash) { showAuthError('Неверный пароль.'); return; }
+            saveSession({ name: u.name, role: 'teacher' });
+            startApp({ name: u.name, role: 'teacher' });
+        }
+
+        function doGuest() {
+            saveSession({ name: 'Гость', role: 'guest' });
+            startApp({ name: 'Гость', role: 'guest' });
+        }
+
+        function doLogout() {
+            saveSession(null);
+            currentRole = 'teacher';
+            document.body.classList.remove('guest');
+            document.getElementById('appContainer').style.display = 'none';
+            document.getElementById('authScreen').style.display = 'flex';
+            document.getElementById('loginName').value = '';
+            document.getElementById('loginPass').value = '';
+            document.getElementById('regName').value = '';
+            document.getElementById('regPass').value = '';
+            document.getElementById('regPass2').value = '';
+            switchAuthTab('login');
+        }
+
+        function startApp(session) {
+            currentRole = session.role;
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'block';
+
+            if (currentRole === 'guest') {
+                document.body.classList.add('guest');
+                document.getElementById('userBadge').textContent = '👀 Гость';
+                document.getElementById('guestBanner').style.display = 'block';
+                // Скрываем все вкладки, кроме расписания
+                document.querySelectorAll('.tab').forEach(t => {
+                    t.classList.toggle('active', t.dataset.tab === 'schedule');
+                });
+                document.querySelectorAll('.section').forEach(s => {
+                    s.classList.toggle('active', s.id === 'schedule');
+                });
+                // Скрываем кнопку удаления всех слотов
+                const clearAllBtn = document.getElementById('clearAllBtn');
+                if (clearAllBtn) clearAllBtn.style.display = 'none';
+            } else {
+                document.body.classList.remove('guest');
+                document.getElementById('userBadge').textContent = '👤 ' + session.name;
+                document.getElementById('guestBanner').style.display = 'none';
+                // Активируем вкладку «Сегодня»
+                document.querySelectorAll('.tab').forEach(t => {
+                    t.classList.toggle('active', t.dataset.tab === 'today');
+                });
+                document.querySelectorAll('.section').forEach(s => {
+                    s.classList.toggle('active', s.id === 'today');
+                });
+                const clearAllBtn = document.getElementById('clearAllBtn');
+                if (clearAllBtn) clearAllBtn.style.display = '';
+            }
+
+            renderAll();
+            renderSettingsForm();
+        }
+
         // ===== СОСТОЯНИЕ =====
         let state = loadState();
         let submitHandler = null;
@@ -1917,6 +2476,8 @@
                     if (!isDateSchedule(parsed.schedule)) {
                         parsed.schedule = migrateOldSchedule(parsed.schedule);
                     }
+                    if (!Array.isArray(parsed.students)) parsed.students = JSON.parse(JSON.stringify(DEFAULT_STUDENTS));
+                    parsed.students.forEach(s => { if (!s.type) s.type = 'single'; });
                     Object.values(parsed.schedule).forEach(slots => slots.forEach(slot => {
                         if (!slot.duration) slot.duration = parsed.settings.defaultDuration || 60;
                         if (!slot.status && !slot.free && !isPersonal(slot)) slot.status = 'planned';
@@ -1967,7 +2528,12 @@
             }
 
             const perStudent = {};
-            const ensure = name => perStudent[name] || (perStudent[name] = { single: 0, pair: 0, total: 0, done: 0 });
+            const ensure = name => {
+                if (!perStudent[name]) {
+                    perStudent[name] = { single: 0, pair: 0, total: 0, done: 0, type: getStudentType(name) };
+                }
+                return perStudent[name];
+            };
 
             Object.entries(state.schedule).forEach(([dateKey, slots]) => {
                 const inWeek = weekKeys.includes(dateKey);
@@ -1976,19 +2542,29 @@
                     if (isPersonal(slot)) { personalCount++; return; }
                     const done = isDone(slot);
                     const cancelled = isCancelled(slot);
-                    if (inWeek) {
-                        if (isPair(slot)) { pairCount++; if (done) doneCount++; if (!cancelled) weeklyPotential += pair; }
-                        else { individualCount++; if (done) doneCount++; if (!cancelled) weeklyPotential += single; }
-                    }
-                    if (isPair(slot)) {
-                        slot.students.forEach(n => {
-                            const s = ensure(n);
-                            s.pair++; s.total++; if (done) s.done++;
-                        });
-                    } else if (slot.student) {
-                        const s = ensure(slot.student);
-                        s.single++; s.total++; if (done) s.done++;
-                    }
+
+                    const names = isPair(slot) ? slot.students : (slot.student ? [slot.student] : []);
+
+                    names.forEach(name => {
+                        const type = getStudentType(name);
+                        const s = ensure(name);
+
+                        if (isPair(slot)) s.pair++; else s.single++;
+                        s.total++;
+                        if (done) s.done++;
+
+                        if (inWeek) {
+                            if (type === 'pair') {
+                                pairCount++;
+                                if (done) doneCount++;
+                                if (!cancelled) weeklyPotential += pair;
+                            } else {
+                                individualCount++;
+                                if (done) doneCount++;
+                                if (!cancelled) weeklyPotential += single;
+                            }
+                        }
+                    });
                 });
             });
 
@@ -2011,14 +2587,9 @@
                 const schedule = stats.perStudent[s.name] || { single: 0, pair: 0, done: 0 };
                 const rateSingle = stats.single;
                 const ratePair = stats.pair;
-                const pairShare = ratePair > 0 ? Math.round(ratePair / 2) : rateSingle;
-                let rate;
-                if (schedule.single + schedule.pair === 0) rate = rateSingle;
-                else if (schedule.pair === 0) rate = rateSingle;
-                else if (schedule.single === 0) rate = pairShare;
-                else rate = Math.round((schedule.single * rateSingle + schedule.pair * pairShare) /
-                                       (schedule.single + schedule.pair));
-                if (!rate || rate <= 0) rate = rateSingle;
+
+                const rate = (s.type === 'pair') ? ratePair : rateSingle;
+
                 const paidLessons = rate > 0 ? Math.floor(rec.paid / rate) : 0;
                 const done = schedule.done || 0;
                 const left = paidLessons - done;
@@ -2029,7 +2600,6 @@
             });
         }
 
-        // ===== СЕГОДНЯ =====
         function computeTodayIncome(stats) {
             const todayKey = toDateKey(new Date());
             const slots = state.schedule[todayKey] || [];
@@ -2037,8 +2607,15 @@
             slots.forEach(slot => {
                 if (slot.free || isPersonal(slot)) return;
                 if (isCancelled(slot)) return;
-                if (isPair(slot)) income += stats.pair;
-                else income += stats.single;
+                const names = isPair(slot) ? slot.students : (slot.student ? [slot.student] : []);
+                names.forEach(name => {
+                    const type = getStudentType(name);
+                    if (type === 'pair') {
+                        income += stats.pair;
+                    } else {
+                        income += stats.single;
+                    }
+                });
             });
             return income;
         }
@@ -2132,6 +2709,7 @@
         }
 
         function toggleDone(dateKey, idx) {
+            if (currentRole === 'guest') return;
             const slot = state.schedule[dateKey]?.[idx];
             if (!slot) return;
             slot.status = isDone(slot) ? 'planned' : 'done';
@@ -2149,11 +2727,15 @@
                 const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
                 title.textContent = `${pad2(monday.getDate())} ${MONTHS_RU_GEN[monday.getMonth()]} — ${pad2(sunday.getDate())} ${MONTHS_RU_GEN[sunday.getMonth()]} ${sunday.getFullYear()}`;
                 container.innerHTML = renderWeekView(monday);
-                setupScheduleDragDrop('.week-day', '.week-slot[draggable="true"]');
+                if (currentRole !== 'guest') {
+                    setupScheduleDragDrop('.week-day', '.week-slot[draggable="true"]');
+                }
             } else if (schedView === 'month') {
                 title.textContent = `${MONTHS_RU[schedMonth.month]} ${schedMonth.year}`;
                 container.innerHTML = renderMonthView(schedMonth.year, schedMonth.month);
-                setupScheduleDragDrop('.cal-cell', '.mini-slot[draggable="true"]');
+                if (currentRole !== 'guest') {
+                    setupScheduleDragDrop('.cal-cell', '.mini-slot[draggable="true"]');
+                }
             } else if (schedView === 'free') {
                 const monday = mondayOfWeek(schedAnchor);
                 const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
@@ -2162,8 +2744,8 @@
             }
         }
 
-        // Сетка недели — уменьшенная
         function renderWeekView(monday) {
+            const isGuest = currentRole === 'guest';
             let html = '<div class="week-view-grid">';
             for (let i = 0; i < 7; i++) {
                 const d = new Date(monday); d.setDate(monday.getDate() + i);
@@ -2188,16 +2770,17 @@
                 let slotsHtml = '';
                 if (slots.length === 0) {
                     slotsHtml = `
-                        <div class="week-day-empty" onclick="openSlotModal('${key}', -1)">
-                            <div class="plus">+</div>
-                            <div>Нет занятий<br><small>Нажмите, чтобы добавить</small></div>
+                        <div class="week-day-empty ${isGuest ? 'readonly' : ''}" ${isGuest ? '' : `onclick="openSlotModal('${key}', -1)"`}>
+                            <div class="plus">${isGuest ? '' : '+'}</div>
+                            <div>${isGuest ? 'Нет занятий' : 'Нет занятий<br><small>Нажмите, чтобы добавить</small>'}</div>
                         </div>
                     `;
                 } else {
                     slots.forEach((slot, idx) => {
                         const cls2 = slotClass(slot) +
                                      (isDone(slot) ? ' done' : '') +
-                                     (isCancelled(slot) ? ' cancelled' : '');
+                                     (isCancelled(slot) ? ' cancelled' : '') +
+                                     (isGuest ? ' readonly' : '');
                         let icon = '', name = '';
                         if (isPersonal(slot)) { icon = '📝'; name = slot.personal; }
                         else if (isPair(slot)) { icon = '👥'; name = slot.students.join(' + '); }
@@ -2205,9 +2788,11 @@
                         const stIcon = isDone(slot) ? ' ✅' : (isCancelled(slot) ? ' ❌' : '');
                         const fileIcon = hasFile(slot) ? ' 📎' : '';
                         const range = timeRange(slot.time, slot.duration);
+                        const draggableAttr = isGuest ? '' : 'draggable="true"';
+                        const clickAttr = isGuest ? '' : `onclick="openSlotModal('${key}', ${idx})"`;
                         slotsHtml += `
-                            <div class="week-slot ${cls2}" draggable="true" data-date="${key}" data-idx="${idx}"
-                                 onclick="openSlotModal('${key}', ${idx})">
+                            <div class="week-slot ${cls2}" ${draggableAttr} data-date="${key}" data-idx="${idx}"
+                                 ${clickAttr}>
                                 <div class="slot-time">${range}</div>
                                 <div class="slot-name">${icon ? icon + ' ' : ''}${escapeHtml(name)}${fileIcon}${stIcon}</div>
                             </div>
@@ -2215,7 +2800,7 @@
                     });
                 }
 
-                const addBtn = slots.length > 0
+                const addBtn = (!isGuest && slots.length > 0)
                     ? `<button class="week-day-add" onclick="event.stopPropagation(); openSlotModal('${key}', -1)">+ Добавить слот</button>`
                     : '';
 
@@ -2226,7 +2811,6 @@
         }
 
         // ===== СВОБОДНЫЕ ОКНА =====
-        // Возвращает Set занятых получасовок дня.
         function getOccupiedHalfHours(dateKey) {
             const occupied = new Set();
             const slots = state.schedule[dateKey] || [];
@@ -2242,7 +2826,6 @@
             return occupied;
         }
 
-        // Возвращает список свободных получасовок в рабочих рамках.
         function getFreeHalfHours(dateKey) {
             const startMin = timeToMinutes(state.settings.workStart) ?? 9 * 60;
             const endMin = timeToMinutes(state.settings.workEnd) ?? 21 * 60;
@@ -2254,8 +2837,6 @@
             return free;
         }
 
-        // Группирует свободные получасовки в интервалы для показа.
-        // Возвращает массив [{startMin, endMin}] — например, 15:00–16:30.
         function groupFreeSlots(freeMins) {
             if (!freeMins.length) return [];
             const groups = [];
@@ -2266,7 +2847,6 @@
                 if (t - prev === SLOT_STEP_MIN) {
                     prev = t;
                 } else {
-                    // Закрываем текущую группу
                     groups.push({ startMin: curStart, endMin: prev + SLOT_STEP_MIN });
                     curStart = t;
                     prev = t;
@@ -2277,6 +2857,7 @@
         }
 
         function renderFreeView(monday) {
+            const isGuest = currentRole === 'guest';
             let html = '<div class="free-view-grid">';
             for (let i = 0; i < 7; i++) {
                 const d = new Date(monday); d.setDate(monday.getDate() + i);
@@ -2305,9 +2886,9 @@
                     slotsHtml = groups.map(g => {
                         const startStr = minutesToTime(g.startMin);
                         const endStr = minutesToTime(g.endMin);
-                        // Клик открывает форму создания слота на начало окна
+                        const click = isGuest ? '' : `onclick="openSlotModal('${key}', -1, '${startStr}')"`;
                         return `
-                            <div class="free-slot" onclick="openSlotModal('${key}', -1, '${startStr}')">
+                            <div class="free-slot" ${click}>
                                 <span class="time">${startStr} – ${endStr}</span>
                                 <span class="label">свободно</span>
                             </div>
@@ -2333,6 +2914,7 @@
         }
 
         function renderMonthView(year, month) {
+            const isGuest = currentRole === 'guest';
             const first = new Date(year, month, 1);
             const startDow = (first.getDay() + 6) % 7;
             const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -2351,6 +2933,7 @@
                 if (otherMonth) cls += ' other-month';
                 if (isToday) cls += ' today';
                 if (dow === 6) cls += ' sunday';
+                if (isGuest) cls += ' readonly';
 
                 const head = `
                     <div class="cal-cell-head">
@@ -2364,15 +2947,17 @@
 
                 let content = '';
                 slots.slice(0, 4).forEach(slot => {
-                    const c2 = slotClass(slot) + (isDone(slot) ? ' done' : '') + (isCancelled(slot) ? ' cancelled' : '');
+                    const c2 = slotClass(slot) + (isDone(slot) ? ' done' : '') + (isCancelled(slot) ? ' cancelled' : '') + (isGuest ? ' readonly' : '');
                     let name = '';
                     if (isPersonal(slot)) name = slot.personal;
                     else if (isPair(slot)) name = slot.students.join('+');
                     else name = slot.student;
                     const originalIdx = (state.schedule[key] || []).indexOf(slot);
+                    const draggableAttr = isGuest ? '' : 'draggable="true"';
+                    const clickAttr = isGuest ? '' : `onclick="event.stopPropagation(); openSlotModal('${key}', ${originalIdx})"`;
                     content += `
-                        <div class="mini-slot ${c2}" draggable="true" data-date="${key}" data-idx="${originalIdx}"
-                             onclick="event.stopPropagation(); openSlotModal('${key}', ${originalIdx})">
+                        <div class="mini-slot ${c2}" ${draggableAttr} data-date="${key}" data-idx="${originalIdx}"
+                             ${clickAttr}>
                             ${slot.time} ${escapeHtml(name)}
                         </div>
                     `;
@@ -2381,7 +2966,7 @@
                     content += `<div style="font-size:0.7em;color:#a89fba;text-align:center">+${slots.length - 4} ещё</div>`;
                 }
 
-                const cellClick = slots.length === 0
+                const cellClick = (slots.length === 0 && !isGuest)
                     ? `onclick="openSlotModal('${key}', -1)"`
                     : '';
                 return `<div class="${cls}" data-date="${key}" ${cellClick}>${head}${content}</div>`;
@@ -2404,6 +2989,7 @@
 
         // ===== DRAG & DROP =====
         function setupScheduleDragDrop(cellSel, slotSel) {
+            if (currentRole === 'guest') return;
             const cells = document.querySelectorAll(cellSel);
             const slots = document.querySelectorAll(slotSel);
 
@@ -2562,13 +3148,18 @@
 
                 const nextText = s.next ? formatDateTimeHuman(s.next) : '—';
                 const nextHtml = s.next
-                    ? `<span style="color:#6b4a9e;font-weight:700">${escapeHtml(nextText)}</span>`
+                    ? `<span style="color:var(--accent-solid);font-weight:700">${escapeHtml(nextText)}</span>`
                     : `<span class="view-empty">не указано</span>`;
+
+                const typeLabel = (s.type === 'pair')
+                    ? '<span class="student-type-badge pair">👥 Парные</span>'
+                    : '<span class="student-type-badge single">🎓 Индивидуальные</span>';
 
                 return `
                     <tr>
                         <td>${escapeHtml(s.name)}</td>
                         <td>${escapeHtml(s.level)}</td>
+                        <td>${typeLabel}</td>
                         <td class="balance-cell">
                             <div class="balance-line"><span class="lbl">Оплачено:</span>
                                 <span class="num">${b.paidLessons} занятий</span></div>
@@ -2632,16 +3223,18 @@
             const modeText = s.pairMode === 'multiplier'
                 ? `коэффициент ×${s.ratePairMultiplier}` : 'фиксированная сумма';
             box.innerHTML = `
-                <div>• Индивидуальное: <b style="color:#6b4a9e">${fmtMoney(stats.single)}</b></div>
-                <div>• Парное: <b style="color:#6b4a9e">${fmtMoney(stats.pair)}</b> <span style="color:#b0aabc">(${modeText})</span></div>
-                <div>• Стандартная длительность: <b style="color:#6b4a9e">${durationText(s.defaultDuration || 60)}</b></div>
-                <div>• Рабочие часы: <b style="color:#6b4a9e">${s.workStart || DEFAULT_WORK_START} – ${s.workEnd || DEFAULT_WORK_END}</b></div>
+                <div>• Индивидуальное: <b style="color:var(--accent-solid)">${fmtMoney(stats.single)}</b></div>
+                <div>• Парное: <b style="color:var(--accent-solid)">${fmtMoney(stats.pair)}</b> <span style="color:#b0aabc">(${modeText})</span></div>
+                <div>• Стандартная длительность: <b style="color:var(--accent-solid)">${durationText(s.defaultDuration || 60)}</b></div>
+                <div>• Рабочие часы: <b style="color:var(--accent-solid)">${s.workStart || DEFAULT_WORK_START} – ${s.workEnd || DEFAULT_WORK_END}</b></div>
             `;
         }
 
         // ===== ВКЛАДКИ =====
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
+                // Гость: только расписание
+                if (currentRole === 'guest' && tab.dataset.tab !== 'schedule') return;
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                 document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
                 tab.classList.add('active');
@@ -2691,6 +3284,7 @@
         const modalSubmit = document.getElementById('modalSubmit');
 
         function openModal(title, formHtml, onSubmit) {
+            if (currentRole === 'guest') return;
             modalTitle.textContent = title;
             modalForm.innerHTML = formHtml;
             submitHandler = onSubmit;
@@ -2783,7 +3377,42 @@
         function closeView() { viewOverlay.classList.remove('open'); }
         viewOverlay.addEventListener('click', e => { if (e.target === viewOverlay) closeView(); });
 
+        // ==== ENTER — подтверждение модалок ====
         document.addEventListener('keydown', e => {
+            if (e.key === 'Enter') {
+                if (e.target && e.target.tagName === 'TEXTAREA') return;
+
+                // На экране входа Enter отправляет активную форму
+                if (document.getElementById('authScreen').style.display !== 'none') {
+                    const loginPanel = document.getElementById('loginPanel');
+                    if (loginPanel.classList.contains('active')) {
+                        e.preventDefault();
+                        doLogin();
+                    } else {
+                        e.preventDefault();
+                        doRegister();
+                    }
+                    return;
+                }
+
+                if (viewOverlay.classList.contains('open')) {
+                    e.preventDefault();
+                    closeView();
+                    return;
+                }
+                if (confirmOverlay.classList.contains('open')) {
+                    e.preventDefault();
+                    const cb = confirmCallback;
+                    closeConfirm();
+                    if (cb) cb();
+                    return;
+                }
+                if (overlay.classList.contains('open')) {
+                    e.preventDefault();
+                    if (submitHandler) submitHandler();
+                    return;
+                }
+            }
             if (e.key !== 'Escape') return;
             if (viewOverlay.classList.contains('open')) closeView();
             else if (confirmOverlay.classList.contains('open')) closeConfirm();
@@ -2792,6 +3421,7 @@
 
         // ===== УДАЛЕНИЕ =====
         function deleteSlot(dateKey, idx) {
+            if (currentRole === 'guest') return;
             showConfirm({
                 title: 'Удалить слот?',
                 message: 'Вместе со слотом удалятся ДЗ, заметки и файл.',
@@ -2805,6 +3435,7 @@
             });
         }
         function deleteStudent(idx) {
+            if (currentRole === 'guest') return;
             const name = state.students[idx].name;
             showConfirm({
                 title: 'Удалить студента?',
@@ -2818,6 +3449,7 @@
             });
         }
         function deletePayment(idx) {
+            if (currentRole === 'guest') return;
             const p = state.payments[idx];
             showConfirm({
                 title: 'Удалить запись об оплате?',
@@ -2831,6 +3463,7 @@
             });
         }
         function resetAll() {
+            if (currentRole === 'guest') return;
             showConfirm({
                 title: 'Сбросить все данные?',
                 message: 'Все ваши изменения будут удалены и заменены демо-данными.',
@@ -2846,6 +3479,7 @@
             });
         }
         function confirmClearAllSlots() {
+            if (currentRole === 'guest') return;
             const allKeys = Object.keys(state.schedule).filter(k => (state.schedule[k] || []).length > 0);
             const totalSlots = allKeys.reduce((s, k) => s + state.schedule[k].length, 0);
             if (totalSlots === 0) { showAlert('Пусто', 'В расписании нет ни одного слота.', 'info'); return; }
@@ -2880,11 +3514,15 @@
             document.getElementById('workEnd').value = s.workEnd || DEFAULT_WORK_END;
             togglePairModeFields();
             renderRatePreview(computeStats());
+
             const bg = loadBg();
             document.querySelectorAll('.bg-preset').forEach(p => {
                 p.classList.toggle('active', bg.type === 'preset' && p.dataset.bg === bg.value);
             });
             document.getElementById('bgUrl').value = (bg.type === 'url' ? bg.value : '');
+
+            const theme = loadTheme();
+            applyTheme(theme);
         }
         function togglePairModeFields() {
             const mode = document.getElementById('pairMode').value;
@@ -2894,6 +3532,7 @@
         document.getElementById('pairMode').addEventListener('change', togglePairModeFields);
 
         function saveSettings() {
+            if (currentRole === 'guest') return;
             const rateSingle = Math.max(0, Number(document.getElementById('rateSingle').value) || 0);
             const pairMode = document.getElementById('pairMode').value;
             const ratePairFixed = Math.max(0, Number(document.getElementById('ratePairFixed').value) || 0);
@@ -2906,11 +3545,16 @@
             Object.keys(state.schedule).forEach(dateKey => recalcDayChain(dateKey));
             saveState();
             renderAll();
+
+            const t = loadTheme();
+            saveTheme(t);
+
             showAlert('Сохранено', 'Настройки обновлены.', 'info');
         }
 
         // ===== ФОН =====
         document.getElementById('bgPresets').addEventListener('click', e => {
+            if (currentRole === 'guest') return;
             const preset = e.target.closest('.bg-preset');
             if (!preset) return;
             saveBg({ type: 'preset', value: preset.dataset.bg });
@@ -2918,6 +3562,7 @@
         });
 
         document.getElementById('bgUpload').addEventListener('change', e => {
+            if (currentRole === 'guest') return;
             const file = e.target.files && e.target.files[0];
             if (!file) return;
             if (file.size > MAX_FILE_SIZE) {
@@ -2936,6 +3581,7 @@
         });
 
         function applyBgUrl() {
+            if (currentRole === 'guest') return;
             const url = document.getElementById('bgUrl').value.trim();
             if (!url) { showAlert('Пусто', 'Вставьте ссылку на картинку.', 'warn'); return; }
             saveBg({ type: 'url', value: url });
@@ -2943,12 +3589,45 @@
         }
 
         function clearCustomBg() {
+            if (currentRole === 'guest') return;
             saveBg({ type: 'default' });
             document.getElementById('bgUrl').value = '';
             showAlert('Готово', 'Фон сброшен на стандартный.', 'info');
         }
 
-        applyBg(loadBg());
+        // ===== ТЕМА =====
+        document.getElementById('themePresets').addEventListener('click', e => {
+            if (currentRole === 'guest') return;
+            const t = e.target.closest('.theme-preset');
+            if (!t) return;
+            const cur = loadTheme();
+            const next = { ...cur, name: t.dataset.theme };
+            saveTheme(next);
+            showAlert('Тема обновлена', 'Акцентный цвет применён.', 'info');
+        });
+
+        function bindThemeSliders() {
+            const alpha = document.getElementById('panelAlpha');
+            const blur = document.getElementById('panelBlur');
+            const alphaVal = document.getElementById('panelAlphaValue');
+            const blurVal = document.getElementById('panelBlurValue');
+            if (!alpha || !blur) return;
+
+            alpha.addEventListener('input', () => {
+                if (currentRole === 'guest') return;
+                const t = loadTheme();
+                const next = { ...t, alpha: Number(alpha.value) };
+                alphaVal.textContent = alpha.value + '%';
+                saveTheme(next);
+            });
+            blur.addEventListener('input', () => {
+                if (currentRole === 'guest') return;
+                const t = loadTheme();
+                const next = { ...t, blur: Number(blur.value) };
+                blurVal.textContent = blur.value + 'px';
+                saveTheme(next);
+            });
+        }
 
         // ===== DATE-TIME PICKER =====
         function dateTimePickerHtml(id, value, placeholder) {
@@ -2978,7 +3657,7 @@
                                 <div class="wheel-sep">:</div>
                                 <div class="wheel" data-role="wheel-m"></div>
                             </div>
-                            <div class="time-wheels-hint">Прокрутите колесом или стрелками ↑↓</div>
+                            <div class="time-wheels-hint">Шаг минут — 15. Прокрутите колесом или стрелками ↑↓</div>
                         </div>
                     </div>
                     <input type="hidden" id="${id}-value" value="${escapeHtml(value || '')}">
@@ -3082,7 +3761,7 @@
                 if (!selected) return;
                 const hoursRange = [];
                 for (let h = 6; h <= 23; h++) hoursRange.push(h);
-                const minutesRange = [0, 30];
+                const minutesRange = [0, 15, 30, 45];
 
                 wheelH.innerHTML = hoursRange.map(h =>
                     `<div class="item" data-val="${h}">${pad2(h)}</div>`).join('');
@@ -3090,7 +3769,10 @@
                     `<div class="item" data-val="${m}">${pad2(m)}</div>`).join('');
 
                 if (!hoursRange.includes(selected.hour)) selected.hour = hoursRange[0];
-                if (!minutesRange.includes(selected.minute)) selected.minute = 0;
+                if (!minutesRange.includes(selected.minute)) {
+                    selected.minute = minutesRange.reduce((prev, cur) =>
+                        Math.abs(cur - selected.minute) < Math.abs(prev - selected.minute) ? cur : prev, minutesRange[0]);
+                }
 
                 requestAnimationFrame(() => {
                     scrollToValue(wheelH, selected.hour);
@@ -3270,6 +3952,7 @@
 
         // ===== ФОРМА СЛОТА =====
         function openSlotModal(dateKey, idx, presetTime) {
+            if (currentRole === 'guest') return;
             if (!state.schedule[dateKey]) state.schedule[dateKey] = [];
             const isNew = idx === -1;
             const slot = isNew
@@ -3578,9 +4261,11 @@
 
         // ===== ФОРМА СТУДЕНТА =====
         function openStudentModal(idx) {
+            if (currentRole === 'guest') return;
             const isNew = idx === undefined;
-            const s = isNew ? { name: '', level: '', next: '' } : state.students[idx];
+            const s = isNew ? { name: '', level: '', next: '', type: 'single' } : state.students[idx];
             const initialNext = s.next || '';
+            const initialType = s.type || 'single';
 
             const formHtml = `
                 <div class="form-group">
@@ -3592,8 +4277,17 @@
                     <input type="text" id="stLevel" value="${escapeHtml(s.level)}" placeholder="A1 Beginner / B2 Upper-Int / ...">
                 </div>
                 <div class="form-group">
+                    <label>Тип занятий</label>
+                    <select id="stType">
+                        <option value="single" ${initialType === 'single' ? 'selected' : ''}>🎓 Индивидуальные</option>
+                        <option value="pair" ${initialType === 'pair' ? 'selected' : ''}>👥 Парные</option>
+                    </select>
+                    <div class="form-hint">Влияет на подсчёт дохода: парные считаются по тарифу парного занятия.</div>
+                </div>
+                <div class="form-group">
                     <label>Ближайшее занятие</label>
                     ${dateTimePickerHtml('stNext', initialNext, 'Выберите дату и время')}
+                    <div class="form-hint">Если указать дату и время — занятие автоматически появится в расписании.</div>
                 </div>
                 <div class="form-hint">Баланс занятий считается автоматически.</div>
             `;
@@ -3603,9 +4297,46 @@
                 if (!name) { showAlert('Не хватает данных', 'Введите имя.', 'warn'); return; }
                 const level = document.getElementById('stLevel').value.trim();
                 const next = document.getElementById('stNext-value').value;
-                const obj = { name, level, next };
+                const type = document.getElementById('stType').value;
+
+                const obj = { name, level, next, type };
                 if (isNew) state.students.push(obj);
                 else state.students[idx] = obj;
+
+                if (next) {
+                    const parsed = parseDateTime(next);
+                    if (parsed) {
+                        const dateKey = `${parsed.year}-${pad2(parsed.month + 1)}-${pad2(parsed.day)}`;
+                        const time = `${pad2(parsed.hour)}:${pad2(parsed.minute)}`;
+                        if (!state.schedule[dateKey]) state.schedule[dateKey] = [];
+
+                        const already = state.schedule[dateKey].some(slot => {
+                            if (slot.time !== time) return false;
+                            if (isPair(slot)) return slot.students.includes(name);
+                            return slot.student === name;
+                        });
+
+                        if (!already) {
+                            if (type === 'pair') {
+                                state.schedule[dateKey].push({
+                                    time,
+                                    duration: state.settings.defaultDuration || 60,
+                                    students: [name],
+                                    status: 'planned'
+                                });
+                            } else {
+                                state.schedule[dateKey].push({
+                                    time,
+                                    duration: state.settings.defaultDuration || 60,
+                                    student: name,
+                                    status: 'planned'
+                                });
+                            }
+                            recalcDayChain(dateKey);
+                        }
+                    }
+                }
+
                 saveState();
                 renderAll();
                 closeModal();
@@ -3615,6 +4346,7 @@
 
         // ===== ФОРМА ОПЛАТЫ =====
         function openPaymentModal(idx) {
+            if (currentRole === 'guest') return;
             const isNew = idx === undefined;
             const p = isNew
                 ? { student: '', amount: 0, date: new Date().toLocaleDateString('ru-RU'), status: 'paid' }
@@ -3660,19 +4392,17 @@
             `;
 
             window.applyRate = function () {
-                const name = document.getElementById('payStudent').value === '__custom__'
+                const sel = document.getElementById('payStudent');
+                const name = sel.value === '__custom__'
                     ? document.getElementById('payStudentCustom').value.trim()
-                    : document.getElementById('payStudent').value;
+                    : sel.value;
                 if (!name) { showAlert('Сначала выберите студента', 'Без имени тариф не подобрать.', 'warn'); return; }
-                let foundPair = false, foundSingle = false;
-                Object.values(state.schedule).forEach(slots => slots.forEach(slot => {
-                    if (slot.free || isPersonal(slot)) return;
-                    if (isPair(slot) && slot.students.includes(name)) foundPair = true;
-                    else if (slot.student === name) foundSingle = true;
-                }));
+                const type = getStudentType(name);
                 let rate = stats.single, label = 'индивидуальное';
-                if (foundPair && !foundSingle) { rate = stats.pair > 0 ? Math.round(stats.pair / 2) : stats.single; label = 'парное (доля)'; }
-                else if (foundPair && foundSingle) label = 'индивидуальное (есть и парные)';
+                if (type === 'pair') {
+                    rate = stats.pair;
+                    label = 'парное';
+                }
                 document.getElementById('payAmount').value = rate;
                 showAlert('Подставлено', `Сумма за ${label}: ${fmtMoney(rate)}.`, 'info');
             };
@@ -3701,9 +4431,30 @@
             }, 0);
         }
 
+        // ===== ОБРАБОТЧИКИ ЭКРАНА ВХОДА =====
+        document.querySelectorAll('.auth-tabs button').forEach(b => {
+            b.addEventListener('click', () => switchAuthTab(b.dataset.auth));
+        });
+        document.getElementById('loginBtn').addEventListener('click', doLogin);
+        document.getElementById('registerBtn').addEventListener('click', doRegister);
+        document.getElementById('guestBtn').addEventListener('click', doGuest);
+        document.getElementById('logoutBtn').addEventListener('click', doLogout);
+
         // ===== СТАРТ =====
-        renderAll();
-        renderSettingsForm();
+        applyBg(loadBg());
+        applyTheme(loadTheme());
+
+        (function init() {
+            const session = loadSession();
+            if (session && (session.role === 'teacher' || session.role === 'guest')) {
+                startApp(session);
+            } else {
+                // показываем экран входа
+                document.getElementById('authScreen').style.display = 'flex';
+                document.getElementById('appContainer').style.display = 'none';
+            }
+            bindThemeSliders();
+        })();
     </script>
 </body>
 </html>
