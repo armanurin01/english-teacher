@@ -60,39 +60,6 @@
             text-transform: uppercase;
         }
 
-        .logout-btn {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid var(--accent-soft-strong);
-            color: var(--accent-solid);
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-size: 0.82em;
-            font-weight: 700;
-            cursor: pointer;
-            font-family: inherit;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-        }
-        .logout-btn:hover { background: var(--accent-soft-strong); transform: translateY(-2px); }
-
-        .user-badge {
-            position: absolute;
-            top: 0;
-            left: 0;
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid var(--accent-soft-strong);
-            color: var(--accent-solid);
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-size: 0.82em;
-            font-weight: 700;
-        }
-
         .tabs {
             display: flex;
             flex-wrap: wrap;
@@ -203,7 +170,6 @@
             margin-bottom: 22px;
         }
 
-        /* ===== Сегодня ===== */
         .today-hero {
             background: linear-gradient(135deg, var(--accent-soft-strong), var(--accent-soft));
             border: 1px solid var(--accent-soft-strong);
@@ -366,7 +332,6 @@
             border-color: transparent;
         }
 
-        /* ===== Карточки статистики ===== */
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -427,7 +392,6 @@
         .num.red   { color: #a85a5a; }
         .num.gray  { color: #9a94a8; }
 
-        /* ===== Расписание ===== */
         .sched-toolbar {
             display: flex;
             justify-content: space-between;
@@ -548,8 +512,6 @@
             color: #8b7aa8;
         }
         .week-day-empty .plus { font-size: 1.6em; font-weight: 300; color: var(--accent-1); line-height: 1; }
-        .week-day-empty.readonly { cursor: default; }
-        .week-day-empty.readonly:hover { border-color: var(--accent-soft-strong); background: transparent; color: #b0aabc; }
 
         .week-day-add {
             width: 100%;
@@ -583,7 +545,6 @@
             border: 1px solid transparent;
             overflow: hidden;
         }
-        .week-slot.readonly { cursor: default; }
         .week-slot.busy {
             background: var(--accent-soft-strong);
             border-color: var(--accent-soft-strong);
@@ -620,7 +581,6 @@
         .week-slot.cancelled { opacity: 0.5; text-decoration: line-through; }
         .week-slot.dragging { opacity: 0.35; transform: scale(0.97); cursor: grabbing; }
 
-        /* Вид месяца */
         .month-view-grid {
             display: grid;
             grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -647,7 +607,6 @@
             transition: all 0.2s ease;
             cursor: pointer;
         }
-        .cal-cell.readonly { cursor: default; }
         .cal-cell.other-month { opacity: 0.35; background: rgba(255, 255, 255, 0.3); }
         .cal-cell.today { border: 2px solid var(--accent-1); background: var(--accent-soft); }
         .cal-cell.sunday { background: rgba(217, 163, 163, 0.08); }
@@ -681,7 +640,6 @@
             cursor: pointer;
             font-weight: 600;
         }
-        .mini-slot.readonly { cursor: default; }
         .mini-slot.busy { background: var(--accent-soft-strong); color: var(--accent-solid); }
         .mini-slot.pair { background: rgba(180, 200, 220, 0.55); color: #4a6b9e; }
         .mini-slot.personal { background: rgba(224, 207, 160, 0.35); color: #8a7040; font-style: italic; }
@@ -694,7 +652,6 @@
         .mini-slot.done { opacity: 0.75; }
         .mini-slot.cancelled { opacity: 0.5; text-decoration: line-through; }
 
-        /* ===== Свободные окна ===== */
         .free-view-grid {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -904,6 +861,7 @@
             gap: 10px;
             justify-content: flex-end;
             margin-top: 20px;
+            align-items: center;
         }
 
         .type-switch {
@@ -1050,16 +1008,24 @@
         }
         .bg-preset:hover { transform: scale(1.05); border-color: var(--accent-1); }
         .bg-preset.active { border-color: var(--accent-solid); box-shadow: 0 0 0 2px var(--accent-1); }
-        .bg-preset.default { background: linear-gradient(135deg, #f6f2ee 0%, #ece6f2 50%, #e8eef2 100%); }
+        .bg-preset.default  { background: linear-gradient(135deg, #f6f2ee 0%, #ece6f2 50%, #e8eef2 100%); }
         .bg-preset.lavender { background: linear-gradient(135deg, #e8e2f2 0%, #d6c9e8 50%, #c5b6dc 100%); }
-        .bg-preset.warm { background: linear-gradient(135deg, #f8e8d8 0%, #f0d0b8 50%, #e8b898 100%); }
-        .bg-preset.mint { background: linear-gradient(135deg, #e0f0e8 0%, #c8e8d8 50%, #b0d8c8 100%); }
-        .bg-preset.dark { background: linear-gradient(135deg, #4a4258 0%, #3a3448 50%, #2d2838 100%); }
-        .bg-preset.ocean { background: linear-gradient(135deg, #d4e8f0 0%, #a8c8e0 50%, #7ba8d0 100%); }
-        .bg-preset.sunset { background: linear-gradient(135deg, #ffe0d0 0%, #ffb8a0 50%, #e89080 100%); }
-        .bg-preset.forest { background: linear-gradient(135deg, #d8e8d0 0%, #a8c8a0 50%, #7ba878 100%); }
-        .bg-preset.rose { background: linear-gradient(135deg, #f8e0e8 0%, #f0b8c8 50%, #e890a8 100%); }
-        .bg-preset.starry { background: linear-gradient(135deg, #2a2a4a 0%, #3a3a5e 50%, #4a4a78 100%); }
+        .bg-preset.warm     { background: linear-gradient(135deg, #f8e8d8 0%, #f0d0b8 50%, #e8b898 100%); }
+        .bg-preset.mint     { background: linear-gradient(135deg, #e0f0e8 0%, #c8e8d8 50%, #b0d8c8 100%); }
+        .bg-preset.ocean    { background: linear-gradient(135deg, #d4e8f0 0%, #a8c8e0 50%, #7ba8d0 100%); }
+        .bg-preset.sunset   { background: linear-gradient(135deg, #ffe0d0 0%, #ffb8a0 50%, #e89080 100%); }
+        .bg-preset.forest   { background: linear-gradient(135deg, #d8e8d0 0%, #a8c8a0 50%, #7ba878 100%); }
+        .bg-preset.rose     { background: linear-gradient(135deg, #f8e0e8 0%, #f0b8c8 50%, #e890a8 100%); }
+        .bg-preset.dark     { background: linear-gradient(135deg, #4a4258 0%, #3a3448 50%, #2d2838 100%); }
+        .bg-preset.starry   { background: linear-gradient(135deg, #2a2a4a 0%, #3a3a5e 50%, #4a4a78 100%); }
+        .bg-preset.peach    { background: linear-gradient(135deg, #ffe8e0 0%, #ffd0c0 50%, #ffb8a8 100%); }
+        .bg-preset.aqua     { background: linear-gradient(135deg, #d8f0f0 0%, #a8e0e0 50%, #78c8c8 100%); }
+        .bg-preset.mocha    { background: linear-gradient(135deg, #e8dcd0 0%, #c8b0a0 50%, #a88878 100%); }
+        .bg-preset.cherry   { background: linear-gradient(135deg, #f8d8e0 0%, #f0a0b8 50%, #d87898 100%); }
+        .bg-preset.indigo   { background: linear-gradient(135deg, #d8d8f0 0%, #a8a8d8 50%, #7878c0 100%); }
+        .bg-preset.sunny    { background: linear-gradient(135deg, #fff0d0 0%, #ffe0a0 50%, #ffc870 100%); }
+        .bg-preset.nightforest { background: linear-gradient(135deg, #2d3a2d 0%, #1e2a1e 50%, #0f180f 100%); }
+        .bg-preset.softsunset  { background: linear-gradient(135deg, #f0e8e8 0%, #f0c8b8 50%, #e8a898 100%); }
 
         .theme-presets {
             display: grid;
@@ -1106,9 +1072,8 @@
             color: var(--accent-solid);
         }
 
-        /* Ползунки в настройках — короче вдвое */
         .range-slider {
-            width: 50%;
+            width: 35%;
             margin-top: 8px;
             accent-color: var(--accent-1);
             display: block;
@@ -1215,7 +1180,6 @@
             color: #2d4d70;
         }
 
-        /* ===== Date-time picker ===== */
         .dt-field { position: relative; }
         .dt-display {
             display: flex;
@@ -1462,159 +1426,6 @@
 
         footer { margin-top: 40px; text-align: center; font-size: 0.85em; color: #b0aabc; }
 
-        /* ===== ЭКРАН АВТОРИЗАЦИИ ===== */
-        .auth-screen {
-            position: fixed;
-            inset: 0;
-            z-index: 500;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            background: linear-gradient(135deg, #f6f2ee 0%, #ece6f2 50%, #e8eef2 100%);
-            background-attachment: fixed;
-        }
-        .auth-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(18px);
-            border: 1px solid var(--accent-soft-strong);
-            border-radius: 22px;
-            padding: 38px 36px;
-            width: 100%;
-            max-width: 460px;
-            box-shadow: 0 25px 60px rgba(140, 130, 160, 0.3);
-            animation: scaleIn 0.3s ease;
-        }
-        .auth-title {
-            text-align: center;
-            margin-bottom: 6px;
-            font-size: 2em;
-            color: var(--accent-solid);
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-        .auth-sub {
-            text-align: center;
-            font-size: 0.85em;
-            color: #9a94a8;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-            font-weight: 600;
-            margin-bottom: 26px;
-        }
-        .auth-tabs {
-            display: flex;
-            gap: 6px;
-            background: var(--accent-soft);
-            border: 1px solid var(--accent-soft-strong);
-            border-radius: 12px;
-            padding: 4px;
-            margin-bottom: 20px;
-        }
-        .auth-tabs button {
-            flex: 1;
-            padding: 10px 8px;
-            border-radius: 9px;
-            border: none;
-            background: transparent;
-            color: #7d7690;
-            font-size: 0.9em;
-            font-family: inherit;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .auth-tabs button.active {
-            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-            color: #fff;
-            box-shadow: 0 4px 12px var(--accent-soft-strong);
-        }
-        .auth-tab-panel { display: none; }
-        .auth-tab-panel.active { display: block; animation: fadeIn 0.25s ease; }
-        .auth-error {
-            background: rgba(217, 163, 163, 0.25);
-            border: 1px solid rgba(201, 142, 142, 0.5);
-            color: #a85a5a;
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-size: 0.88em;
-            margin-bottom: 14px;
-            font-weight: 600;
-            display: none;
-        }
-        .auth-error.show { display: block; }
-        .auth-divider {
-            text-align: center;
-            margin: 20px 0 16px;
-            color: #b0aabc;
-            font-size: 0.82em;
-            font-weight: 600;
-            position: relative;
-        }
-        .auth-divider::before,
-        .auth-divider::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            width: 30%;
-            height: 1px;
-            background: var(--accent-soft-strong);
-        }
-        .auth-divider::before { left: 0; }
-        .auth-divider::after { right: 0; }
-        .btn-guest {
-            width: 100%;
-            padding: 12px;
-            border-radius: 12px;
-            border: 1.5px dashed var(--accent-soft-strong);
-            background: rgba(255, 255, 255, 0.6);
-            color: var(--accent-solid);
-            font-size: 0.92em;
-            font-family: inherit;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .btn-guest:hover {
-            background: var(--accent-soft);
-            border-style: solid;
-            transform: translateY(-2px);
-        }
-        .auth-submit {
-            width: 100%;
-            padding: 12px;
-            margin-top: 6px;
-            border-radius: 12px;
-            border: none;
-            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-            color: #fff;
-            font-size: 0.95em;
-            font-family: inherit;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 10px 22px var(--accent-soft-strong);
-        }
-        .auth-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 14px 28px var(--accent-soft-strong);
-        }
-        .guest-banner {
-            background: rgba(224, 207, 160, 0.3);
-            border: 1px solid rgba(212, 189, 136, 0.6);
-            color: #8a7040;
-            padding: 10px 16px;
-            border-radius: 12px;
-            font-size: 0.88em;
-            font-weight: 700;
-            margin-bottom: 16px;
-            text-align: center;
-        }
-        .guest-banner span { margin-right: 6px; }
-
-        body.guest .tab:not([data-tab="schedule"]) { display: none; }
-        body.guest .logout-btn { background: linear-gradient(135deg, #e0cfa0, #d4bd88); color: #6b4d1e; border-color: transparent; }
-
         @media (max-width: 1200px) {
             .week-view-grid,
             .free-view-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -1647,62 +1458,10 @@
 </head>
 <body>
 
-    <!-- ============= ЭКРАН ВХОДА ============= -->
-    <div class="auth-screen" id="authScreen">
-        <div class="auth-card">
-            <div class="auth-title">Fluently</div>
-            <div class="auth-sub">панель преподавателя английского</div>
-
-            <div class="auth-tabs">
-                <button type="button" data-auth="login" class="active">Вход</button>
-                <button type="button" data-auth="register">Регистрация</button>
-            </div>
-
-            <div class="auth-error" id="authError"></div>
-
-            <div class="auth-tab-panel active" id="loginPanel">
-                <div class="form-group">
-                    <label>Логин</label>
-                    <input type="text" id="loginName" placeholder="Введите логин" autocomplete="username">
-                </div>
-                <div class="form-group">
-                    <label>Пароль</label>
-                    <input type="password" id="loginPass" placeholder="Введите пароль" autocomplete="current-password">
-                </div>
-                <button type="button" class="auth-submit" id="loginBtn">Войти</button>
-            </div>
-
-            <div class="auth-tab-panel" id="registerPanel">
-                <div class="form-group">
-                    <label>Логин</label>
-                    <input type="text" id="regName" placeholder="Придумайте логин" autocomplete="username">
-                </div>
-                <div class="form-group">
-                    <label>Пароль</label>
-                    <input type="password" id="regPass" placeholder="Придумайте пароль (мин. 4 символа)" autocomplete="new-password">
-                </div>
-                <div class="form-group">
-                    <label>Повторите пароль</label>
-                    <input type="password" id="regPass2" placeholder="Повторите пароль" autocomplete="new-password">
-                </div>
-                <button type="button" class="auth-submit" id="registerBtn">Зарегистрироваться</button>
-            </div>
-
-            <div class="auth-divider">или</div>
-            <button type="button" class="btn-guest" id="guestBtn">👀 Войти как гость</button>
-            <div class="form-hint" style="text-align:center;margin-top:12px">
-                Гостю доступна только вкладка «Расписание» в режиме просмотра.
-            </div>
-        </div>
-    </div>
-
-    <!-- ============= ОСНОВНОЙ ИНТЕРФЕЙС ============= -->
-    <div class="container" id="appContainer" style="display:none">
+    <div class="container" id="appContainer">
         <header>
-            <div class="user-badge" id="userBadge">👤 Учитель</div>
             <h1>Fluently</h1>
             <div class="subtitle">панель преподавателя английского</div>
-            <button type="button" class="logout-btn" id="logoutBtn">🚪 Выйти</button>
         </header>
 
         <div class="tabs">
@@ -1714,7 +1473,6 @@
             <div class="tab" data-tab="settings">⚙️ Настройки</div>
         </div>
 
-        <!-- ============= СЕГОДНЯ ============= -->
         <section class="section active" id="today">
             <div class="today-hero">
                 <div>
@@ -1745,7 +1503,6 @@
             <div class="today-list" id="todayList"></div>
         </section>
 
-        <!-- ============= РАСПИСАНИЕ ============= -->
         <section class="section" id="schedule">
             <div class="section-head">
                 <h2>Расписание</h2>
@@ -1766,10 +1523,6 @@
                 </div>
             </div>
 
-            <div class="guest-banner" id="guestBanner" style="display:none">
-                <span>👀</span> Режим гостя — только просмотр расписания
-            </div>
-
             <div class="legend" id="schedLegend">
                 <span><span class="dot busy"></span> Индивидуальное</span>
                 <span><span class="dot pair"></span> Парное</span>
@@ -1779,7 +1532,6 @@
             <div id="schedContainer"></div>
         </section>
 
-        <!-- ============= СТУДЕНТЫ ============= -->
         <section class="section" id="students">
             <div class="section-head">
                 <h2>Студенты и остаток занятий</h2>
@@ -1801,7 +1553,6 @@
             </table>
         </section>
 
-        <!-- ============= ОПЛАТЫ ============= -->
         <section class="section" id="payments">
             <div class="section-head">
                 <h2>Оплаты от студентов</h2>
@@ -1811,6 +1562,7 @@
                 <thead>
                     <tr>
                         <th>Студент</th>
+                        <th>Тип</th>
                         <th>Сумма</th>
                         <th>Дата</th>
                         <th>Статус</th>
@@ -1821,7 +1573,6 @@
             </table>
         </section>
 
-        <!-- ============= ДОХОД ============= -->
         <section class="section" id="income">
             <h2>Мой доход</h2>
             <div class="stats">
@@ -1868,7 +1619,6 @@
             </div>
         </section>
 
-        <!-- ============= НАСТРОЙКИ ============= -->
         <section class="section" id="settings">
             <h2>Настройки</h2>
             <p style="color:#9a94a8;font-size:0.95em;margin-bottom:22px">
@@ -1939,6 +1689,14 @@
                         <div class="bg-preset rose" data-bg="rose" title="Роза"></div>
                         <div class="bg-preset dark" data-bg="dark" title="Тёмный"></div>
                         <div class="bg-preset starry" data-bg="starry" title="Звёздный"></div>
+                        <div class="bg-preset peach" data-bg="peach" title="Персик"></div>
+                        <div class="bg-preset aqua" data-bg="aqua" title="Аква"></div>
+                        <div class="bg-preset mocha" data-bg="mocha" title="Мокко"></div>
+                        <div class="bg-preset cherry" data-bg="cherry" title="Вишня"></div>
+                        <div class="bg-preset indigo" data-bg="indigo" title="Индиго"></div>
+                        <div class="bg-preset sunny" data-bg="sunny" title="Солнечный"></div>
+                        <div class="bg-preset nightforest" data-bg="nightforest" title="Ночной лес"></div>
+                        <div class="bg-preset softsunset" data-bg="softsunset" title="Мягкий закат"></div>
                     </div>
                     <div class="form-group">
                         <label>Или загрузите своё изображение</label>
@@ -1979,6 +1737,12 @@
                         <div class="theme-preset" data-theme="forest" style="background:linear-gradient(135deg,#7ba878,#a8c8a0)" title="Лес"></div>
                         <div class="theme-preset" data-theme="coffee" style="background:linear-gradient(135deg,#a8886a,#c8a888)" title="Кофе"></div>
                         <div class="theme-preset" data-theme="night" style="background:linear-gradient(135deg,#5a4a78,#7a6a98)" title="Ночь"></div>
+                        <div class="theme-preset" data-theme="peach" style="background:linear-gradient(135deg,#e8a890,#f0c0a8)" title="Персик"></div>
+                        <div class="theme-preset" data-theme="aqua" style="background:linear-gradient(135deg,#78c8c8,#a8e0e0)" title="Аква"></div>
+                        <div class="theme-preset" data-theme="cherry" style="background:linear-gradient(135deg,#c86888,#e8a0b8)" title="Вишня"></div>
+                        <div class="theme-preset" data-theme="indigo" style="background:linear-gradient(135deg,#5a5a98,#7a7ac0)" title="Индиго"></div>
+                        <div class="theme-preset" data-theme="sunny" style="background:linear-gradient(135deg,#e8b870,#f0d0a0)" title="Солнечный"></div>
+                        <div class="theme-preset" data-theme="softrose" style="background:linear-gradient(135deg,#c08898,#e0b8c0)" title="Пудра"></div>
                     </div>
                     <div class="form-hint">Меняет цвет кнопок, акцентов и заголовков по всей панели.</div>
                 </div>
@@ -2037,8 +1801,6 @@
         const STORAGE_KEY = 'englishTeacherPanel_v1';
         const BG_KEY = 'englishTeacherPanel_bg';
         const THEME_KEY = 'englishTeacherPanel_theme';
-        const USERS_KEY = 'englishTeacherPanel_users';
-        const SESSION_KEY = 'englishTeacherPanel_session';
         const CURRENCY = '₽';
         const SLOT_STEP_MIN = 30;
         const MAX_FILE_SIZE = 100 * 1024 * 1024;
@@ -2056,7 +1818,15 @@
             forest:   'linear-gradient(135deg, #d8e8d0 0%, #a8c8a0 50%, #7ba878 100%)',
             rose:     'linear-gradient(135deg, #f8e0e8 0%, #f0b8c8 50%, #e890a8 100%)',
             dark:     'linear-gradient(135deg, #4a4258 0%, #3a3448 50%, #2d2838 100%)',
-            starry:   'linear-gradient(135deg, #2a2a4a 0%, #3a3a5e 50%, #4a4a78 100%)'
+            starry:   'linear-gradient(135deg, #2a2a4a 0%, #3a3a5e 50%, #4a4a78 100%)',
+            peach:    'linear-gradient(135deg, #ffe8e0 0%, #ffd0c0 50%, #ffb8a8 100%)',
+            aqua:     'linear-gradient(135deg, #d8f0f0 0%, #a8e0e0 50%, #78c8c8 100%)',
+            mocha:    'linear-gradient(135deg, #e8dcd0 0%, #c8b0a0 50%, #a88878 100%)',
+            cherry:   'linear-gradient(135deg, #f8d8e0 0%, #f0a0b8 50%, #d87898 100%)',
+            indigo:   'linear-gradient(135deg, #d8d8f0 0%, #a8a8d8 50%, #7878c0 100%)',
+            sunny:    'linear-gradient(135deg, #fff0d0 0%, #ffe0a0 50%, #ffc870 100%)',
+            nightforest: 'linear-gradient(135deg, #2d3a2d 0%, #1e2a1e 50%, #0f180f 100%)',
+            softsunset:  'linear-gradient(135deg, #f0e8e8 0%, #f0c8b8 50%, #e8a898 100%)'
         };
 
         const THEMES = {
@@ -2067,7 +1837,13 @@
             sunset:   { a1: '#e89080', a2: '#f0b8a0', solid: '#a8503e', soft: 'rgba(240, 184, 160, 0.25)', softStrong: 'rgba(240, 184, 160, 0.45)' },
             forest:   { a1: '#7ba878', a2: '#a8c8a0', solid: '#3e6b3e', soft: 'rgba(168, 200, 160, 0.25)', softStrong: 'rgba(168, 200, 160, 0.45)' },
             coffee:   { a1: '#a8886a', a2: '#c8a888', solid: '#6b4d2e', soft: 'rgba(200, 168, 136, 0.25)', softStrong: 'rgba(200, 168, 136, 0.45)' },
-            night:    { a1: '#5a4a78', a2: '#7a6a98', solid: '#3a2e58', soft: 'rgba(122, 106, 152, 0.25)', softStrong: 'rgba(122, 106, 152, 0.45)' }
+            night:    { a1: '#5a4a78', a2: '#7a6a98', solid: '#3a2e58', soft: 'rgba(122, 106, 152, 0.25)', softStrong: 'rgba(122, 106, 152, 0.45)' },
+            peach:    { a1: '#e8a890', a2: '#f0c0a8', solid: '#a85a3e', soft: 'rgba(240, 192, 168, 0.25)', softStrong: 'rgba(240, 192, 168, 0.45)' },
+            aqua:     { a1: '#78c8c8', a2: '#a8e0e0', solid: '#2e7a7a', soft: 'rgba(168, 224, 224, 0.25)', softStrong: 'rgba(168, 224, 224, 0.45)' },
+            cherry:   { a1: '#c86888', a2: '#e8a0b8', solid: '#8e3a5c', soft: 'rgba(232, 160, 184, 0.25)', softStrong: 'rgba(232, 160, 184, 0.45)' },
+            indigo:   { a1: '#5a5a98', a2: '#7a7ac0', solid: '#3a3a70', soft: 'rgba(122, 122, 192, 0.25)', softStrong: 'rgba(122, 122, 192, 0.45)' },
+            sunny:    { a1: '#e8b870', a2: '#f0d0a0', solid: '#a87830', soft: 'rgba(240, 208, 160, 0.25)', softStrong: 'rgba(240, 208, 160, 0.45)' },
+            softrose: { a1: '#c08898', a2: '#e0b8c0', solid: '#8e5060', soft: 'rgba(224, 184, 192, 0.25)', softStrong: 'rgba(224, 184, 192, 0.45)' }
         };
 
         const STATUS_LABELS = {
@@ -2095,29 +1871,25 @@
         };
 
         const DEFAULT_PAYMENTS = [
-            { student: 'Анна', amount: 8000, date: '01.10.2026', status: 'paid' },
-            { student: 'Максим', amount: 4000, date: '03.10.2026', status: 'wait' },
-            { student: 'Ольга', amount: 12000, date: '05.10.2026', status: 'paid' },
-            { student: 'Дмитрий', amount: 6000, date: '07.10.2026', status: 'debt' },
-            { student: 'София', amount: 3000, date: '10.10.2026', status: 'paid' },
-            { student: 'Артём', amount: 9000, date: '12.10.2026', status: 'wait' }
+            { student: 'Анна', amount: 8000, date: '01.10.2026', status: 'paid', payType: 'single', partner: '' },
+            { student: 'Максим', amount: 4000, date: '03.10.2026', status: 'wait', payType: 'single', partner: '' },
+            { student: 'Ольга', amount: 12000, date: '05.10.2026', status: 'paid', payType: 'pair', partner: 'София' },
+            { student: 'Дмитрий', amount: 6000, date: '07.10.2026', status: 'debt', payType: 'single', partner: '' },
+            { student: 'София', amount: 3000, date: '10.10.2026', status: 'paid', payType: 'pair', partner: 'Ольга' },
+            { student: 'Артём', amount: 9000, date: '12.10.2026', status: 'wait', payType: 'single', partner: '' }
         ];
 
         const DEFAULT_STUDENTS = [
-            { name: 'Анна', level: 'B1 Intermediate', next: '', type: 'single' },
-            { name: 'Максим', level: 'A2 Elementary', next: '', type: 'single' },
-            { name: 'Ольга', level: 'B2 Upper-Int', next: '', type: 'pair' },
-            { name: 'Дмитрий', level: 'C1 Advanced', next: '', type: 'single' },
-            { name: 'София', level: 'A1 Beginner', next: '', type: 'pair' },
-            { name: 'Артём', level: 'B1 Intermediate', next: '', type: 'single' }
+            { name: 'Анна', level: 'B1 Intermediate', next: '', type: 'single', partner: '' },
+            { name: 'Максим', level: 'A2 Elementary', next: '', type: 'single', partner: '' },
+            { name: 'Ольга', level: 'B2 Upper-Int', next: '', type: 'pair', partner: 'София' },
+            { name: 'Дмитрий', level: 'C1 Advanced', next: '', type: 'single', partner: '' },
+            { name: 'София', level: 'A1 Beginner', next: '', type: 'pair', partner: 'Ольга' },
+            { name: 'Артём', level: 'B1 Intermediate', next: '', type: 'single', partner: '' }
         ];
-
-        // ===== РОЛЬ =====
-        let currentRole = 'teacher'; // 'teacher' | 'guest'
 
         // ===== ХЕЛПЕРЫ =====
         const pad2 = n => String(n).padStart(2, '0');
-        const isPair = s => Array.isArray(s.students) && s.students.length > 0;
         const isPersonal = s => typeof s.personal === 'string' && s.personal.trim() !== '';
         const hasHw = s => typeof s.hw === 'string' && s.hw.trim() !== '';
         const hasNote = s => typeof s.note === 'string' && s.note.trim() !== '';
@@ -2125,22 +1897,55 @@
         const isDone = s => s.status === 'done';
         const isCancelled = s => s.status === 'cancelled';
 
+        // Два имени в слоте = пара. Больше никаких условий.
+        function hasTwoStudents(s) {
+            return Array.isArray(s.students) && s.students.length >= 2;
+        }
+
+        // Оставляем isPair как синоним — для совместимости
+        const isPair = hasTwoStudents;
+
+        // Совместимость со старым кодом
+        function isRealPair(s) {
+            return hasTwoStudents(s);
+        }
+
+        function pairKey(a, b) {
+            return [a, b].filter(Boolean).sort().join('+');
+        }
+
         function slotClass(s) {
             if (s.free) return 'free';
             if (isPersonal(s)) return 'personal';
-            if (isPair(s)) return 'pair';
+            if (hasTwoStudents(s)) return 'pair';
             return 'busy';
         }
         function slotType(s) {
             if (s.free) return 'free';
             if (isPersonal(s)) return 'personal';
-            if (isPair(s)) return 'pair';
+            if (hasTwoStudents(s)) return 'pair';
             return 'single';
         }
         function getStudentType(name) {
             const st = state.students.find(x => x.name === name);
-            return st && st.type ? st.type : 'single';
+            if (st && st.type) return st.type;
+            const asPartner = state.students.find(x => x.partner === name);
+            if (asPartner) return 'pair';
+            return 'single';
         }
+        function displayName(studentOrName) {
+            const s = typeof studentOrName === 'string'
+                ? state.students.find(x => x.name === studentOrName)
+                : studentOrName;
+            if (!s) return typeof studentOrName === 'string' ? studentOrName : '';
+            if (s.type === 'pair' && s.partner) return `${s.name} + ${s.partner}`;
+            return s.name;
+        }
+        function entityKey(s) {
+            if (s.type === 'pair' && s.partner) return pairKey(s.name, s.partner);
+            return s.name;
+        }
+
         function timeToMinutes(time) {
             const m = /^(\d{1,2}):(\d{2})$/.exec(time || '');
             if (!m) return null;
@@ -2313,145 +2118,6 @@
             return m;
         }
 
-        // ===== АВТОРИЗАЦИЯ =====
-        function loadUsers() {
-            try {
-                const raw = localStorage.getItem(USERS_KEY);
-                if (raw) return JSON.parse(raw);
-            } catch (e) { /* ignore */ }
-            return [];
-        }
-        function saveUsers(users) {
-            localStorage.setItem(USERS_KEY, JSON.stringify(users));
-        }
-        function loadSession() {
-            try {
-                const raw = localStorage.getItem(SESSION_KEY);
-                if (raw) return JSON.parse(raw);
-            } catch (e) { /* ignore */ }
-            return null;
-        }
-        function saveSession(session) {
-            if (session) localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-            else localStorage.removeItem(SESSION_KEY);
-        }
-        async function sha256(str) {
-            const enc = new TextEncoder().encode(str);
-            const buf = await crypto.subtle.digest('SHA-256', enc);
-            return Array.from(new Uint8Array(buf))
-                .map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-        function showAuthError(msg) {
-            const el = document.getElementById('authError');
-            el.textContent = msg;
-            el.classList.add('show');
-        }
-        function clearAuthError() {
-            const el = document.getElementById('authError');
-            el.textContent = '';
-            el.classList.remove('show');
-        }
-
-        function switchAuthTab(name) {
-            document.querySelectorAll('.auth-tabs button').forEach(b => {
-                b.classList.toggle('active', b.dataset.auth === name);
-            });
-            document.getElementById('loginPanel').classList.toggle('active', name === 'login');
-            document.getElementById('registerPanel').classList.toggle('active', name === 'register');
-            clearAuthError();
-        }
-
-        async function doRegister() {
-            clearAuthError();
-            const name = document.getElementById('regName').value.trim();
-            const p1 = document.getElementById('regPass').value;
-            const p2 = document.getElementById('regPass2').value;
-            if (!name) { showAuthError('Введите логин.'); return; }
-            if (p1.length < 4) { showAuthError('Пароль должен быть не короче 4 символов.'); return; }
-            if (p1 !== p2) { showAuthError('Пароли не совпадают.'); return; }
-            const users = loadUsers();
-            if (users.some(u => u.name.toLowerCase() === name.toLowerCase())) {
-                showAuthError('Такой логин уже занят.');
-                return;
-            }
-            const hash = await sha256(p1);
-            users.push({ name, hash });
-            saveUsers(users);
-            saveSession({ name, role: 'teacher' });
-            startApp({ name, role: 'teacher' });
-        }
-
-        async function doLogin() {
-            clearAuthError();
-            const name = document.getElementById('loginName').value.trim();
-            const pass = document.getElementById('loginPass').value;
-            if (!name || !pass) { showAuthError('Введите логин и пароль.'); return; }
-            const users = loadUsers();
-            const u = users.find(x => x.name.toLowerCase() === name.toLowerCase());
-            if (!u) { showAuthError('Пользователь не найден.'); return; }
-            const hash = await sha256(pass);
-            if (hash !== u.hash) { showAuthError('Неверный пароль.'); return; }
-            saveSession({ name: u.name, role: 'teacher' });
-            startApp({ name: u.name, role: 'teacher' });
-        }
-
-        function doGuest() {
-            saveSession({ name: 'Гость', role: 'guest' });
-            startApp({ name: 'Гость', role: 'guest' });
-        }
-
-        function doLogout() {
-            saveSession(null);
-            currentRole = 'teacher';
-            document.body.classList.remove('guest');
-            document.getElementById('appContainer').style.display = 'none';
-            document.getElementById('authScreen').style.display = 'flex';
-            document.getElementById('loginName').value = '';
-            document.getElementById('loginPass').value = '';
-            document.getElementById('regName').value = '';
-            document.getElementById('regPass').value = '';
-            document.getElementById('regPass2').value = '';
-            switchAuthTab('login');
-        }
-
-        function startApp(session) {
-            currentRole = session.role;
-            document.getElementById('authScreen').style.display = 'none';
-            document.getElementById('appContainer').style.display = 'block';
-
-            if (currentRole === 'guest') {
-                document.body.classList.add('guest');
-                document.getElementById('userBadge').textContent = '👀 Гость';
-                document.getElementById('guestBanner').style.display = 'block';
-                // Скрываем все вкладки, кроме расписания
-                document.querySelectorAll('.tab').forEach(t => {
-                    t.classList.toggle('active', t.dataset.tab === 'schedule');
-                });
-                document.querySelectorAll('.section').forEach(s => {
-                    s.classList.toggle('active', s.id === 'schedule');
-                });
-                // Скрываем кнопку удаления всех слотов
-                const clearAllBtn = document.getElementById('clearAllBtn');
-                if (clearAllBtn) clearAllBtn.style.display = 'none';
-            } else {
-                document.body.classList.remove('guest');
-                document.getElementById('userBadge').textContent = '👤 ' + session.name;
-                document.getElementById('guestBanner').style.display = 'none';
-                // Активируем вкладку «Сегодня»
-                document.querySelectorAll('.tab').forEach(t => {
-                    t.classList.toggle('active', t.dataset.tab === 'today');
-                });
-                document.querySelectorAll('.section').forEach(s => {
-                    s.classList.toggle('active', s.id === 'today');
-                });
-                const clearAllBtn = document.getElementById('clearAllBtn');
-                if (clearAllBtn) clearAllBtn.style.display = '';
-            }
-
-            renderAll();
-            renderSettingsForm();
-        }
-
         // ===== СОСТОЯНИЕ =====
         let state = loadState();
         let submitHandler = null;
@@ -2477,7 +2143,19 @@
                         parsed.schedule = migrateOldSchedule(parsed.schedule);
                     }
                     if (!Array.isArray(parsed.students)) parsed.students = JSON.parse(JSON.stringify(DEFAULT_STUDENTS));
-                    parsed.students.forEach(s => { if (!s.type) s.type = 'single'; });
+                    parsed.students.forEach(s => {
+                        if (!s.type) s.type = 'single';
+                        if (s.partner == null) s.partner = '';
+                    });
+                    if (!Array.isArray(parsed.payments)) parsed.payments = JSON.parse(JSON.stringify(DEFAULT_PAYMENTS));
+                    parsed.payments.forEach(p => {
+                        if (p.partner == null) p.partner = '';
+                        if (!p.payType) {
+                            const st = parsed.students.find(x => x.name === p.student && x.type === 'pair' && x.partner);
+                            p.payType = st ? 'pair' : 'single';
+                            if (st && !p.partner) p.partner = st.partner;
+                        }
+                    });
                     Object.values(parsed.schedule).forEach(slots => slots.forEach(slot => {
                         if (!slot.duration) slot.duration = parsed.settings.defaultDuration || 60;
                         if (!slot.status && !slot.free && !isPersonal(slot)) slot.status = 'planned';
@@ -2528,11 +2206,11 @@
             }
 
             const perStudent = {};
-            const ensure = name => {
-                if (!perStudent[name]) {
-                    perStudent[name] = { single: 0, pair: 0, total: 0, done: 0, type: getStudentType(name) };
+            const ensure = (key, name, type) => {
+                if (!perStudent[key]) {
+                    perStudent[key] = { single: 0, pair: 0, total: 0, done: 0, name, type };
                 }
-                return perStudent[name];
+                return perStudent[key];
             };
 
             Object.entries(state.schedule).forEach(([dateKey, slots]) => {
@@ -2543,15 +2221,28 @@
                     const done = isDone(slot);
                     const cancelled = isCancelled(slot);
 
-                    const names = isPair(slot) ? slot.students : (slot.student ? [slot.student] : []);
+                    if (hasTwoStudents(slot)) {
+                        const a = slot.students[0];
+                        const b = slot.students[1];
+                        const key = pairKey(a, b);
+                        const display = `${a} + ${b}`;
+                        const agg = ensure(key, display, 'pair');
+                        agg.pair++;
+                        agg.total++;
+                        if (done) agg.done++;
 
-                    names.forEach(name => {
+                        if (inWeek) {
+                            pairCount++;
+                            if (done) doneCount++;
+                            if (!cancelled) weeklyPotential += pair;
+                        }
+                    } else if (slot.student) {
+                        const name = slot.student;
                         const type = getStudentType(name);
-                        const s = ensure(name);
-
-                        if (isPair(slot)) s.pair++; else s.single++;
-                        s.total++;
-                        if (done) s.done++;
+                        const agg = ensure(name, name, type);
+                        agg.single++;
+                        agg.total++;
+                        if (done) agg.done++;
 
                         if (inWeek) {
                             if (type === 'pair') {
@@ -2564,7 +2255,7 @@
                                 if (!cancelled) weeklyPotential += single;
                             }
                         }
-                    });
+                    }
                 });
             });
 
@@ -2572,7 +2263,16 @@
             let paidSum = 0, waitSum = 0;
             state.payments.forEach(p => {
                 const amt = Number(p.amount) || 0;
-                const rec = paymentsByStudent[p.student] || (paymentsByStudent[p.student] = { paid: 0, wait: 0 });
+                let key;
+                if (p.payType === 'pair' && p.partner) {
+                    key = pairKey(p.student, p.partner);
+                } else if (p.payType === 'single') {
+                    key = p.student;
+                } else {
+                    const st = state.students.find(x => x.name === p.student && x.type === 'pair' && x.partner);
+                    key = st ? pairKey(st.name, st.partner) : p.student;
+                }
+                const rec = paymentsByStudent[key] || (paymentsByStudent[key] = { paid: 0, wait: 0 });
                 if (p.status === 'paid') { rec.paid += amt; paidSum += amt; }
                 else { rec.wait += amt; waitSum += amt; }
             });
@@ -2582,20 +2282,53 @@
         }
 
         function computeStudentBalances(stats) {
-            return state.students.map(s => {
-                const rec = stats.paymentsByStudent[s.name] || { paid: 0, wait: 0 };
-                const schedule = stats.perStudent[s.name] || { single: 0, pair: 0, done: 0 };
+            const seen = new Set();
+            const entities = [];
+
+            // 1) Из карточек студентов
+            state.students.forEach(s => {
+                if (s.type === 'pair' && s.partner) {
+                    const key = pairKey(s.name, s.partner);
+                    if (seen.has(key)) return;
+                    seen.add(key);
+                    entities.push({ key, name: `${s.name} + ${s.partner}`, type: 'pair' });
+                } else {
+                    if (seen.has(s.name)) return;
+                    seen.add(s.name);
+                    entities.push({ key: s.name, name: s.name, type: s.type || 'single' });
+                }
+            });
+
+            // 2) Из слотов расписания — пары, которых ещё нет в списке
+            Object.values(state.schedule).forEach(slots => {
+                slots.forEach(slot => {
+                    if (slot.free || isPersonal(slot)) return;
+                    if (hasTwoStudents(slot)) {
+                        const a = slot.students[0];
+                        const b = slot.students[1];
+                        const key = pairKey(a, b);
+                        if (seen.has(key)) return;
+                        seen.add(key);
+                        entities.push({ key, name: `${a} + ${b}`, type: 'pair' });
+                    }
+                });
+            });
+
+            return entities.map(e => {
+                const rec = stats.paymentsByStudent[e.key] || { paid: 0, wait: 0 };
+                const schedule = stats.perStudent[e.key] || { single: 0, pair: 0, done: 0 };
                 const rateSingle = stats.single;
                 const ratePair = stats.pair;
 
-                const rate = (s.type === 'pair') ? ratePair : rateSingle;
+                const rate = (e.type === 'pair') ? ratePair : rateSingle;
 
                 const paidLessons = rate > 0 ? Math.floor(rec.paid / rate) : 0;
                 const done = schedule.done || 0;
                 const left = paidLessons - done;
                 const remainingLessons = Math.max(0, left);
                 const debtLessons = left < 0 ? Math.abs(left) : 0;
-                return { name: s.name, paidLessons, done, remainingLessons, debtLessons,
+                return { key: e.key, name: e.name, type: e.type,
+                         paidLessons, done, remainingLessons, debtLessons,
                          remainingRub: remainingLessons * rate };
             });
         }
@@ -2607,15 +2340,12 @@
             slots.forEach(slot => {
                 if (slot.free || isPersonal(slot)) return;
                 if (isCancelled(slot)) return;
-                const names = isPair(slot) ? slot.students : (slot.student ? [slot.student] : []);
-                names.forEach(name => {
-                    const type = getStudentType(name);
-                    if (type === 'pair') {
-                        income += stats.pair;
-                    } else {
-                        income += stats.single;
-                    }
-                });
+                if (hasTwoStudents(slot)) {
+                    income += stats.pair;
+                } else if (slot.student) {
+                    const type = getStudentType(slot.student);
+                    income += (type === 'pair') ? stats.pair : stats.single;
+                }
             });
             return income;
         }
@@ -2662,8 +2392,8 @@
             if (isPersonal(slot)) {
                 title = slot.personal;
                 tags.push(`<span class="today-tag personal">📝 Моё дело</span>`);
-            } else if (isPair(slot)) {
-                title = slot.students.join(' и ');
+            } else if (hasTwoStudents(slot)) {
+                title = slot.students.join(' + ');
                 tags.push(`<span class="today-tag pair">👥 Парное</span>`);
             } else {
                 title = slot.student || '';
@@ -2709,7 +2439,6 @@
         }
 
         function toggleDone(dateKey, idx) {
-            if (currentRole === 'guest') return;
             const slot = state.schedule[dateKey]?.[idx];
             if (!slot) return;
             slot.status = isDone(slot) ? 'planned' : 'done';
@@ -2727,15 +2456,11 @@
                 const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
                 title.textContent = `${pad2(monday.getDate())} ${MONTHS_RU_GEN[monday.getMonth()]} — ${pad2(sunday.getDate())} ${MONTHS_RU_GEN[sunday.getMonth()]} ${sunday.getFullYear()}`;
                 container.innerHTML = renderWeekView(monday);
-                if (currentRole !== 'guest') {
-                    setupScheduleDragDrop('.week-day', '.week-slot[draggable="true"]');
-                }
+                setupScheduleDragDrop('.week-day', '.week-slot[draggable="true"]');
             } else if (schedView === 'month') {
                 title.textContent = `${MONTHS_RU[schedMonth.month]} ${schedMonth.year}`;
                 container.innerHTML = renderMonthView(schedMonth.year, schedMonth.month);
-                if (currentRole !== 'guest') {
-                    setupScheduleDragDrop('.cal-cell', '.mini-slot[draggable="true"]');
-                }
+                setupScheduleDragDrop('.cal-cell', '.mini-slot[draggable="true"]');
             } else if (schedView === 'free') {
                 const monday = mondayOfWeek(schedAnchor);
                 const sunday = new Date(monday); sunday.setDate(monday.getDate() + 6);
@@ -2745,7 +2470,6 @@
         }
 
         function renderWeekView(monday) {
-            const isGuest = currentRole === 'guest';
             let html = '<div class="week-view-grid">';
             for (let i = 0; i < 7; i++) {
                 const d = new Date(monday); d.setDate(monday.getDate() + i);
@@ -2770,29 +2494,26 @@
                 let slotsHtml = '';
                 if (slots.length === 0) {
                     slotsHtml = `
-                        <div class="week-day-empty ${isGuest ? 'readonly' : ''}" ${isGuest ? '' : `onclick="openSlotModal('${key}', -1)"`}>
-                            <div class="plus">${isGuest ? '' : '+'}</div>
-                            <div>${isGuest ? 'Нет занятий' : 'Нет занятий<br><small>Нажмите, чтобы добавить</small>'}</div>
+                        <div class="week-day-empty" onclick="openSlotModal('${key}', -1)">
+                            <div class="plus">+</div>
+                            <div>Нет занятий<br><small>Нажмите, чтобы добавить</small></div>
                         </div>
                     `;
                 } else {
                     slots.forEach((slot, idx) => {
                         const cls2 = slotClass(slot) +
                                      (isDone(slot) ? ' done' : '') +
-                                     (isCancelled(slot) ? ' cancelled' : '') +
-                                     (isGuest ? ' readonly' : '');
+                                     (isCancelled(slot) ? ' cancelled' : '');
                         let icon = '', name = '';
                         if (isPersonal(slot)) { icon = '📝'; name = slot.personal; }
-                        else if (isPair(slot)) { icon = '👥'; name = slot.students.join(' + '); }
+                        else if (hasTwoStudents(slot)) { icon = '👥'; name = slot.students.join(' + '); }
                         else { name = slot.student; }
                         const stIcon = isDone(slot) ? ' ✅' : (isCancelled(slot) ? ' ❌' : '');
                         const fileIcon = hasFile(slot) ? ' 📎' : '';
                         const range = timeRange(slot.time, slot.duration);
-                        const draggableAttr = isGuest ? '' : 'draggable="true"';
-                        const clickAttr = isGuest ? '' : `onclick="openSlotModal('${key}', ${idx})"`;
                         slotsHtml += `
-                            <div class="week-slot ${cls2}" ${draggableAttr} data-date="${key}" data-idx="${idx}"
-                                 ${clickAttr}>
+                            <div class="week-slot ${cls2}" draggable="true" data-date="${key}" data-idx="${idx}"
+                                 onclick="openSlotModal('${key}', ${idx})">
                                 <div class="slot-time">${range}</div>
                                 <div class="slot-name">${icon ? icon + ' ' : ''}${escapeHtml(name)}${fileIcon}${stIcon}</div>
                             </div>
@@ -2800,7 +2521,7 @@
                     });
                 }
 
-                const addBtn = (!isGuest && slots.length > 0)
+                const addBtn = slots.length > 0
                     ? `<button class="week-day-add" onclick="event.stopPropagation(); openSlotModal('${key}', -1)">+ Добавить слот</button>`
                     : '';
 
@@ -2857,7 +2578,6 @@
         }
 
         function renderFreeView(monday) {
-            const isGuest = currentRole === 'guest';
             let html = '<div class="free-view-grid">';
             for (let i = 0; i < 7; i++) {
                 const d = new Date(monday); d.setDate(monday.getDate() + i);
@@ -2886,9 +2606,8 @@
                     slotsHtml = groups.map(g => {
                         const startStr = minutesToTime(g.startMin);
                         const endStr = minutesToTime(g.endMin);
-                        const click = isGuest ? '' : `onclick="openSlotModal('${key}', -1, '${startStr}')"`;
                         return `
-                            <div class="free-slot" ${click}>
+                            <div class="free-slot" onclick="openSlotModal('${key}', -1, '${startStr}')">
                                 <span class="time">${startStr} – ${endStr}</span>
                                 <span class="label">свободно</span>
                             </div>
@@ -2914,7 +2633,6 @@
         }
 
         function renderMonthView(year, month) {
-            const isGuest = currentRole === 'guest';
             const first = new Date(year, month, 1);
             const startDow = (first.getDay() + 6) % 7;
             const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -2933,7 +2651,6 @@
                 if (otherMonth) cls += ' other-month';
                 if (isToday) cls += ' today';
                 if (dow === 6) cls += ' sunday';
-                if (isGuest) cls += ' readonly';
 
                 const head = `
                     <div class="cal-cell-head">
@@ -2947,17 +2664,15 @@
 
                 let content = '';
                 slots.slice(0, 4).forEach(slot => {
-                    const c2 = slotClass(slot) + (isDone(slot) ? ' done' : '') + (isCancelled(slot) ? ' cancelled' : '') + (isGuest ? ' readonly' : '');
+                    const c2 = slotClass(slot) + (isDone(slot) ? ' done' : '') + (isCancelled(slot) ? ' cancelled' : '');
                     let name = '';
                     if (isPersonal(slot)) name = slot.personal;
-                    else if (isPair(slot)) name = slot.students.join('+');
+                    else if (hasTwoStudents(slot)) name = slot.students.join('+');
                     else name = slot.student;
                     const originalIdx = (state.schedule[key] || []).indexOf(slot);
-                    const draggableAttr = isGuest ? '' : 'draggable="true"';
-                    const clickAttr = isGuest ? '' : `onclick="event.stopPropagation(); openSlotModal('${key}', ${originalIdx})"`;
                     content += `
-                        <div class="mini-slot ${c2}" ${draggableAttr} data-date="${key}" data-idx="${originalIdx}"
-                             ${clickAttr}>
+                        <div class="mini-slot ${c2}" draggable="true" data-date="${key}" data-idx="${originalIdx}"
+                             onclick="event.stopPropagation(); openSlotModal('${key}', ${originalIdx})">
                             ${slot.time} ${escapeHtml(name)}
                         </div>
                     `;
@@ -2966,7 +2681,7 @@
                     content += `<div style="font-size:0.7em;color:#a89fba;text-align:center">+${slots.length - 4} ещё</div>`;
                 }
 
-                const cellClick = (slots.length === 0 && !isGuest)
+                const cellClick = slots.length === 0
                     ? `onclick="openSlotModal('${key}', -1)"`
                     : '';
                 return `<div class="${cls}" data-date="${key}" ${cellClick}>${head}${content}</div>`;
@@ -2989,7 +2704,6 @@
 
         // ===== DRAG & DROP =====
         function setupScheduleDragDrop(cellSel, slotSel) {
-            if (currentRole === 'guest') return;
             const cells = document.querySelectorAll(cellSel);
             const slots = document.querySelectorAll(slotSel);
 
@@ -3118,11 +2832,55 @@
         // ===== СТУДЕНТЫ =====
         function renderStudents(stats, balances) {
             const tbody = document.getElementById('studentsTable');
-            const balByName = {};
-            balances.forEach(r => balByName[r.name] = r);
+            const balByKey = {};
+            balances.forEach(r => balByKey[r.key] = r);
 
-            tbody.innerHTML = state.students.map((s, idx) => {
-                const b = balByName[s.name] || { paidLessons: 0, done: 0, remainingLessons: 0,
+            // Список «сущностей»: индивидуальные + пары, без отдельных партнёров
+            const seen = new Set();
+            const rows = [];
+
+            state.students.forEach((s, idx) => {
+                if (s.type === 'pair' && s.partner) {
+                    const key = pairKey(s.name, s.partner);
+                    if (seen.has(key)) return;
+                    seen.add(key);
+                    rows.push({
+                        key, type: 'pair', name: `${s.name} + ${s.partner}`,
+                        level: s.level, next: s.next,
+                        studentIdx: idx
+                    });
+                } else {
+                    if (seen.has(s.name)) return;
+                    seen.add(s.name);
+                    rows.push({
+                        key: s.name, type: 'single', name: s.name,
+                        level: s.level, next: s.next,
+                        studentIdx: idx
+                    });
+                }
+            });
+
+            // Пары из расписания, которых ещё нет в списке студентов
+            Object.values(state.schedule).forEach(slots => {
+                slots.forEach(slot => {
+                    if (slot.free || isPersonal(slot)) return;
+                    if (hasTwoStudents(slot)) {
+                        const a = slot.students[0];
+                        const b = slot.students[1];
+                        const key = pairKey(a, b);
+                        if (seen.has(key)) return;
+                        seen.add(key);
+                        rows.push({
+                            key, type: 'pair', name: `${a} + ${b}`,
+                            level: '', next: '',
+                            studentIdx: undefined
+                        });
+                    }
+                });
+            });
+
+            tbody.innerHTML = rows.map(row => {
+                const b = balByKey[row.key] || { paidLessons: 0, done: 0, remainingLessons: 0,
                                                   remainingRub: 0, debtLessons: 0 };
                 const percent = b.paidLessons > 0 ? Math.min(100, (b.remainingLessons / b.paidLessons) * 100) : 0;
                 let barClass = 'ok';
@@ -3133,7 +2891,15 @@
                 Object.entries(state.schedule).forEach(([dateKey, slots]) => {
                     slots.forEach((slot, sIdx) => {
                         if (slot.free || isPersonal(slot)) return;
-                        const isThis = (isPair(slot) && slot.students.includes(s.name)) || slot.student === s.name;
+                        let isThis = false;
+                        if (row.type === 'pair') {
+                            if (hasTwoStudents(slot)) {
+                                const key2 = pairKey(slot.students[0], slot.students[1]);
+                                isThis = (key2 === row.key);
+                            }
+                        } else {
+                            isThis = (slot.student === row.key);
+                        }
                         if (!isThis) return;
                         if (hasHw(slot)) marks.push({ dateKey, idx: sIdx, type: 'hw', label: '📚' });
                         if (hasNote(slot)) marks.push({ dateKey, idx: sIdx, type: 'note', label: '🗒️' });
@@ -3146,19 +2912,26 @@
                       ).join('') + '</div>'
                     : '<span class="view-empty">—</span>';
 
-                const nextText = s.next ? formatDateTimeHuman(s.next) : '—';
-                const nextHtml = s.next
+                const nextText = row.next ? formatDateTimeHuman(row.next) : '—';
+                const nextHtml = row.next
                     ? `<span style="color:var(--accent-solid);font-weight:700">${escapeHtml(nextText)}</span>`
                     : `<span class="view-empty">не указано</span>`;
 
-                const typeLabel = (s.type === 'pair')
+                const typeLabel = (row.type === 'pair')
                     ? '<span class="student-type-badge pair">👥 Парные</span>'
                     : '<span class="student-type-badge single">🎓 Индивидуальные</span>';
 
+                const editBtn = (row.studentIdx !== undefined)
+                    ? `<button class="btn small ghost" onclick="openStudentModal(${row.studentIdx})">✎</button>`
+                    : '';
+                const delBtn = (row.studentIdx !== undefined)
+                    ? `<button class="btn small danger" onclick="deleteStudent(${row.studentIdx})">✕</button>`
+                    : '';
+
                 return `
                     <tr>
-                        <td>${escapeHtml(s.name)}</td>
-                        <td>${escapeHtml(s.level)}</td>
+                        <td>${escapeHtml(row.name)}</td>
+                        <td>${escapeHtml(row.level)}</td>
                         <td>${typeLabel}</td>
                         <td class="balance-cell">
                             <div class="balance-line"><span class="lbl">Оплачено:</span>
@@ -3173,8 +2946,8 @@
                         <td>${nextHtml}</td>
                         <td>${hwHtml}</td>
                         <td style="text-align:right;white-space:nowrap">
-                            <button class="btn small ghost" onclick="openStudentModal(${idx})">✎</button>
-                            <button class="btn small danger" onclick="deleteStudent(${idx})">✕</button>
+                            ${editBtn}
+                            ${delBtn}
                         </td>
                     </tr>
                 `;
@@ -3190,9 +2963,30 @@
             };
             tbody.innerHTML = state.payments.map((p, idx) => {
                 const st = map[p.status] || map.wait;
+
+                let display;
+                let typeLabel;
+                if (p.payType === 'pair' && p.partner) {
+                    display = `${p.student} + ${p.partner}`;
+                    typeLabel = '<span class="student-type-badge pair">👥 Парное</span>';
+                } else if (p.payType === 'single') {
+                    display = p.student;
+                    typeLabel = '<span class="student-type-badge single">🎓 Индивидуальное</span>';
+                } else {
+                    const s = state.students.find(x => x.name === p.student && x.type === 'pair' && x.partner);
+                    if (s) {
+                        display = `${s.name} + ${s.partner}`;
+                        typeLabel = '<span class="student-type-badge pair">👥 Парное</span>';
+                    } else {
+                        display = p.student;
+                        typeLabel = '<span class="student-type-badge single">🎓 Индивидуальное</span>';
+                    }
+                }
+
                 return `
                     <tr>
-                        <td>${escapeHtml(p.student)}</td>
+                        <td>${escapeHtml(display)}</td>
+                        <td>${typeLabel}</td>
                         <td>${fmtMoney(p.amount)}</td>
                         <td>${escapeHtml(p.date)}</td>
                         <td><span class="badge ${st.cls}">${st.text}</span></td>
@@ -3224,7 +3018,7 @@
                 ? `коэффициент ×${s.ratePairMultiplier}` : 'фиксированная сумма';
             box.innerHTML = `
                 <div>• Индивидуальное: <b style="color:var(--accent-solid)">${fmtMoney(stats.single)}</b></div>
-                <div>• Парное: <b style="color:var(--accent-solid)">${fmtMoney(stats.pair)}</b> <span style="color:#b0aabc">(${modeText})</span></div>
+                <div>• Парное (за двоих): <b style="color:var(--accent-solid)">${fmtMoney(stats.pair)}</b> <span style="color:#b0aabc">(${modeText})</span></div>
                 <div>• Стандартная длительность: <b style="color:var(--accent-solid)">${durationText(s.defaultDuration || 60)}</b></div>
                 <div>• Рабочие часы: <b style="color:var(--accent-solid)">${s.workStart || DEFAULT_WORK_START} – ${s.workEnd || DEFAULT_WORK_END}</b></div>
             `;
@@ -3233,8 +3027,6 @@
         // ===== ВКЛАДКИ =====
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
-                // Гость: только расписание
-                if (currentRole === 'guest' && tab.dataset.tab !== 'schedule') return;
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                 document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
                 tab.classList.add('active');
@@ -3283,16 +3075,40 @@
         const modalForm = document.getElementById('modalForm');
         const modalSubmit = document.getElementById('modalSubmit');
 
-        function openModal(title, formHtml, onSubmit) {
-            if (currentRole === 'guest') return;
+        function openModal(title, formHtml, onSubmit, opts) {
+            opts = opts || {};
             modalTitle.textContent = title;
             modalForm.innerHTML = formHtml;
             submitHandler = onSubmit;
             overlay.classList.add('open');
+
+            let delBtn = document.getElementById('modalDeleteBtn');
+            if (opts.onDelete) {
+                if (!delBtn) {
+                    delBtn = document.createElement('button');
+                    delBtn.id = 'modalDeleteBtn';
+                    delBtn.type = 'button';
+                    delBtn.className = 'btn danger';
+                    delBtn.style.marginRight = 'auto';
+                    delBtn.textContent = '🗑 Удалить';
+                    const actions = document.querySelector('#modalOverlay .modal-actions');
+                    actions.insertBefore(delBtn, actions.firstChild);
+                }
+                delBtn.style.display = '';
+                delBtn.onclick = () => {
+                    closeModal();
+                    opts.onDelete();
+                };
+            } else if (delBtn) {
+                delBtn.style.display = 'none';
+                delBtn.onclick = null;
+            }
         }
         function closeModal() {
             overlay.classList.remove('open');
             submitHandler = null;
+            const delBtn = document.getElementById('modalDeleteBtn');
+            if (delBtn) { delBtn.style.display = 'none'; delBtn.onclick = null; }
         }
         modalSubmit.addEventListener('click', () => { if (submitHandler) submitHandler(); });
         overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
@@ -3339,7 +3155,7 @@
             const content = document.getElementById('viewContent');
 
             let who = '';
-            if (isPair(slot)) who = slot.students.join(' и ');
+            if (hasTwoStudents(slot)) who = slot.students.join(' + ');
             else if (slot.student) who = slot.student;
             else if (isPersonal(slot)) who = 'Своё дело: ' + slot.personal;
 
@@ -3377,23 +3193,9 @@
         function closeView() { viewOverlay.classList.remove('open'); }
         viewOverlay.addEventListener('click', e => { if (e.target === viewOverlay) closeView(); });
 
-        // ==== ENTER — подтверждение модалок ====
         document.addEventListener('keydown', e => {
             if (e.key === 'Enter') {
                 if (e.target && e.target.tagName === 'TEXTAREA') return;
-
-                // На экране входа Enter отправляет активную форму
-                if (document.getElementById('authScreen').style.display !== 'none') {
-                    const loginPanel = document.getElementById('loginPanel');
-                    if (loginPanel.classList.contains('active')) {
-                        e.preventDefault();
-                        doLogin();
-                    } else {
-                        e.preventDefault();
-                        doRegister();
-                    }
-                    return;
-                }
 
                 if (viewOverlay.classList.contains('open')) {
                     e.preventDefault();
@@ -3421,7 +3223,6 @@
 
         // ===== УДАЛЕНИЕ =====
         function deleteSlot(dateKey, idx) {
-            if (currentRole === 'guest') return;
             showConfirm({
                 title: 'Удалить слот?',
                 message: 'Вместе со слотом удалятся ДЗ, заметки и файл.',
@@ -3435,21 +3236,25 @@
             });
         }
         function deleteStudent(idx) {
-            if (currentRole === 'guest') return;
-            const name = state.students[idx].name;
+            const s = state.students[idx];
+            const name = s.name;
             showConfirm({
                 title: 'Удалить студента?',
-                message: `Студент «${name}» будет удалён из списка.`,
+                message: s.type === 'pair' && s.partner
+                    ? `Удалить пару «${name} + ${s.partner}» из списка?`
+                    : `Студент «${name}» будет удалён из списка.`,
                 okText: 'Удалить',
                 onConfirm: () => {
                     state.students.splice(idx, 1);
+                    state.students.forEach(x => {
+                        if (x.partner === name) { x.partner = ''; x.type = 'single'; }
+                    });
                     saveState();
                     renderAll();
                 }
             });
         }
         function deletePayment(idx) {
-            if (currentRole === 'guest') return;
             const p = state.payments[idx];
             showConfirm({
                 title: 'Удалить запись об оплате?',
@@ -3463,7 +3268,6 @@
             });
         }
         function resetAll() {
-            if (currentRole === 'guest') return;
             showConfirm({
                 title: 'Сбросить все данные?',
                 message: 'Все ваши изменения будут удалены и заменены демо-данными.',
@@ -3479,7 +3283,6 @@
             });
         }
         function confirmClearAllSlots() {
-            if (currentRole === 'guest') return;
             const allKeys = Object.keys(state.schedule).filter(k => (state.schedule[k] || []).length > 0);
             const totalSlots = allKeys.reduce((s, k) => s + state.schedule[k].length, 0);
             if (totalSlots === 0) { showAlert('Пусто', 'В расписании нет ни одного слота.', 'info'); return; }
@@ -3532,7 +3335,6 @@
         document.getElementById('pairMode').addEventListener('change', togglePairModeFields);
 
         function saveSettings() {
-            if (currentRole === 'guest') return;
             const rateSingle = Math.max(0, Number(document.getElementById('rateSingle').value) || 0);
             const pairMode = document.getElementById('pairMode').value;
             const ratePairFixed = Math.max(0, Number(document.getElementById('ratePairFixed').value) || 0);
@@ -3554,7 +3356,6 @@
 
         // ===== ФОН =====
         document.getElementById('bgPresets').addEventListener('click', e => {
-            if (currentRole === 'guest') return;
             const preset = e.target.closest('.bg-preset');
             if (!preset) return;
             saveBg({ type: 'preset', value: preset.dataset.bg });
@@ -3562,7 +3363,6 @@
         });
 
         document.getElementById('bgUpload').addEventListener('change', e => {
-            if (currentRole === 'guest') return;
             const file = e.target.files && e.target.files[0];
             if (!file) return;
             if (file.size > MAX_FILE_SIZE) {
@@ -3581,7 +3381,6 @@
         });
 
         function applyBgUrl() {
-            if (currentRole === 'guest') return;
             const url = document.getElementById('bgUrl').value.trim();
             if (!url) { showAlert('Пусто', 'Вставьте ссылку на картинку.', 'warn'); return; }
             saveBg({ type: 'url', value: url });
@@ -3589,7 +3388,6 @@
         }
 
         function clearCustomBg() {
-            if (currentRole === 'guest') return;
             saveBg({ type: 'default' });
             document.getElementById('bgUrl').value = '';
             showAlert('Готово', 'Фон сброшен на стандартный.', 'info');
@@ -3597,7 +3395,6 @@
 
         // ===== ТЕМА =====
         document.getElementById('themePresets').addEventListener('click', e => {
-            if (currentRole === 'guest') return;
             const t = e.target.closest('.theme-preset');
             if (!t) return;
             const cur = loadTheme();
@@ -3614,14 +3411,12 @@
             if (!alpha || !blur) return;
 
             alpha.addEventListener('input', () => {
-                if (currentRole === 'guest') return;
                 const t = loadTheme();
                 const next = { ...t, alpha: Number(alpha.value) };
                 alphaVal.textContent = alpha.value + '%';
                 saveTheme(next);
             });
             blur.addEventListener('input', () => {
-                if (currentRole === 'guest') return;
                 const t = loadTheme();
                 const next = { ...t, blur: Number(blur.value) };
                 blurVal.textContent = blur.value + 'px';
@@ -3952,7 +3747,6 @@
 
         // ===== ФОРМА СЛОТА =====
         function openSlotModal(dateKey, idx, presetTime) {
-            if (currentRole === 'guest') return;
             if (!state.schedule[dateKey]) state.schedule[dateKey] = [];
             const isNew = idx === -1;
             const slot = isNew
@@ -3967,16 +3761,49 @@
             const initialDuration = slot.duration;
             const dtValue = slot.time ? `${dateKey}T${slot.time}` : `${dateKey}T10:00`;
 
-            const studentOptions = selected => state.students.map(s =>
-                `<option value="${escapeHtml(s.name)}" ${selected === s.name ? 'selected' : ''}>${escapeHtml(s.name)}</option>`).join('');
+            // Все студенты и пары из расписания для выпадающих списков
+            const seenPairs = new Set();
+            const allPairs = [];
+            state.students.forEach(s => {
+                if (s.type === 'pair' && s.partner) {
+                    const key = pairKey(s.name, s.partner);
+                    if (seenPairs.has(key)) return;
+                    seenPairs.add(key);
+                    allPairs.push({ a: s.name, b: s.partner });
+                }
+            });
+            Object.values(state.schedule).forEach(slots => {
+                slots.forEach(sl => {
+                    if (sl.free || isPersonal(sl)) return;
+                    if (hasTwoStudents(sl)) {
+                        const a = sl.students[0];
+                        const b = sl.students[1];
+                        const key = pairKey(a, b);
+                        if (seenPairs.has(key)) return;
+                        seenPairs.add(key);
+                        allPairs.push({ a, b });
+                    }
+                });
+            });
 
-            const student1 = isPair(slot) ? slot.students[0] : (slot.student || '');
-            const student2 = isPair(slot) ? slot.students[1] : '';
+            const singleOptions = state.students
+                .filter(s => s.type !== 'pair' || !s.partner)
+                .map(s => `<option value="${escapeHtml(s.name)}">${escapeHtml(s.name)}</option>`)
+                .join('');
+
+            const pairOptionsHtml = allPairs.map(p => {
+                const value = `${p.a}|${p.b}`;
+                return `<option value="${escapeHtml(value)}">${escapeHtml(p.a)} + ${escapeHtml(p.b)}</option>`;
+            }).join('');
+
+            const singleSelected = hasTwoStudents(slot) ? '' : (slot.student || '');
+            const pairSelected = hasTwoStudents(slot)
+                ? `${slot.students[0]}|${slot.students[1]}`
+                : '';
+
             const personalText = isPersonal(slot) ? slot.personal : '';
             const hwText = hasHw(slot) ? slot.hw : '';
             const noteText = hasNote(slot) ? slot.note : '';
-            const isCustom1 = student1 && !state.students.some(s => s.name === student1);
-            const isCustom2 = student2 && !state.students.some(s => s.name === student2);
             const showHwNote = (initialType === 'single' || initialType === 'pair');
 
             const quickActive = (m) => initialDuration === m ? 'active' : '';
@@ -4003,8 +3830,8 @@
                 <div class="form-group">
                     <label>Тип слота</label>
                     <div class="type-switch" id="typeSwitch">
-                        <button type="button" data-type="single" class="${initialType === 'single' ? 'active' : ''}">🎓 Студент</button>
-                        <button type="button" data-type="pair" class="${initialType === 'pair' ? 'active' : ''}">👥 Пара</button>
+                        <button type="button" data-type="single" class="${initialType === 'single' ? 'active' : ''}">🎓 Один студент</button>
+                        <button type="button" data-type="pair" class="${initialType === 'pair' ? 'active' : ''}">👥 Пара (двое)</button>
                         <button type="button" data-type="personal" class="${initialType === 'personal' ? 'active' : ''}">📝 Моё дело</button>
                     </div>
                     <input type="hidden" id="slotType" value="${initialType}">
@@ -4015,40 +3842,34 @@
                         <label>Студент</label>
                         <select id="slotStudent">
                             <option value="">— выберите —</option>
-                            ${studentOptions(student1)}
-                            <option value="__custom__" ${isCustom1 ? 'selected' : ''}>Другой (вручную)</option>
+                            ${singleOptions}
+                            <option value="__custom__">Другой (вручную)</option>
                         </select>
                     </div>
-                    <div class="form-group" id="singleCustomGroup" style="display:${isCustom1 ? 'block' : 'none'}">
+                    <div class="form-group" id="singleCustomGroup" style="display:none">
                         <label>Имя студента (вручную)</label>
-                        <input type="text" id="slotStudentCustom" value="${escapeHtml(isCustom1 ? student1 : '')}">
+                        <input type="text" id="slotStudentCustom" value="">
                     </div>
                 </div>
 
                 <div id="pairBlock" style="display:${initialType === 'pair' ? 'block' : 'none'}">
                     <div class="form-group">
+                        <label>Пара</label>
+                        <select id="slotPair">
+                            <option value="">— выберите пару —</option>
+                            ${pairOptionsHtml}
+                            <option value="__custom__">Двое (вручную)</option>
+                        </select>
+                        <div class="form-hint">
+                            <b>Двое в слоте = всегда пара.</b> Везде будет отображаться
+                            «Имя1 + Имя2», считаться по парному тарифу и появляться в списке студентов единой строкой.
+                        </div>
+                    </div>
+                    <div class="form-group" id="pairCustomGroup" style="display:none">
                         <label>Первый студент</label>
-                        <select id="slotStudent1">
-                            <option value="">— выберите —</option>
-                            ${studentOptions(student1)}
-                            <option value="__custom__" ${isCustom1 ? 'selected' : ''}>Другой (вручную)</option>
-                        </select>
-                    </div>
-                    <div class="form-group" id="pairCustom1Group" style="display:${isCustom1 ? 'block' : 'none'}">
-                        <label>Имя первого студента (вручную)</label>
-                        <input type="text" id="slotStudent1Custom" value="${escapeHtml(isCustom1 ? student1 : '')}">
-                    </div>
-                    <div class="form-group">
-                        <label>Второй студент</label>
-                        <select id="slotStudent2">
-                            <option value="">— выберите —</option>
-                            ${studentOptions(student2)}
-                            <option value="__custom__" ${isCustom2 ? 'selected' : ''}>Другой (вручную)</option>
-                        </select>
-                    </div>
-                    <div class="form-group" id="pairCustom2Group" style="display:${isCustom2 ? 'block' : 'none'}">
-                        <label>Имя второго студента (вручную)</label>
-                        <input type="text" id="slotStudent2Custom" value="${escapeHtml(isCustom2 ? student2 : '')}">
+                        <input type="text" id="slotStudent1Custom" value="${escapeHtml(hasTwoStudents(slot) ? slot.students[0] : '')}">
+                        <label style="margin-top:10px">Второй студент</label>
+                        <input type="text" id="slotStudent2Custom" value="${escapeHtml(hasTwoStudents(slot) ? slot.students[1] : '')}">
                     </div>
                 </div>
 
@@ -4102,62 +3923,77 @@
                 </div>
             `;
 
-            openModal(isNew ? `Новый слот — ${formatDayHuman(date)}` : `Слот — ${formatDayHuman(date)}`, formHtml, () => {
-                const dtVal = document.getElementById('slotDT-value').value;
-                if (!dtVal) { showAlert('Не хватает данных', 'Выберите дату и время.', 'warn'); return; }
-                const parsed = parseDateTime(dtVal);
-                if (!parsed) { showAlert('Ошибка', 'Не удалось разобрать дату и время.', 'warn'); return; }
-                const newDateKey = `${parsed.year}-${pad2(parsed.month + 1)}-${pad2(parsed.day)}`;
-                const newTime = `${pad2(parsed.hour)}:${pad2(parsed.minute)}`;
-                const duration = Math.max(15, Number(document.getElementById('slotDuration').value) || 60);
-                const type = document.getElementById('slotType').value;
-                const status = document.getElementById('slotStatus').value;
+            openModal(
+                isNew ? `Новый слот — ${formatDayHuman(date)}` : `Слот — ${formatDayHuman(date)}`,
+                formHtml,
+                () => {
+                    const dtVal = document.getElementById('slotDT-value').value;
+                    if (!dtVal) { showAlert('Не хватает данных', 'Выберите дату и время.', 'warn'); return; }
+                    const parsed = parseDateTime(dtVal);
+                    if (!parsed) { showAlert('Ошибка', 'Не удалось разобрать дату и время.', 'warn'); return; }
+                    const newDateKey = `${parsed.year}-${pad2(parsed.month + 1)}-${pad2(parsed.day)}`;
+                    const newTime = `${pad2(parsed.hour)}:${pad2(parsed.minute)}`;
+                    const duration = Math.max(15, Number(document.getElementById('slotDuration').value) || 60);
+                    const type = document.getElementById('slotType').value;
+                    const status = document.getElementById('slotStatus').value;
 
-                let newSlot;
-                if (type === 'personal') {
-                    const text = document.getElementById('slotPersonal').value.trim();
-                    if (!text) { showAlert('Не хватает данных', 'Опишите, что за дело.', 'warn'); return; }
-                    newSlot = { time: newTime, duration, personal: text };
-                } else if (type === 'pair') {
-                    const n1 = getStudentName('slotStudent1', 'slotStudent1Custom');
-                    const n2 = getStudentName('slotStudent2', 'slotStudent2Custom');
-                    if (!n1 || !n2) { showAlert('Не хватает данных', 'Выберите обоих студентов.', 'warn'); return; }
-                    if (n1 === n2) { showAlert('Ошибка', 'Студенты не должны совпадать.', 'warn'); return; }
-                    newSlot = { time: newTime, duration, students: [n1, n2], status };
-                    attachHwNote(newSlot);
-                } else {
-                    const name = getStudentName('slotStudent', 'slotStudentCustom');
-                    if (!name) { showAlert('Не хватает данных', 'Выберите студента.', 'warn'); return; }
-                    newSlot = { time: newTime, duration, student: name, status };
-                    attachHwNote(newSlot);
-                }
-                if (slot.file && slot.file.data) newSlot.file = slot.file;
-
-                if (!isNew) state.schedule[dateKey].splice(idx, 1);
-                if (!state.schedule[newDateKey]) state.schedule[newDateKey] = [];
-                state.schedule[newDateKey].push(newSlot);
-
-                recalcDayChain(newDateKey);
-
-                const repeatToggle = document.getElementById('repeatToggle');
-                if (repeatToggle && repeatToggle.checked) {
-                    const weeks = Number(document.getElementById('repeatWeeks').value) || 4;
-                    const baseDate = fromDateKey(newDateKey);
-                    for (let w = 1; w <= weeks; w++) {
-                        const nextDate = new Date(baseDate);
-                        nextDate.setDate(baseDate.getDate() + w * 7);
-                        const nextKey = toDateKey(nextDate);
-                        if (!state.schedule[nextKey]) state.schedule[nextKey] = [];
-                        const copy = JSON.parse(JSON.stringify(newSlot));
-                        state.schedule[nextKey].push(copy);
-                        recalcDayChain(nextKey);
+                    let newSlot;
+                    if (type === 'personal') {
+                        const text = document.getElementById('slotPersonal').value.trim();
+                        if (!text) { showAlert('Не хватает данных', 'Опишите, что за дело.', 'warn'); return; }
+                        newSlot = { time: newTime, duration, personal: text };
+                    } else if (type === 'pair') {
+                        const pairSel = document.getElementById('slotPair').value;
+                        let n1, n2;
+                        if (pairSel === '__custom__') {
+                            n1 = document.getElementById('slotStudent1Custom').value.trim();
+                            n2 = document.getElementById('slotStudent2Custom').value.trim();
+                        } else if (pairSel) {
+                            const parts = pairSel.split('|');
+                            n1 = parts[0]; n2 = parts[1];
+                        }
+                        if (!n1 || !n2) { showAlert('Не хватает данных', 'Выберите обоих студентов.', 'warn'); return; }
+                        if (n1 === n2) { showAlert('Ошибка', 'Студенты не должны совпадать.', 'warn'); return; }
+                        newSlot = { time: newTime, duration, students: [n1, n2], status };
+                        attachHwNote(newSlot);
+                    } else {
+                        const sel = document.getElementById('slotStudent');
+                        const name = sel.value === '__custom__'
+                            ? document.getElementById('slotStudentCustom').value.trim()
+                            : sel.value;
+                        if (!name) { showAlert('Не хватает данных', 'Выберите студента.', 'warn'); return; }
+                        newSlot = { time: newTime, duration, student: name, status };
+                        attachHwNote(newSlot);
                     }
-                }
+                    if (slot.file && slot.file.data) newSlot.file = slot.file;
 
-                saveState();
-                renderAll();
-                closeModal();
-            });
+                    if (!isNew) state.schedule[dateKey].splice(idx, 1);
+                    if (!state.schedule[newDateKey]) state.schedule[newDateKey] = [];
+                    state.schedule[newDateKey].push(newSlot);
+
+                    recalcDayChain(newDateKey);
+
+                    const repeatToggle = document.getElementById('repeatToggle');
+                    if (repeatToggle && repeatToggle.checked) {
+                        const weeks = Number(document.getElementById('repeatWeeks').value) || 4;
+                        const baseDate = fromDateKey(newDateKey);
+                        for (let w = 1; w <= weeks; w++) {
+                            const nextDate = new Date(baseDate);
+                            nextDate.setDate(baseDate.getDate() + w * 7);
+                            const nextKey = toDateKey(nextDate);
+                            if (!state.schedule[nextKey]) state.schedule[nextKey] = [];
+                            const copy = JSON.parse(JSON.stringify(newSlot));
+                            state.schedule[nextKey].push(copy);
+                            recalcDayChain(nextKey);
+                        }
+                    }
+
+                    saveState();
+                    renderAll();
+                    closeModal();
+                },
+                isNew ? null : { onDelete: () => deleteSlot(dateKey, idx) }
+            );
 
             setTimeout(() => {
                 initDateTimePicker('slotDT', { placeholder: 'Выберите дату и время' });
@@ -4224,8 +4060,24 @@
                         grp.style.display = sel.value === '__custom__' ? 'block' : 'none');
                 };
                 bindCustom('slotStudent', 'singleCustomGroup');
-                bindCustom('slotStudent1', 'pairCustom1Group');
-                bindCustom('slotStudent2', 'pairCustom2Group');
+                bindCustom('slotPair', 'pairCustomGroup');
+
+                // Подставим текущие значения в списки
+                const singleSel = document.getElementById('slotStudent');
+                if (singleSel && singleSelected && !state.students.some(s => s.name === singleSelected && (s.type !== 'pair' || !s.partner))) {
+                    singleSel.value = '__custom__';
+                    document.getElementById('singleCustomGroup').style.display = 'block';
+                    document.getElementById('slotStudentCustom').value = singleSelected;
+                }
+                const pairSel = document.getElementById('slotPair');
+                if (pairSel && pairSelected) {
+                    const opt = Array.from(pairSel.options).find(o => o.value === pairSelected);
+                    if (opt) pairSel.value = pairSelected;
+                    else {
+                        pairSel.value = '__custom__';
+                        document.getElementById('pairCustomGroup').style.display = 'block';
+                    }
+                }
 
                 const fileContainer = document.getElementById('fileUploadSlot');
                 if (fileContainer) {
@@ -4247,11 +4099,6 @@
             }, 0);
         }
 
-        function getStudentName(selId, customId) {
-            const sel = document.getElementById(selId);
-            if (!sel) return '';
-            return sel.value === '__custom__' ? document.getElementById(customId).value.trim() : sel.value;
-        }
         function attachHwNote(slot) {
             const hwEl = document.getElementById('slotHw');
             const noteEl = document.getElementById('slotNote');
@@ -4261,11 +4108,13 @@
 
         // ===== ФОРМА СТУДЕНТА =====
         function openStudentModal(idx) {
-            if (currentRole === 'guest') return;
             const isNew = idx === undefined;
-            const s = isNew ? { name: '', level: '', next: '', type: 'single' } : state.students[idx];
+            const s = isNew
+                ? { name: '', level: '', next: '', type: 'single', partner: '' }
+                : state.students[idx];
             const initialNext = s.next || '';
             const initialType = s.type || 'single';
+            const initialPartner = s.partner || '';
 
             const formHtml = `
                 <div class="form-group">
@@ -4282,14 +4131,15 @@
                         <option value="single" ${initialType === 'single' ? 'selected' : ''}>🎓 Индивидуальные</option>
                         <option value="pair" ${initialType === 'pair' ? 'selected' : ''}>👥 Парные</option>
                     </select>
-                    <div class="form-hint">Влияет на подсчёт дохода: парные считаются по тарифу парного занятия.</div>
+                </div>
+                <div class="form-group" id="stPartnerGroup" style="display:${initialType === 'pair' ? 'block' : 'none'}">
+                    <label>Имя второго студента (партнёра)</label>
+                    <input type="text" id="stPartner" value="${escapeHtml(initialPartner)}" placeholder="Имя второго студента">
                 </div>
                 <div class="form-group">
                     <label>Ближайшее занятие</label>
                     ${dateTimePickerHtml('stNext', initialNext, 'Выберите дату и время')}
-                    <div class="form-hint">Если указать дату и время — занятие автоматически появится в расписании.</div>
                 </div>
-                <div class="form-hint">Баланс занятий считается автоматически.</div>
             `;
 
             openModal(isNew ? 'Добавить студента' : 'Редактировать студента', formHtml, () => {
@@ -4298,10 +4148,28 @@
                 const level = document.getElementById('stLevel').value.trim();
                 const next = document.getElementById('stNext-value').value;
                 const type = document.getElementById('stType').value;
+                const partner = (type === 'pair') ? document.getElementById('stPartner').value.trim() : '';
 
-                const obj = { name, level, next, type };
+                if (type === 'pair' && partner && partner === name) {
+                    showAlert('Ошибка', 'Имя второго студента не должно совпадать с именем первого.', 'warn');
+                    return;
+                }
+
+                const obj = { name, level, next, type, partner: partner || '' };
                 if (isNew) state.students.push(obj);
                 else state.students[idx] = obj;
+
+                if (type !== 'pair' || !partner) {
+                    state.students.forEach(x => {
+                        if (x.partner === name) { x.partner = ''; x.type = 'single'; }
+                    });
+                } else {
+                    const existing = state.students.find(x => x.name === partner && x !== obj);
+                    if (existing) {
+                        existing.type = 'pair';
+                        existing.partner = name;
+                    }
+                }
 
                 if (next) {
                     const parsed = parseDateTime(next);
@@ -4312,16 +4180,16 @@
 
                         const already = state.schedule[dateKey].some(slot => {
                             if (slot.time !== time) return false;
-                            if (isPair(slot)) return slot.students.includes(name);
+                            if (hasTwoStudents(slot)) return slot.students.includes(name) || slot.students.includes(partner);
                             return slot.student === name;
                         });
 
                         if (!already) {
-                            if (type === 'pair') {
+                            if (type === 'pair' && partner) {
                                 state.schedule[dateKey].push({
                                     time,
                                     duration: state.settings.defaultDuration || 60,
-                                    students: [name],
+                                    students: [name, partner],
                                     status: 'planned'
                                 });
                             } else {
@@ -4341,39 +4209,118 @@
                 renderAll();
                 closeModal();
             });
-            setTimeout(() => initDateTimePicker('stNext', { placeholder: 'Выберите дату и время' }), 0);
+
+            setTimeout(() => {
+                initDateTimePicker('stNext', { placeholder: 'Выберите дату и время' });
+                const typeSel = document.getElementById('stType');
+                const partnerGroup = document.getElementById('stPartnerGroup');
+                typeSel.addEventListener('change', () => {
+                    partnerGroup.style.display = typeSel.value === 'pair' ? 'block' : 'none';
+                });
+            }, 0);
         }
 
         // ===== ФОРМА ОПЛАТЫ =====
         function openPaymentModal(idx) {
-            if (currentRole === 'guest') return;
             const isNew = idx === undefined;
             const p = isNew
-                ? { student: '', amount: 0, date: new Date().toLocaleDateString('ru-RU'), status: 'paid' }
-                : state.payments[idx];
-            const studentOptions = state.students.map(s =>
-                `<option value="${escapeHtml(s.name)}" ${p.student === s.name ? 'selected' : ''}>${escapeHtml(s.name)}</option>`).join('');
+                ? { student: '', partner: '', payType: 'single', amount: 0, date: new Date().toLocaleDateString('ru-RU'), status: 'paid' }
+                : JSON.parse(JSON.stringify(state.payments[idx]));
+
+            if (!p.payType) {
+                const st = state.students.find(x => x.name === p.student && x.type === 'pair' && x.partner);
+                p.payType = st ? 'pair' : 'single';
+                if (st && !p.partner) p.partner = st.partner;
+            }
+            if (p.partner == null) p.partner = '';
+
             const stats = computeStats();
             const isCustom = p.student && !state.students.some(s => s.name === p.student);
+            const isCustomPartner = p.partner && !state.students.some(s => s.name === p.partner);
+
+            const singleOptions = state.students
+                .filter(s => s.type !== 'pair' || !s.partner)
+                .map(s => `<option value="${escapeHtml(s.name)}" ${p.payType === 'single' && p.student === s.name ? 'selected' : ''}>${escapeHtml(s.name)}</option>`)
+                .join('');
+
+            // Собираем пары: из карточек + из слотов расписания
+            const seenPair = new Set();
+            const pairOptionsArr = [];
+            state.students.forEach(s => {
+                if (s.type === 'pair' && s.partner) {
+                    const key = pairKey(s.name, s.partner);
+                    if (seenPair.has(key)) return;
+                    seenPair.add(key);
+                    pairOptionsArr.push({ a: s.name, b: s.partner });
+                }
+            });
+            Object.values(state.schedule).forEach(slots => {
+                slots.forEach(slot => {
+                    if (slot.free || isPersonal(slot)) return;
+                    if (hasTwoStudents(slot)) {
+                        const a = slot.students[0];
+                        const b = slot.students[1];
+                        const key = pairKey(a, b);
+                        if (seenPair.has(key)) return;
+                        seenPair.add(key);
+                        pairOptionsArr.push({ a, b });
+                    }
+                });
+            });
+
+            const pairOptions = pairOptionsArr.map(({ a, b }) => {
+                const value = `${a}|${b}`;
+                const sel = p.payType === 'pair' && p.student === a && p.partner === b;
+                return `<option value="${escapeHtml(value)}" ${sel ? 'selected' : ''}>${escapeHtml(a)} + ${escapeHtml(b)}</option>`;
+            }).join('');
 
             const formHtml = `
                 <div class="form-group">
-                    <label>Студент</label>
-                    <select id="payStudent">
-                        <option value="">— выберите —</option>
-                        ${studentOptions}
-                        <option value="__custom__" ${isCustom ? 'selected' : ''}>Другой (вручную)</option>
-                    </select>
+                    <label>Тип занятия</label>
+                    <div class="type-switch" id="payTypeSwitch">
+                        <button type="button" data-paytype="single" class="${p.payType === 'single' ? 'active' : ''}">🎓 Индивидуальное</button>
+                        <button type="button" data-paytype="pair" class="${p.payType === 'pair' ? 'active' : ''}">👥 Парное</button>
+                    </div>
+                    <input type="hidden" id="payType" value="${p.payType}">
                 </div>
-                <div class="form-group" id="payCustomGroup" style="display:${isCustom ? 'block' : 'none'}">
-                    <label>Имя студента (вручную)</label>
-                    <input type="text" id="payStudentCustom" value="${escapeHtml(isCustom ? p.student : '')}">
+
+                <div id="paySingleBlock" style="display:${p.payType === 'single' ? 'block' : 'none'}">
+                    <div class="form-group">
+                        <label>Студент</label>
+                        <select id="payStudentSingle">
+                            <option value="">— выберите —</option>
+                            ${singleOptions}
+                            <option value="__custom__" ${isCustom && p.payType === 'single' ? 'selected' : ''}>Другой (вручную)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="paySingleCustomGroup" style="display:${isCustom && p.payType === 'single' ? 'block' : 'none'}">
+                        <label>Имя студента (вручную)</label>
+                        <input type="text" id="paySingleCustom" value="${escapeHtml(isCustom && p.payType === 'single' ? p.student : '')}">
+                    </div>
                 </div>
+
+                <div id="payPairBlock" style="display:${p.payType === 'pair' ? 'block' : 'none'}">
+                    <div class="form-group">
+                        <label>Пара</label>
+                        <select id="payStudentPair">
+                            <option value="">— выберите пару —</option>
+                            ${pairOptions}
+                            <option value="__custom__" ${(isCustom || isCustomPartner) && p.payType === 'pair' ? 'selected' : ''}>Другая пара (вручную)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="payPairCustomGroup" style="display:${(isCustom || isCustomPartner) && p.payType === 'pair' ? 'block' : 'none'}">
+                        <label>Первый студент</label>
+                        <input type="text" id="payPairCustom1" value="${escapeHtml(p.payType === 'pair' && isCustom ? p.student : '')}">
+                        <label style="margin-top:10px">Второй студент</label>
+                        <input type="text" id="payPairCustom2" value="${escapeHtml(p.payType === 'pair' && isCustomPartner ? p.partner : '')}">
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label>Сумма, ₽</label>
                     <input type="number" id="payAmount" min="0" value="${p.amount}">
                     <div class="form-hint">
-                        Индивидуальное: ${fmtMoney(stats.single)} • парное: ${fmtMoney(stats.pair)}<br>
+                        Индивидуальное: ${fmtMoney(stats.single)} • парное (за двоих): ${fmtMoney(stats.pair)}<br>
                         <button type="button" class="btn small ghost" style="margin-top:8px" onclick="applyRate()">Подставить из тарифа</button>
                     </div>
                 </div>
@@ -4392,69 +4339,89 @@
             `;
 
             window.applyRate = function () {
-                const sel = document.getElementById('payStudent');
-                const name = sel.value === '__custom__'
-                    ? document.getElementById('payStudentCustom').value.trim()
-                    : sel.value;
-                if (!name) { showAlert('Сначала выберите студента', 'Без имени тариф не подобрать.', 'warn'); return; }
-                const type = getStudentType(name);
-                let rate = stats.single, label = 'индивидуальное';
+                const type = document.getElementById('payType').value;
                 if (type === 'pair') {
-                    rate = stats.pair;
-                    label = 'парное';
+                    document.getElementById('payAmount').value = stats.pair;
+                    showAlert('Подставлено', `Сумма за парное (за двоих): ${fmtMoney(stats.pair)}.`, 'info');
+                } else {
+                    document.getElementById('payAmount').value = stats.single;
+                    showAlert('Подставлено', `Сумма за индивидуальное: ${fmtMoney(stats.single)}.`, 'info');
                 }
-                document.getElementById('payAmount').value = rate;
-                showAlert('Подставлено', `Сумма за ${label}: ${fmtMoney(rate)}.`, 'info');
             };
 
             openModal(isNew ? 'Добавить оплату' : 'Редактировать оплату', formHtml, () => {
-                const sel = document.getElementById('payStudent');
-                const student = sel.value === '__custom__'
-                    ? document.getElementById('payStudentCustom').value.trim() : sel.value;
-                if (!student) { showAlert('Не хватает данных', 'Выберите студента.', 'warn'); return; }
+                const type = document.getElementById('payType').value;
+                let student = '';
+                let partner = '';
+
+                if (type === 'pair') {
+                    const sel = document.getElementById('payStudentPair');
+                    if (sel.value === '__custom__') {
+                        student = document.getElementById('payPairCustom1').value.trim();
+                        partner = document.getElementById('payPairCustom2').value.trim();
+                    } else if (sel.value.includes('|')) {
+                        const parts = sel.value.split('|');
+                        student = parts[0];
+                        partner = parts[1];
+                    }
+                    if (!student) { showAlert('Не хватает данных', 'Выберите пару или заполните оба имени.', 'warn'); return; }
+                    if (!partner) { showAlert('Не хватает данных', 'Укажите второго студента пары.', 'warn'); return; }
+                    if (student === partner) { showAlert('Ошибка', 'Имена не должны совпадать.', 'warn'); return; }
+                } else {
+                    const sel = document.getElementById('payStudentSingle');
+                    if (sel.value === '__custom__') {
+                        student = document.getElementById('paySingleCustom').value.trim();
+                    } else {
+                        student = sel.value;
+                    }
+                    if (!student) { showAlert('Не хватает данных', 'Выберите студента.', 'warn'); return; }
+                }
+
                 const amount = Math.max(0, Number(document.getElementById('payAmount').value) || 0);
                 const date = document.getElementById('payDate').value.trim();
                 const status = document.getElementById('payStatus').value;
-                const obj = { student, amount, date, status };
+                const obj = { student, partner, payType: type, amount, date, status };
+
                 if (isNew) state.payments.push(obj);
                 else state.payments[idx] = obj;
                 saveState();
                 renderAll();
                 closeModal();
             });
+
             setTimeout(() => {
-                const sel = document.getElementById('payStudent');
-                const customGroup = document.getElementById('payCustomGroup');
-                sel.addEventListener('change', () => {
-                    customGroup.style.display = sel.value === '__custom__' ? 'block' : 'none';
-                });
+                const typeSwitch = document.getElementById('payTypeSwitch');
+                const typeInput = document.getElementById('payType');
+                const singleBlock = document.getElementById('paySingleBlock');
+                const pairBlock = document.getElementById('payPairBlock');
+
+                function updateBlocks(t) {
+                    singleBlock.style.display = t === 'single' ? 'block' : 'none';
+                    pairBlock.style.display = t === 'pair' ? 'block' : 'none';
+                    typeInput.value = t;
+                    typeSwitch.querySelectorAll('button').forEach(b =>
+                        b.classList.toggle('active', b.dataset.paytype === t));
+                }
+                typeSwitch.querySelectorAll('button').forEach(btn =>
+                    btn.addEventListener('click', () => updateBlocks(btn.dataset.paytype)));
+
+                const bind = (selId, groupId) => {
+                    const sel = document.getElementById(selId);
+                    const grp = document.getElementById(groupId);
+                    if (sel && grp) sel.addEventListener('change', () =>
+                        grp.style.display = sel.value === '__custom__' ? 'block' : 'none');
+                };
+                bind('payStudentSingle', 'paySingleCustomGroup');
+                bind('payStudentPair', 'payPairCustomGroup');
             }, 0);
         }
-
-        // ===== ОБРАБОТЧИКИ ЭКРАНА ВХОДА =====
-        document.querySelectorAll('.auth-tabs button').forEach(b => {
-            b.addEventListener('click', () => switchAuthTab(b.dataset.auth));
-        });
-        document.getElementById('loginBtn').addEventListener('click', doLogin);
-        document.getElementById('registerBtn').addEventListener('click', doRegister);
-        document.getElementById('guestBtn').addEventListener('click', doGuest);
-        document.getElementById('logoutBtn').addEventListener('click', doLogout);
 
         // ===== СТАРТ =====
         applyBg(loadBg());
         applyTheme(loadTheme());
-
-        (function init() {
-            const session = loadSession();
-            if (session && (session.role === 'teacher' || session.role === 'guest')) {
-                startApp(session);
-            } else {
-                // показываем экран входа
-                document.getElementById('authScreen').style.display = 'flex';
-                document.getElementById('appContainer').style.display = 'none';
-            }
-            bindThemeSliders();
-        })();
+        renderAll();
+        renderSettingsForm();
+        bindThemeSliders();
     </script>
 </body>
 </html>
