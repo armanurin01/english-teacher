@@ -272,6 +272,7 @@
         .today-tag.done { background: rgba(168, 201, 184, 0.5); color: #2e6a4e; }
         .today-tag.cancelled { background: rgba(217, 163, 163, 0.4); color: #7e3e3e; }
         .today-tag.personal { background: rgba(224, 207, 160, 0.5); color: #6b4d1e; }
+        .today-tag.skyeng { background: rgba(107, 74, 158, 0.15); color: #6b4a9e; border: 1px dashed rgba(107, 74, 158, 0.5); }
         .today-item-info {
             font-size: 0.86em;
             color: #7d7690;
@@ -351,6 +352,8 @@
         .stat-card.highlight .value { color: #4a8a6c; }
         .stat-card.warn { background: rgba(217, 163, 163, 0.18); border-color: rgba(201, 142, 142, 0.4); }
         .stat-card.warn .value { color: #a85a5a; }
+        .stat-card.skyeng { background: rgba(107, 74, 158, 0.12); border-color: rgba(107, 74, 158, 0.35); }
+        .stat-card.skyeng .value { color: #6b4a9e; }
 
         table { width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 0.95em; }
         th, td {
@@ -766,6 +769,7 @@
         .legend .dot.pair { background: rgba(180, 200, 220, 0.8); border: 1px solid rgba(150, 180, 210, 1); }
         .legend .dot.personal { background: rgba(224, 207, 160, 0.5); border: 1px dashed rgba(200, 180, 130, 1); }
         .legend .dot.free { background: rgba(168, 201, 184, 0.5); border: 1px dashed rgba(143, 191, 168, 1); }
+        .legend .dot.skyeng { background: rgba(107, 74, 158, 0.35); border: 1px dashed rgba(107, 74, 158, 1); }
 
         .badge {
             display: inline-block;
@@ -777,6 +781,18 @@
         .badge.paid { background: rgba(168, 201, 184, 0.3); color: #4a8a6c; border: 1px solid rgba(143, 191, 168, 0.5); }
         .badge.wait { background: rgba(224, 207, 160, 0.35); color: #8a7040; border: 1px solid rgba(212, 189, 136, 0.5); }
         .badge.debt { background: rgba(217, 163, 163, 0.3); color: #a85a5a; border: 1px solid rgba(201, 142, 142, 0.5); }
+
+        .badge-skyeng {
+            display: inline-block;
+            padding: 3px 9px;
+            border-radius: 12px;
+            font-size: 0.74em;
+            font-weight: 800;
+            background: rgba(107, 74, 158, 0.18);
+            color: #6b4a9e;
+            border: 1px dashed rgba(107, 74, 158, 0.5);
+            white-space: nowrap;
+        }
 
         .modal-overlay {
             position: fixed;
@@ -1527,6 +1543,7 @@
                 <span><span class="dot busy"></span> Индивидуальное</span>
                 <span><span class="dot pair"></span> Парное</span>
                 <span><span class="dot personal"></span> Мои дела</span>
+                <span><span class="dot skyeng"></span> Со Skyeng</span>
             </div>
 
             <div id="schedContainer"></div>
@@ -1612,6 +1629,10 @@
                     <div class="value" id="personalCount">0</div>
                     <div class="label">Своих дел</div>
                 </div>
+                <div class="stat-card skyeng">
+                    <div class="value" id="skyengCount">0</div>
+                    <div class="label">Студентов со Skyeng</div>
+                </div>
             </div>
 
             <div class="toolbar">
@@ -1646,6 +1667,20 @@
                     <div class="form-group" id="pairMultiplierGroup" style="display:none">
                         <label>Коэффициент (например, 1.6)</label>
                         <input type="number" id="ratePairMultiplier" min="0" step="0.1" value="1.6">
+                    </div>
+
+                    <div class="form-section-title">🟣 Стоимость для студентов со Skyeng</div>
+                    <div class="form-group">
+                        <label>Индивидуальное занятие со Skyeng, ₽</label>
+                        <input type="number" id="rateSkyengSingle" min="0" value="2000">
+                    </div>
+                    <div class="form-group">
+                        <label>Парное занятие со Skyeng (за двоих), ₽</label>
+                        <input type="number" id="rateSkyengPair" min="0" value="3000">
+                    </div>
+                    <div class="form-hint">
+                        Если у студента включён флаг «Skyeng», занятия в расписании,
+                        «Сегодня» и баланс будут считаться по этой цене.
                     </div>
                 </div>
 
@@ -1867,25 +1902,27 @@
             defaultDuration: 60,
             gapMinutes: 0,
             workStart: DEFAULT_WORK_START,
-            workEnd: DEFAULT_WORK_END
+            workEnd: DEFAULT_WORK_END,
+            rateSkyengSingle: 2000,
+            rateSkyengPair: 3000
         };
 
         const DEFAULT_PAYMENTS = [
-            { student: 'Анна', amount: 8000, date: '01.10.2026', status: 'paid', payType: 'single', partner: '' },
-            { student: 'Максим', amount: 4000, date: '03.10.2026', status: 'wait', payType: 'single', partner: '' },
-            { student: 'Ольга', amount: 12000, date: '05.10.2026', status: 'paid', payType: 'pair', partner: 'София' },
-            { student: 'Дмитрий', amount: 6000, date: '07.10.2026', status: 'debt', payType: 'single', partner: '' },
-            { student: 'София', amount: 3000, date: '10.10.2026', status: 'paid', payType: 'pair', partner: 'Ольга' },
-            { student: 'Артём', amount: 9000, date: '12.10.2026', status: 'wait', payType: 'single', partner: '' }
+            { student: 'Анна', amount: 8000, date: '01.10.2026', status: 'paid', payType: 'single', partner: '', skyeng: false },
+            { student: 'Максим', amount: 4000, date: '03.10.2026', status: 'wait', payType: 'single', partner: '', skyeng: false },
+            { student: 'Ольга', amount: 12000, date: '05.10.2026', status: 'paid', payType: 'pair', partner: 'София', skyeng: false },
+            { student: 'Дмитрий', amount: 6000, date: '07.10.2026', status: 'debt', payType: 'single', partner: '', skyeng: false },
+            { student: 'София', amount: 3000, date: '10.10.2026', status: 'paid', payType: 'pair', partner: 'Ольга', skyeng: false },
+            { student: 'Артём', amount: 9000, date: '12.10.2026', status: 'wait', payType: 'single', partner: '', skyeng: false }
         ];
 
         const DEFAULT_STUDENTS = [
-            { name: 'Анна', level: 'B1 Intermediate', next: '', type: 'single', partner: '' },
-            { name: 'Максим', level: 'A2 Elementary', next: '', type: 'single', partner: '' },
-            { name: 'Ольга', level: 'B2 Upper-Int', next: '', type: 'pair', partner: 'София' },
-            { name: 'Дмитрий', level: 'C1 Advanced', next: '', type: 'single', partner: '' },
-            { name: 'София', level: 'A1 Beginner', next: '', type: 'pair', partner: 'Ольга' },
-            { name: 'Артём', level: 'B1 Intermediate', next: '', type: 'single', partner: '' }
+            { name: 'Анна', level: 'B1 Intermediate', next: '', type: 'single', partner: '', skyeng: false },
+            { name: 'Максим', level: 'A2 Elementary', next: '', type: 'single', partner: '', skyeng: false },
+            { name: 'Ольга', level: 'B2 Upper-Int', next: '', type: 'pair', partner: 'София', skyeng: false },
+            { name: 'Дмитрий', level: 'C1 Advanced', next: '', type: 'single', partner: '', skyeng: false },
+            { name: 'София', level: 'A1 Beginner', next: '', type: 'pair', partner: 'Ольга', skyeng: false },
+            { name: 'Артём', level: 'B1 Intermediate', next: '', type: 'single', partner: '', skyeng: false }
         ];
 
         // ===== ХЕЛПЕРЫ =====
@@ -1897,7 +1934,6 @@
         const isDone = s => s.status === 'done';
         const isCancelled = s => s.status === 'cancelled';
 
-        // Два имени в слоте = пара.
         function hasTwoStudents(s) {
             return Array.isArray(s.students) && s.students.length >= 2;
         }
@@ -1938,6 +1974,41 @@
         function entityKey(s) {
             if (s.type === 'pair' && s.partner) return pairKey(s.name, s.partner);
             return s.name;
+        }
+
+        // ===== SKYENG =====
+        function isSkyengStudent(name) {
+            if (!name) return false;
+            const st = state.students.find(x => x.name === name);
+            return !!(st && st.skyeng);
+        }
+        function isSkyengEntity(key) {
+            if (!key) return false;
+            if (key.includes('+')) {
+                const [a, b] = key.split('+').map(s => s.trim());
+                return isSkyengStudent(a) || isSkyengStudent(b);
+            }
+            return isSkyengStudent(key);
+        }
+        function slotIsSkyeng(slot) {
+            if (!slot || slot.free || isPersonal(slot)) return false;
+            if (hasTwoStudents(slot)) return slot.students.some(n => isSkyengStudent(n));
+            return !!slot.student && isSkyengStudent(slot.student);
+        }
+        function toggleSkyengRow(key) {
+            if (!key) return;
+            if (key.includes('+')) {
+                const [a, b] = key.split('+').map(s => s.trim());
+                [a, b].forEach(name => {
+                    const st = state.students.find(x => x.name === name);
+                    if (st) st.skyeng = !st.skyeng;
+                });
+            } else {
+                const st = state.students.find(x => x.name === key);
+                if (st) st.skyeng = !st.skyeng;
+            }
+            saveState();
+            renderAll();
         }
 
         function timeToMinutes(time) {
@@ -2140,10 +2211,12 @@
                     parsed.students.forEach(s => {
                         if (!s.type) s.type = 'single';
                         if (s.partner == null) s.partner = '';
+                        if (s.skyeng == null) s.skyeng = false;
                     });
                     if (!Array.isArray(parsed.payments)) parsed.payments = JSON.parse(JSON.stringify(DEFAULT_PAYMENTS));
                     parsed.payments.forEach(p => {
                         if (p.partner == null) p.partner = '';
+                        if (p.skyeng == null) p.skyeng = false;
                         if (!p.payType) {
                             const st = parsed.students.find(x => x.name === p.student && x.type === 'pair' && x.partner);
                             p.payType = st ? 'pair' : 'single';
@@ -2184,10 +2257,13 @@
 
         // ===== РАСЧЁТЫ =====
         function computeStats() {
-            const single = Number(state.settings.rateSingle);
-            const pair = state.settings.pairMode === 'multiplier'
-                ? Math.round(single * Number(state.settings.ratePairMultiplier))
+            const baseSingle = Number(state.settings.rateSingle);
+            const basePair = state.settings.pairMode === 'multiplier'
+                ? Math.round(baseSingle * Number(state.settings.ratePairMultiplier))
                 : Number(state.settings.ratePairFixed);
+            
+            const skyengSingle = Number(state.settings.rateSkyengSingle) || baseSingle;
+            const skyengPair = Number(state.settings.rateSkyengPair) || basePair;
 
             let individualCount = 0, pairCount = 0, personalCount = 0, doneCount = 0;
             let weeklyPotential = 0;
@@ -2228,7 +2304,8 @@
                         if (inWeek) {
                             pairCount++;
                             if (done) doneCount++;
-                            if (!cancelled) weeklyPotential += pair;
+                            const isSk = slot.students.some(n => isSkyengStudent(n));
+                            if (!cancelled) weeklyPotential += isSk ? skyengPair : basePair;
                         }
                     } else if (slot.student) {
                         const name = slot.student;
@@ -2239,14 +2316,15 @@
                         if (done) agg.done++;
 
                         if (inWeek) {
+                            const isSk = isSkyengStudent(name);
                             if (type === 'pair') {
                                 pairCount++;
                                 if (done) doneCount++;
-                                if (!cancelled) weeklyPotential += pair;
+                                if (!cancelled) weeklyPotential += isSk ? skyengPair : basePair;
                             } else {
                                 individualCount++;
                                 if (done) doneCount++;
-                                if (!cancelled) weeklyPotential += single;
+                                if (!cancelled) weeklyPotential += isSk ? skyengSingle : baseSingle;
                             }
                         }
                     }
@@ -2271,8 +2349,14 @@
                 else { rec.wait += amt; waitSum += amt; }
             });
 
-            return { single, pair, individualCount, pairCount, personalCount, doneCount,
-                     weeklyPotential, perStudent, paymentsByStudent, paidSum, waitSum };
+            return { 
+                single: baseSingle, 
+                pair: basePair, 
+                skyengSingle, 
+                skyengPair,
+                individualCount, pairCount, personalCount, doneCount,
+                weeklyPotential, perStudent, paymentsByStudent, paidSum, waitSum 
+            };
         }
 
         function computeStudentBalances(stats) {
@@ -2309,8 +2393,10 @@
             return entities.map(e => {
                 const rec = stats.paymentsByStudent[e.key] || { paid: 0, wait: 0 };
                 const schedule = stats.perStudent[e.key] || { single: 0, pair: 0, done: 0 };
-                const rateSingle = stats.single;
-                const ratePair = stats.pair;
+                
+                const isSk = isSkyengEntity(e.key);
+                const rateSingle = isSk ? stats.skyengSingle : stats.single;
+                const ratePair = isSk ? stats.skyengPair : stats.pair;
 
                 const rate = (e.type === 'pair') ? ratePair : rateSingle;
 
@@ -2321,7 +2407,8 @@
                 const debtLessons = left < 0 ? Math.abs(left) : 0;
                 return { key: e.key, name: e.name, type: e.type,
                          paidLessons, done, remainingLessons, debtLessons,
-                         remainingRub: remainingLessons * rate };
+                         remainingRub: remainingLessons * rate,
+                         skyeng: isSk };
             });
         }
 
@@ -2333,10 +2420,16 @@
                 if (slot.free || isPersonal(slot)) return;
                 if (isCancelled(slot)) return;
                 if (hasTwoStudents(slot)) {
-                    income += stats.pair;
+                    const isSk = slot.students.some(n => isSkyengStudent(n));
+                    income += isSk ? stats.skyengPair : stats.pair;
                 } else if (slot.student) {
                     const type = getStudentType(slot.student);
-                    income += (type === 'pair') ? stats.pair : stats.single;
+                    const isSk = isSkyengStudent(slot.student);
+                    if (type === 'pair') {
+                        income += isSk ? stats.skyengPair : stats.pair;
+                    } else {
+                        income += isSk ? stats.skyengSingle : stats.single;
+                    }
                 }
             });
             return income;
@@ -2393,6 +2486,7 @@
 
             if (isDone(slot)) tags.push(`<span class="today-tag done">✅ Проведено</span>`);
             if (isCancelled(slot)) tags.push(`<span class="today-tag cancelled">❌ Отменено</span>`);
+            if (slotIsSkyeng(slot)) tags.push(`<span class="today-tag skyeng">🟣 Со Skyeng</span>`);
 
             let infoHtml = '';
             if (hasHw(slot)) {
@@ -2502,12 +2596,13 @@
                         else { name = slot.student; }
                         const stIcon = isDone(slot) ? ' ✅' : (isCancelled(slot) ? ' ❌' : '');
                         const fileIcon = hasFile(slot) ? ' 📎' : '';
+                        const skIcon = slotIsSkyeng(slot) ? ' 🟣' : '';
                         const range = timeRange(slot.time, slot.duration);
                         slotsHtml += `
                             <div class="week-slot ${cls2}" draggable="true" data-date="${key}" data-idx="${idx}"
                                  onclick="openSlotModal('${key}', ${idx})">
                                 <div class="slot-time">${range}</div>
-                                <div class="slot-name">${icon ? icon + ' ' : ''}${escapeHtml(name)}${fileIcon}${stIcon}</div>
+                                <div class="slot-name">${icon ? icon + ' ' : ''}${escapeHtml(name)}${fileIcon}${skIcon}${stIcon}</div>
                             </div>
                         `;
                     });
@@ -2662,10 +2757,11 @@
                     else if (hasTwoStudents(slot)) name = slot.students.join('+');
                     else name = slot.student;
                     const originalIdx = (state.schedule[key] || []).indexOf(slot);
+                    const skMini = slotIsSkyeng(slot) ? '🟣 ' : '';
                     content += `
                         <div class="mini-slot ${c2}" draggable="true" data-date="${key}" data-idx="${originalIdx}"
                              onclick="event.stopPropagation(); openSlotModal('${key}', ${originalIdx})">
-                            ${slot.time} ${escapeHtml(name)}
+                            ${skMini}${slot.time} ${escapeHtml(name)}
                         </div>
                     `;
                 });
@@ -2914,12 +3010,12 @@
                 const editBtn = (row.studentIdx !== undefined)
                     ? `<button class="btn small ghost" onclick="openStudentModal(${row.studentIdx})">✎</button>`
                     : '';
-                // Кнопка удаления видна всегда
                 const delBtn = `<button class="btn small danger" onclick='deleteStudentRow(${JSON.stringify(row)})'>✕</button>`;
+                const skBtn = `<button class="btn small ghost" title="Skyeng" onclick="toggleSkyengRow('${escapeHtml(row.key)}')">${isSkyengEntity(row.key) ? '🟣' : '⚪'}</button>`;
 
                 return `
                     <tr>
-                        <td>${escapeHtml(row.name)}</td>
+                        <td>${escapeHtml(row.name)} ${isSkyengEntity(row.key) ? '<span class="badge-skyeng">🟣 Со Skyeng</span>' : ''}</td>
                         <td>${escapeHtml(row.level)}</td>
                         <td>${typeLabel}</td>
                         <td class="balance-cell">
@@ -2935,6 +3031,7 @@
                         <td>${nextHtml}</td>
                         <td>${hwHtml}</td>
                         <td style="text-align:right;white-space:nowrap">
+                            ${skBtn}
                             ${editBtn}
                             ${delBtn}
                         </td>
@@ -2955,26 +3052,31 @@
 
                 let display;
                 let typeLabel;
+                let sk = false;
                 if (p.payType === 'pair' && p.partner) {
                     display = `${p.student} + ${p.partner}`;
                     typeLabel = '<span class="student-type-badge pair">👥 Парное</span>';
+                    sk = p.skyeng || isSkyengEntity(pairKey(p.student, p.partner));
                 } else if (p.payType === 'single') {
                     display = p.student;
                     typeLabel = '<span class="student-type-badge single">🎓 Индивидуальное</span>';
+                    sk = p.skyeng || isSkyengStudent(p.student);
                 } else {
                     const s = state.students.find(x => x.name === p.student && x.type === 'pair' && x.partner);
                     if (s) {
                         display = `${s.name} + ${s.partner}`;
                         typeLabel = '<span class="student-type-badge pair">👥 Парное</span>';
+                        sk = p.skyeng || isSkyengEntity(pairKey(s.name, s.partner));
                     } else {
                         display = p.student;
                         typeLabel = '<span class="student-type-badge single">🎓 Индивидуальное</span>';
+                        sk = p.skyeng || isSkyengStudent(p.student);
                     }
                 }
 
                 return `
                     <tr>
-                        <td>${escapeHtml(display)}</td>
+                        <td>${escapeHtml(display)} ${sk ? '<span class="badge-skyeng">🟣 Со Skyeng</span>' : ''}</td>
                         <td>${typeLabel}</td>
                         <td>${fmtMoney(p.amount)}</td>
                         <td>${escapeHtml(p.date)}</td>
@@ -2997,6 +3099,8 @@
             document.getElementById('pairCount').textContent = stats.pairCount;
             document.getElementById('doneCount').textContent = stats.doneCount;
             document.getElementById('personalCount').textContent = stats.personalCount;
+            const skEl = document.getElementById('skyengCount');
+            if (skEl) skEl.textContent = state.students.filter(s => s.skyeng).length;
         }
 
         function renderRatePreview(stats) {
@@ -3005,11 +3109,14 @@
             const s = state.settings;
             const modeText = s.pairMode === 'multiplier'
                 ? `коэффициент ×${s.ratePairMultiplier}` : 'фиксированная сумма';
+            const skyengCount = state.students.filter(x => x.skyeng).length;
             box.innerHTML = `
                 <div>• Индивидуальное: <b style="color:var(--accent-solid)">${fmtMoney(stats.single)}</b></div>
                 <div>• Парное (за двоих): <b style="color:var(--accent-solid)">${fmtMoney(stats.pair)}</b> <span style="color:#b0aabc">(${modeText})</span></div>
+                <div>• Со Skyeng: инд. <b style="color:var(--accent-solid)">${fmtMoney(stats.skyengSingle)}</b>, пара <b style="color:var(--accent-solid)">${fmtMoney(stats.skyengPair)}</b></div>
                 <div>• Стандартная длительность: <b style="color:var(--accent-solid)">${durationText(s.defaultDuration || 60)}</b></div>
                 <div>• Рабочие часы: <b style="color:var(--accent-solid)">${s.workStart || DEFAULT_WORK_START} – ${s.workEnd || DEFAULT_WORK_END}</b></div>
+                <div>• Студентов со Skyeng: <b style="color:var(--accent-solid)">${skyengCount}</b></div>
             `;
         }
 
@@ -3152,7 +3259,8 @@
             const statusInfo = STATUS_LABELS[slot.status] || STATUS_LABELS.planned;
             const showStatus = !isPersonal(slot);
             const statusLine = showStatus ? ` • ${statusInfo.icon} ${statusInfo.text}` : '';
-            title.textContent = `${formatDayHuman(date)}, ${range} — ${who}${statusLine}`;
+            const skLine = slotIsSkyeng(slot) ? ' • 🟣 Со Skyeng' : '';
+            title.textContent = `${formatDayHuman(date)}, ${range} — ${who}${statusLine}${skLine}`;
 
             let html = '';
             if (hasHw(slot)) {
@@ -3243,7 +3351,6 @@
                 }
             });
         }
-        // Универсальное удаление строки: по индексу, или (для пар из расписания) по ключу
         function deleteStudentRow(row) {
             if (row.studentIdx !== undefined) {
                 deleteStudent(row.studentIdx);
@@ -3359,6 +3466,8 @@
             document.getElementById('gapMinutes').value = (s.gapMinutes != null ? s.gapMinutes : 0);
             document.getElementById('workStart').value = s.workStart || DEFAULT_WORK_START;
             document.getElementById('workEnd').value = s.workEnd || DEFAULT_WORK_END;
+            document.getElementById('rateSkyengSingle').value = s.rateSkyengSingle != null ? s.rateSkyengSingle : s.rateSingle;
+            document.getElementById('rateSkyengPair').value = s.rateSkyengPair != null ? s.rateSkyengPair : s.ratePairFixed;
             togglePairModeFields();
             renderRatePreview(computeStats());
 
@@ -3387,7 +3496,15 @@
             const gapMinutes = Math.max(0, Number(document.getElementById('gapMinutes').value) || 0);
             const workStart = document.getElementById('workStart').value.trim() || DEFAULT_WORK_START;
             const workEnd = document.getElementById('workEnd').value.trim() || DEFAULT_WORK_END;
-            state.settings = { rateSingle, pairMode, ratePairFixed, ratePairMultiplier, defaultDuration, gapMinutes, workStart, workEnd };
+            const rateSkyengSingle = Math.max(0, Number(document.getElementById('rateSkyengSingle').value) || 0);
+            const rateSkyengPair = Math.max(0, Number(document.getElementById('rateSkyengPair').value) || 0);
+            
+            state.settings = { 
+                rateSingle, pairMode, ratePairFixed, ratePairMultiplier, 
+                defaultDuration, gapMinutes, workStart, workEnd,
+                rateSkyengSingle, rateSkyengPair
+            };
+
             Object.keys(state.schedule).forEach(dateKey => recalcDayChain(dateKey));
             saveState();
             renderAll();
@@ -3831,12 +3948,13 @@
 
             const singleOptions = state.students
                 .filter(s => s.type !== 'pair' || !s.partner)
-                .map(s => `<option value="${escapeHtml(s.name)}">${escapeHtml(s.name)}</option>`)
+                .map(s => `<option value="${escapeHtml(s.name)}">${escapeHtml(s.name)}${s.skyeng ? ' 🟣' : ''}</option>`)
                 .join('');
 
             const pairOptionsHtml = allPairs.map(p => {
                 const value = `${p.a}|${p.b}`;
-                return `<option value="${escapeHtml(value)}">${escapeHtml(p.a)} + ${escapeHtml(p.b)}</option>`;
+                const sk = isSkyengStudent(p.a) || isSkyengStudent(p.b);
+                return `<option value="${escapeHtml(value)}">${escapeHtml(p.a)} + ${escapeHtml(p.b)}${sk ? ' 🟣' : ''}</option>`;
             }).join('');
 
             const singleSelected = hasTwoStudents(slot) ? '' : (slot.student || '');
@@ -3851,6 +3969,9 @@
 
             const quickActive = (m) => initialDuration === m ? 'active' : '';
             const customActive = (![60, 50].includes(initialDuration)) ? 'active' : '';
+
+            const singleSkyengMark = singleSelected && isSkyengStudent(singleSelected) ? 'block' : 'none';
+            const pairSkyengMark = pairSelected && pairSelected.split('|').some(n => isSkyengStudent(n)) ? 'block' : 'none';
 
             const formHtml = `
                 <div class="form-group">
@@ -3888,6 +4009,9 @@
                             ${singleOptions}
                             <option value="__custom__">Другой (вручную)</option>
                         </select>
+                        <div id="singleSkyengMark" style="display:${singleSkyengMark};margin-top:8px">
+                            <span class="badge-skyeng">🟣 Со Skyeng</span>
+                        </div>
                     </div>
                     <div class="form-group" id="singleCustomGroup" style="display:none">
                         <label>Имя студента (вручную)</label>
@@ -3903,6 +4027,9 @@
                             ${pairOptionsHtml}
                             <option value="__custom__">Двое (вручную)</option>
                         </select>
+                        <div id="pairSkyengMark" style="display:${pairSkyengMark};margin-top:8px">
+                            <span class="badge-skyeng">🟣 Со Skyeng</span>
+                        </div>
                         <div class="form-hint">
                             <b>Двое в слоте = всегда пара.</b> Везде будет отображаться
                             «Имя1 + Имя2», считаться по парному тарифу и появляться в списке студентов единой строкой.
@@ -4121,6 +4248,42 @@
                     }
                 }
 
+                // Обновление бейджа «Со Skyeng» в модалке
+                const singleMark = document.getElementById('singleSkyengMark');
+                if (singleSel && singleMark) {
+                    const upd = () => {
+                        const v = singleSel.value === '__custom__'
+                            ? document.getElementById('slotStudentCustom').value.trim()
+                            : singleSel.value;
+                        singleMark.style.display = v && isSkyengStudent(v) ? 'block' : 'none';
+                    };
+                    singleSel.addEventListener('change', upd);
+                    const custom = document.getElementById('slotStudentCustom');
+                    if (custom) custom.addEventListener('input', upd);
+                    upd();
+                }
+                const pairMark = document.getElementById('pairSkyengMark');
+                if (pairSel && pairMark) {
+                    const upd = () => {
+                        let names = [];
+                        if (pairSel.value === '__custom__') {
+                            names = [
+                                document.getElementById('slotStudent1Custom').value.trim(),
+                                document.getElementById('slotStudent2Custom').value.trim()
+                            ];
+                        } else if (pairSel.value.includes('|')) {
+                            names = pairSel.value.split('|').map(s => s.trim());
+                        }
+                        pairMark.style.display = names.some(n => n && isSkyengStudent(n)) ? 'block' : 'none';
+                    };
+                    pairSel.addEventListener('change', upd);
+                    ['slotStudent1Custom','slotStudent2Custom'].forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) el.addEventListener('input', upd);
+                    });
+                    upd();
+                }
+
                 const fileContainer = document.getElementById('fileUploadSlot');
                 if (fileContainer) {
                     fileContainer.innerHTML = fileUploadHtml(slot);
@@ -4152,11 +4315,12 @@
         function openStudentModal(idx) {
             const isNew = idx === undefined;
             const s = isNew
-                ? { name: '', level: '', next: '', type: 'single', partner: '' }
+                ? { name: '', level: '', next: '', type: 'single', partner: '', skyeng: false }
                 : state.students[idx];
             const initialNext = s.next || '';
             const initialType = s.type || 'single';
             const initialPartner = s.partner || '';
+            const initialSkyeng = !!s.skyeng;
 
             const formHtml = `
                 <div class="form-group">
@@ -4179,6 +4343,12 @@
                     <input type="text" id="stPartner" value="${escapeHtml(initialPartner)}" placeholder="Имя второго студента">
                 </div>
                 <div class="form-group">
+                    <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
+                        <input type="checkbox" id="stSkyeng" ${initialSkyeng ? 'checked' : ''} style="width:18px;height:18px;accent-color:var(--accent-1)">
+                        <span>🟣 Студент со Skyeng</span>
+                    </label>
+                </div>
+                <div class="form-group">
                     <label>Ближайшее занятие</label>
                     ${dateTimePickerHtml('stNext', initialNext, 'Выберите дату и время')}
                 </div>
@@ -4191,13 +4361,14 @@
                 const next = document.getElementById('stNext-value').value;
                 const type = document.getElementById('stType').value;
                 const partner = (type === 'pair') ? document.getElementById('stPartner').value.trim() : '';
+                const skyeng = document.getElementById('stSkyeng').checked;
 
                 if (type === 'pair' && partner && partner === name) {
                     showAlert('Ошибка', 'Имя второго студента не должно совпадать с именем первого.', 'warn');
                     return;
                 }
 
-                const obj = { name, level, next, type, partner: partner || '' };
+                const obj = { name, level, next, type, partner: partner || '', skyeng };
                 if (isNew) state.students.push(obj);
                 else state.students[idx] = obj;
 
@@ -4266,7 +4437,7 @@
         function openPaymentModal(idx) {
             const isNew = idx === undefined;
             const p = isNew
-                ? { student: '', partner: '', payType: 'single', amount: 0, date: new Date().toLocaleDateString('ru-RU'), status: 'paid' }
+                ? { student: '', partner: '', payType: 'single', amount: 0, date: new Date().toLocaleDateString('ru-RU'), status: 'paid', skyeng: false }
                 : JSON.parse(JSON.stringify(state.payments[idx]));
 
             if (!p.payType) {
@@ -4275,14 +4446,18 @@
                 if (st && !p.partner) p.partner = st.partner;
             }
             if (p.partner == null) p.partner = '';
+            if (p.skyeng == null) p.skyeng = false;
 
             const stats = computeStats();
             const isCustom = p.student && !state.students.some(s => s.name === p.student);
             const isCustomPartner = p.partner && !state.students.some(s => s.name === p.partner);
+            const initialSk = p.skyeng || (p.payType === 'pair' && p.partner
+                ? isSkyengEntity(pairKey(p.student, p.partner))
+                : isSkyengStudent(p.student));
 
             const singleOptions = state.students
                 .filter(s => s.type !== 'pair' || !s.partner)
-                .map(s => `<option value="${escapeHtml(s.name)}" ${p.payType === 'single' && p.student === s.name ? 'selected' : ''}>${escapeHtml(s.name)}</option>`)
+                .map(s => `<option value="${escapeHtml(s.name)}" ${p.payType === 'single' && p.student === s.name ? 'selected' : ''}>${escapeHtml(s.name)}${s.skyeng ? ' 🟣' : ''}</option>`)
                 .join('');
 
             const seenPair = new Set();
@@ -4312,7 +4487,8 @@
             const pairOptions = pairOptionsArr.map(({ a, b }) => {
                 const value = `${a}|${b}`;
                 const sel = p.payType === 'pair' && p.student === a && p.partner === b;
-                return `<option value="${escapeHtml(value)}" ${sel ? 'selected' : ''}>${escapeHtml(a)} + ${escapeHtml(b)}</option>`;
+                const sk = isSkyengStudent(a) || isSkyengStudent(b);
+                return `<option value="${escapeHtml(value)}" ${sel ? 'selected' : ''}>${escapeHtml(a)} + ${escapeHtml(b)}${sk ? ' 🟣' : ''}</option>`;
             }).join('');
 
             const formHtml = `
@@ -4377,6 +4553,12 @@
                         <option value="debt" ${p.status === 'debt' ? 'selected' : ''}>Долг</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
+                        <input type="checkbox" id="paySkyeng" ${initialSk ? 'checked' : ''} style="width:18px;height:18px;accent-color:var(--accent-1)">
+                        <span>🟣 Оплата от студента со Skyeng</span>
+                    </label>
+                </div>
             `;
 
             window.applyRate = function () {
@@ -4421,10 +4603,25 @@
                 const amount = Math.max(0, Number(document.getElementById('payAmount').value) || 0);
                 const date = document.getElementById('payDate').value.trim();
                 const status = document.getElementById('payStatus').value;
-                const obj = { student, partner, payType: type, amount, date, status };
+                const skyeng = document.getElementById('paySkyeng').checked;
+                const obj = { student, partner, payType: type, amount, date, status, skyeng };
 
                 if (isNew) state.payments.push(obj);
                 else state.payments[idx] = obj;
+
+                // Синхронизируем флаг со студентами
+                if (skyeng) {
+                    if (type === 'pair') {
+                        [student, partner].forEach(n => {
+                            const st = state.students.find(x => x.name === n);
+                            if (st) st.skyeng = true;
+                        });
+                    } else {
+                        const st = state.students.find(x => x.name === student);
+                        if (st) st.skyeng = true;
+                    }
+                }
+
                 saveState();
                 renderAll();
                 closeModal();
