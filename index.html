@@ -353,8 +353,10 @@ async function pullCloud(user, payload){
   finally { applyingCloud = false; }
   lastCloudJson = JSON.stringify(payload);
   setStatus('Данные загружены из облака ☁️');
-  // Refresh UI only if this app exposes a reload-safe way; reload ensures all views reflect cloud data.
-  location.reload();
+  // Do not reload here: the auth listener runs again after a reload and can
+  // repeatedly compare/pull data, causing a page-refresh loop. The payload is
+  // safely stored locally; the user can refresh once manually if the view needs it.
+
 }
 async function initializeSync(user){
   activeUser = user;
@@ -368,11 +370,11 @@ async function initializeSync(user){
     if(snap.exists() && snap.data().payload && typeof snap.data().payload === 'object'){
       const cloud = snap.data().payload;
       const cloudJson = JSON.stringify(cloud);
-      if(!local || cloudJson !== JSON.stringify(local)){
-        // Cloud is the source of truth when a device signs in and has different local data.
-        // This prevents a newly opened device's empty/default data from overwriting the cloud.
-        await pullCloud(user, cloud);
-        return;
+      if(!local){ await pullCloud(user, cloud); return; }
+      if(cloudJson !== JSON.stringify(local)){
+        const useCloud = confirm('В облаке уже есть данные для этого аккаунта.\n\nНажми OK, чтобы загрузить облачную версию на это устройство.\nНажми Отмена, чтобы сохранить данные этого устройства в облако (они заменят облачную версию).');
+        if(useCloud){ await pullCloud(user, cloud); return; }
+        await pushLocal(user, local); return;
       }
       lastCloudJson = cloudJson; setStatus('Облако подключено ✓ Данные совпадают.');
     } else {
