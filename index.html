@@ -334,6 +334,29 @@ body.schedule-capture .schedule-scroll{margin-bottom:10px!important;height:calc(
 body.schedule-capture .schedule-scroll .hour,body.schedule-capture .schedule-scroll .slot{height:26px!important;min-height:26px!important}
 body.schedule-capture .schedule-scroll .lesson{height:calc(var(--duration-slots)*26px - 3px)!important}
 </style>
+
+<style id="schedule-bottom-visibility-and-height-fix">
+/* Keep the last lessons clear of browser controls in fullscreen/capture mode. */
+body.schedule-capture .schedule-scroll {
+  height: calc(100dvh - 42px - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
+  max-height: calc(100dvh - 42px - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
+  margin-bottom: 14px !important;
+  padding-bottom: 18px !important;
+  scroll-padding-bottom: 18px;
+  overscroll-behavior-y: contain;
+}
+/* A little more vertical room for the normal schedule window. */
+.schedule-scroll { max-height: min(73vh, 820px) !important; }
+@media (max-width:720px) {
+  .schedule-scroll { max-height: min(66vh, 700px) !important; }
+  body.schedule-capture .schedule-scroll {
+    height: calc(100dvh - 48px - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
+    max-height: calc(100dvh - 48px - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
+    margin-bottom: 16px !important;
+    padding-bottom: 24px !important;
+  }
+}
+</style>
 </head><body><div class="app"><aside class="side"><div class="brand"><div class="logo">✿</div><div><strong id="studioBrandName">Bloom English</strong><small>teacher's space</small></div></div><div class="navlabel">Мой кабинет</div><nav class="nav" id="nav"><button class="active" data-page="home"><span class="ico">⌂</span>Обзор</button><button data-page="schedule"><span class="ico">▦</span>Расписание</button><button data-page="students"><span class="ico">♡</span>Студенты</button><button data-page="payments"><span class="ico">₽</span>Оплаты</button><button data-page="income"><span class="ico">↗</span>Доход</button><button data-page="notes"><span class="ico">▤</span>Заметки</button><button data-page="settings"><span class="ico">⚙</span>Настройки</button></nav><div class="sidebottom"><div class="profile"><div class="mini-avatar">🌷</div><div><strong>Мой кабинет</strong><small>English tutor</small></div></div></div></aside><main><header class="topbar"><div><div class="eyebrow" id="todayLabel">ТВОЁ ПРОСТРАНСТВО</div><h1 id="pageTitle">Добро пожаловать ✨</h1></div><div class="top-actions"><span class="pill" id="topDate">♡ Учим с любовью</span><button class="primary" onclick="openLessonModal()">＋ Занятие</button></div></header><div id="content"></div></main></div><div id="modalRoot"></div><div id="toastRoot"></div>
 <script>
 const $=s=>document.querySelector(s);const today=new Date();const iso=d=>{const x=new Date(d);return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`};const parseDate=s=>new Date(s+'T12:00:00');const money=n=>new Intl.NumberFormat('ru-RU',{style:'currency',currency:(data?.settings?.currency||'RUB'),maximumFractionDigits:0}).format(Number(n)||0);const dayNames=['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];const monthNames=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];const monthLong=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
