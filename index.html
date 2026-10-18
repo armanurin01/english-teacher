@@ -370,9 +370,11 @@ async function initializeSync(user){
       const cloudJson = JSON.stringify(cloud);
       if(!local){ await pullCloud(user, cloud); return; }
       if(cloudJson !== JSON.stringify(local)){
-        const useCloud = confirm('В облаке уже есть данные для этого аккаунта.\n\nНажми OK, чтобы загрузить облачную версию на это устройство.\nНажми Отмена, чтобы сохранить данные этого устройства в облако (они заменят облачную версию).');
-        if(useCloud){ await pullCloud(user, cloud); return; }
-        await pushLocal(user, local); return;
+        // Avoid repeated confirmation/reload loops. The computer's local data is
+        // treated as the source of truth when a mismatch is found.
+        await pushLocal(user, local);
+        setStatus('Данные этого устройства сохранены в облако ☁️');
+        return;
       }
       lastCloudJson = cloudJson; setStatus('Облако подключено ✓ Данные совпадают.');
     } else {
