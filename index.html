@@ -284,4 +284,137 @@ function closeAllBloomSelects(){document.querySelectorAll('.bloom-select.open').
 function initBloomSelects(root=document){root.querySelectorAll('select').forEach(enhanceBloomSelect)}
 document.addEventListener('click',e=>{if(!e.target.closest('.bloom-select'))closeAllBloomSelects()});new MutationObserver(records=>records.forEach(r=>r.addedNodes.forEach(n=>{if(n.nodeType===1){if(n.matches?.('select'))enhanceBloomSelect(n);initBloomSelects(n)}}))).observe(document.body,{childList:true,subtree:true});document.addEventListener('DOMContentLoaded',()=>initBloomSelects());
 
-</script></body></html>
+</script><!-- Bloom English Firebase cloud sync: uses Firebase Web SDK from CDN -->
+<style>
+#be-cloud-panel{position:fixed;right:16px;bottom:16px;z-index:2147483000;font:14px/1.4 system-ui,-apple-system,sans-serif;color:#302641}
+#be-cloud-toggle{border:0;border-radius:999px;padding:11px 16px;background:#6c4a91;color:white;box-shadow:0 5px 18px #3d27552b;font-weight:650;cursor:pointer}
+#be-cloud-card{display:none;width:min(340px,calc(100vw - 32px));margin-bottom:10px;padding:18px;background:#fff;border:1px solid #e5dbee;border-radius:18px;box-shadow:0 12px 38px #35204b30}
+#be-cloud-card.open{display:block}#be-cloud-card h3{margin:0 0 8px;font-size:17px}#be-cloud-card p{margin:6px 0 12px;color:#6f657a;font-size:12px}
+#be-cloud-card input{box-sizing:border-box;width:100%;padding:10px 11px;margin:5px 0;border:1px solid #ddd2e9;border-radius:10px;font:inherit;background:#fff;color:#302641}
+#be-cloud-card button{border:0;border-radius:10px;padding:9px 12px;margin:4px 4px 0 0;cursor:pointer;font:inherit;font-weight:600}
+#be-cloud-login,#be-cloud-register{background:#6c4a91;color:#fff}#be-cloud-logout{background:#f0eaf6;color:#49365e}#be-cloud-status{font-size:12px;margin:10px 0 0;color:#59456f;overflow-wrap:anywhere}
+@media(max-width:520px){#be-cloud-panel{right:10px;bottom:10px}#be-cloud-card{width:calc(100vw - 36px)}}
+</style>
+<div id="be-cloud-panel">
+  <section id="be-cloud-card" aria-label="Облачная синхронизация">
+    <h3>☁️ Bloom English Sync</h3>
+    <p>Войди в аккаунт, чтобы синхронизировать данные между устройствами. Используй один и тот же email на всех устройствах.</p>
+    <form id="be-cloud-form">
+      <input id="be-cloud-email" type="email" autocomplete="email" placeholder="Электронная почта" required>
+      <input id="be-cloud-password" type="password" autocomplete="current-password" placeholder="Пароль (минимум 6 символов)" minlength="6" required>
+      <button id="be-cloud-login" type="submit">Войти</button>
+      <button id="be-cloud-register" type="button">Создать аккаунт</button>
+    </form>
+    <button id="be-cloud-logout" type="button" hidden>Выйти</button>
+    <div id="be-cloud-status" role="status">Пока работает локальное сохранение.</div>
+  </section>
+  <button id="be-cloud-toggle" type="button" aria-expanded="false">☁️ Облако</button>
+</div>
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
+const firebaseConfig = {
+  apiKey: 'AIzaSyBzPbVbh0VtGxJf454itO1NZxFrp701ssg',
+  authDomain: 'bloom-english-classroom.firebaseapp.com',
+  projectId: 'bloom-english-classroom',
+  storageBucket: 'bloom-english-classroom.firebasestorage.app',
+  messagingSenderId: '40092284107',
+  appId: '1:40092284107:web:9f29cc389cf732078fd74e'
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const KEY = 'bloomEnglishData';
+const $ = id => document.getElementById(id);
+const panel = $('be-cloud-card'), toggle = $('be-cloud-toggle'), status = $('be-cloud-status');
+let activeUser = null, applyingCloud = false, syncTimer = null, lastCloudJson = '';
+const originalSetItem = Storage.prototype.setItem;
+function localPayload(){ try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { return null; } }
+function setStatus(s){ status.textContent = s; }
+function setLoggedInUI(user){
+  $('be-cloud-form').hidden = !!user;
+  $('be-cloud-logout').hidden = !user;
+  $('be-cloud-email').value = user?.email || '';
+  $('be-cloud-password').value = '';
+}
+function safeSize(obj){ return new Blob([JSON.stringify(obj)]).size; }
+async function pushLocal(user, payload){
+  if(!payload) throw new Error('Локальные данные не найдены.');
+  const json = JSON.stringify(payload);
+  if(safeSize(payload) > 850000) throw new Error('Данных слишком много для одного облачного документа. Нужна отдельная настройка хранения. Локальные данные не удалены.');
+  await setDoc(doc(db,'users',user.uid,'appData','main'), {payload, updatedAt:serverTimestamp(), schemaVersion:1});
+  lastCloudJson = json;
+  setStatus('Синхронизировано ☁️ ' + new Date().toLocaleTimeString());
+}
+async function pullCloud(user, payload){
+  applyingCloud = true;
+  try { originalSetItem.call(localStorage, KEY, JSON.stringify(payload)); }
+  finally { applyingCloud = false; }
+  lastCloudJson = JSON.stringify(payload);
+  setStatus('Данные загружены из облака ☁️');
+  // Refresh UI only if this app exposes a reload-safe way; reload ensures all views reflect cloud data.
+  location.reload();
+}
+async function initializeSync(user){
+  activeUser = user;
+  setLoggedInUI(user);
+  if(!user){ setStatus('Не выполнен вход. Данные пока хранятся только на этом устройстве.'); return; }
+  setStatus('Проверяю облачные данные…');
+  try {
+    const ref = doc(db,'users',user.uid,'appData','main');
+    const snap = await getDoc(ref);
+    const local = localPayload();
+    if(snap.exists() && snap.data().payload && typeof snap.data().payload === 'object'){
+      const cloud = snap.data().payload;
+      const cloudJson = JSON.stringify(cloud);
+      if(!local){ await pullCloud(user, cloud); return; }
+      if(cloudJson !== JSON.stringify(local)){
+        const useCloud = confirm('В облаке уже есть данные для этого аккаунта.\n\nНажми OK, чтобы загрузить облачную версию на это устройство.\nНажми Отмена, чтобы сохранить данные этого устройства в облако (они заменят облачную версию).');
+        if(useCloud){ await pullCloud(user, cloud); return; }
+        await pushLocal(user, local); return;
+      }
+      lastCloudJson = cloudJson; setStatus('Облако подключено ✓ Данные совпадают.');
+    } else {
+      await pushLocal(user, local || {});
+    }
+  } catch(e){ console.error('Bloom cloud sync:', e); setStatus('Ошибка синхронизации: ' + (e.code || e.message || 'проверь подключение и настройки Firebase')); }
+}
+function queueSync(){
+  if(!activeUser || applyingCloud) return;
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(async()=>{
+    try {
+      const payload = localPayload();
+      if(!payload) return;
+      const json = JSON.stringify(payload);
+      if(json === lastCloudJson) return;
+      await pushLocal(activeUser, payload);
+    } catch(e){ console.error('Bloom cloud sync:',e); setStatus('Не удалось сохранить в облако: ' + (e.code || e.message || 'ошибка')); }
+  }, 900);
+}
+Storage.prototype.setItem = function(key, value){
+  originalSetItem.call(this, key, value);
+  if(key === KEY) queueSync();
+};
+$('be-cloud-form').addEventListener('submit', async e=>{
+  e.preventDefault(); const email=$('be-cloud-email').value.trim(), password=$('be-cloud-password').value;
+  try { setStatus('Выполняю вход…'); await signInWithEmailAndPassword(auth,email,password); }
+  catch(err){ setStatus(authMessage(err)); }
+});
+$('be-cloud-register').addEventListener('click', async()=>{
+  const email=$('be-cloud-email').value.trim(), password=$('be-cloud-password').value;
+  if(!email || password.length<6){ setStatus('Введи email и пароль не короче 6 символов.'); return; }
+  try { setStatus('Создаю аккаунт…'); await createUserWithEmailAndPassword(auth,email,password); }
+  catch(err){ setStatus(authMessage(err)); }
+});
+$('be-cloud-logout').addEventListener('click', async()=>{ try { await signOut(auth); } catch(err){ setStatus(authMessage(err)); } });
+toggle.addEventListener('click',()=>{ const open=!panel.classList.contains('open'); panel.classList.toggle('open',open); toggle.setAttribute('aria-expanded',String(open)); });
+function authMessage(e){
+ const messages={ 'auth/email-already-in-use':'Этот email уже зарегистрирован — нажми «Войти».','auth/invalid-email':'Проверь адрес электронной почты.','auth/weak-password':'Пароль должен содержать не менее 6 символов.','auth/invalid-credential':'Неверный email или пароль.','auth/network-request-failed':'Не удалось подключиться к Firebase. Проверь интернет или доступность сервиса.','auth/operation-not-allowed':'В Firebase не включён вход по Email/Password.','permission-denied':'Firestore запретил доступ. Проверь правила базы.'};
+ return messages[e.code] || (e.code ? e.code + ': ' : '') + (e.message || 'Неизвестная ошибка');
+}
+onAuthStateChanged(auth, user=>{ initializeSync(user); });
+</script>
+
+</body></html>
