@@ -463,4 +463,28 @@ function authMessage(e){
 onAuthStateChanged(auth, user=>{ initializeSync(user); });
 </script>
 
+
+<style id="schedule-status-bottom-right-final-fix">
+/* Force the lesson type badge into the bottom-right corner of every schedule card. */
+.calendar .lesson { position: relative !important; }
+.calendar .lesson .lesson-type-label {
+  position: absolute !important;
+  right: 5px !important;
+  bottom: 4px !important;
+  left: auto !important;
+  top: auto !important;
+  margin: 0 !important;
+  align-self: auto !important;
+  width: max-content !important;
+  max-width: calc(100% - 10px) !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+  z-index: 2 !important;
+}
+/* Keep room for the badge while preserving the current left-aligned name and time. */
+.calendar .lesson .lesson-student,
+.calendar .lesson .lesson-time,
+.calendar .lesson small { padding-right: 2px !important; }
+</style>
+
 </body></html>
