@@ -368,12 +368,10 @@ async function initializeSync(user){
     if(snap.exists() && snap.data().payload && typeof snap.data().payload === 'object'){
       const cloud = snap.data().payload;
       const cloudJson = JSON.stringify(cloud);
-      if(!local){ await pullCloud(user, cloud); return; }
-      if(cloudJson !== JSON.stringify(local)){
-        // Avoid repeated confirmation/reload loops. The computer's local data is
-        // treated as the source of truth when a mismatch is found.
-        await pushLocal(user, local);
-        setStatus('Данные этого устройства сохранены в облако ☁️');
+      if(!local || cloudJson !== JSON.stringify(local)){
+        // Cloud is the source of truth when a device signs in and has different local data.
+        // This prevents a newly opened device's empty/default data from overwriting the cloud.
+        await pullCloud(user, cloud);
         return;
       }
       lastCloudJson = cloudJson; setStatus('Облако подключено ✓ Данные совпадают.');
