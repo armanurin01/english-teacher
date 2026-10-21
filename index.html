@@ -788,45 +788,60 @@ body[data-theme="night"] .bloom-current-time-indicator span{background:#ff8ca0;c
 }
 </style>
 <script id="bloom-sidebar-auto-close-on-navigation">
+/* After selecting a page, keep the sidebar collapsed while the pointer is over it.
+   Moving the mouse elsewhere must not reopen it; only a fresh re-entry may do so. */
 (function(){
   function init(){
     const side=document.querySelector('.side');
-    if(!side || side.dataset.autoCloseBound==='3') return;
-    side.dataset.autoCloseBound='3';
-    let waitingForPointerExit=false;
-    const collapseAfterSelection=function(e){
-      const button=e.target.closest('.nav button[data-page], .nav a[data-page]');
-      if(!button || !side.contains(button)) return;
-      // Latch the collapsed state until the pointer genuinely leaves the collapsed sidebar.
-      waitingForPointerExit=true;
+    if(!side || side.dataset.autoCloseBound==='fixed-v3') return;
+    side.dataset.autoCloseBound='fixed-v3';
+    let lockedAfterNavigation=false;
+    let pointerHasLeftCollapsedStrip=false;
+
+    side.addEventListener('click',function(e){
+      const item=e.target.closest('.nav button[data-page], .nav a[data-page]');
+      if(!item || !side.contains(item) || window.innerWidth<721) return;
+      lockedAfterNavigation=true;
+      pointerHasLeftCollapsedStrip=false;
       side.dataset.justNavigated='1';
       side.classList.add('sidebar-collapsed-by-nav');
       side.classList.remove('sidebar-pinned');
       const dots=document.getElementById('sidebarDots');
       if(dots) dots.setAttribute('aria-expanded','false');
-    };
-    side.addEventListener('click',collapseAfterSelection,true);
+    },true);
+
+    // Unlock only after the cursor leaves the actual collapsed sidebar strip.
+    // Do not remove the collapsed class here: that would let :hover reopen it
+    // immediately while the cursor is still crossing the former expanded area.
     document.addEventListener('pointermove',function(e){
-      if(!waitingForPointerExit) return;
-      const rect=side.getBoundingClientRect();
-      // The menu has collapsed to 76px. Only re-enable hover expansion once the pointer
-      // has moved outside that narrow strip; do not use pointerleave on the animating panel,
-      // because shrinking itself can fire pointerleave and immediately reopen it.
-      if(e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom){
-        waitingForPointerExit=false;
+      if(!lockedAfterNavigation) return;
+      const r=side.getBoundingClientRect();
+      const collapsedRight=r.left+76;
+      const outsideCollapsedStrip=e.clientX<r.left || e.clientX>collapsedRight || e.clientY<r.top || e.clientY>r.bottom;
+      if(outsideCollapsedStrip){
+        lockedAfterNavigation=false;
+        pointerHasLeftCollapsedStrip=true;
         side.dataset.justNavigated='0';
-        side.classList.remove('sidebar-collapsed-by-nav');
       }
     },true);
+
     side.addEventListener('pointerenter',function(){
-      if(waitingForPointerExit) return;
-      side.classList.remove('sidebar-collapsed-by-nav');
+      if(lockedAfterNavigation) return;
+      if(pointerHasLeftCollapsedStrip){
+        pointerHasLeftCollapsedStrip=false;
+        side.classList.remove('sidebar-collapsed-by-nav');
+      }
     });
+
     side.addEventListener('focusout',function(e){
-      if(!side.contains(e.relatedTarget) && !waitingForPointerExit) side.classList.remove('sidebar-collapsed-by-nav');
+      if(!side.contains(e.relatedTarget) && !lockedAfterNavigation){
+        // Keep hover behaviour, but don't undo the post-navigation lock.
+        side.classList.remove('sidebar-collapsed-by-nav');
+      }
     });
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true}); else init();
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
 })();
 </script>
 
