@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fff8f5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Наш вечер ❤️</title>
+<style>
+:root{--bg:#fff8f5;--paper:#fffefd;--ink:#3d302f;--muted:#806f6c;--rose:#b85e70;--line:#f0dfdc;--soft:#f9e9e7}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#fff8f5,#f8e8e7);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{padding:54px 20px 35px;text-align:center}header .eyebrow{letter-spacing:.18em;text-transform:uppercase;font-size:.72rem;color:var(--rose)}h1{font:clamp(2.2rem,7vw,4rem)/1.1 Georgia,serif;font-weight:500;margin:12px 0}header p{color:var(--muted);margin:0}
+main{max-width:1050px;margin:auto;padding:0 18px 50px;display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:24px;align-items:start}
+h2{font:1.6rem Georgia,serif;font-weight:500;margin:0 0 16px}.section{margin-bottom:26px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.card,.cart{background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 25px #6d34350b}.card{padding:17px;display:flex;flex-direction:column;min-height:150px}.emoji{font-size:1.7rem;margin-bottom:7px}.card h3{font-size:1rem;margin:0 0 5px}.desc{color:var(--muted);font-size:.88rem;flex:1}.bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:14px}.price{font-weight:650;color:var(--rose);white-space:nowrap}button{border:0;border-radius:999px;padding:9px 14px;background:var(--rose);color:white;font-weight:600;cursor:pointer}button:hover{filter:brightness(.95)}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #e8b7bf;outline-offset:2px}.cart{padding:19px;position:sticky;top:15px}.cart h2{margin-bottom:8px}.empty{color:var(--muted);font-size:.92rem;padding:12px 0}.cart-row{display:grid;grid-template-columns:1fr auto;gap:8px;padding:12px 0;border-bottom:1px solid var(--line);font-size:.9rem}.qty{display:flex;align-items:center;gap:8px;margin-top:5px;color:var(--muted)}.qty button{padding:2px 9px;background:var(--soft);color:var(--rose)}.total{display:flex;justify-content:space-between;font-weight:700;padding:16px 0}.form{display:grid;gap:10px}.form label{font-size:.85rem;color:var(--muted)}input,textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px;background:#fff;color:var(--ink);font:inherit}textarea{resize:vertical;min-height:65px}.form button{width:100%;padding:12px}.note{font-size:.78rem;color:var(--muted);margin:10px 0 0}.toast{display:none;margin-top:12px;padding:12px;border-radius:12px;background:var(--soft);font-size:.9rem}footer{text-align:center;padding:34px 20px 45px;color:var(--rose);font:clamp(1.7rem,5vw,2.5rem) Georgia,serif}footer small{display:block;font: .85rem system-ui;color:var(--muted);margin-top:8px}
+
+/* Планшеты и телефоны */
+@media(max-width:760px){
+  header{padding:clamp(30px,7vw,48px) 18px 28px}
+  main{grid-template-columns:minmax(0,1fr);gap:20px;padding:0 14px calc(30px + env(safe-area-inset-bottom))}
+  .cart{position:static;grid-row:1;padding:17px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .section{margin-bottom:23px}
+  .card{padding:14px;min-height:160px;border-radius:16px}
+  .bottom{align-items:stretch;flex-direction:column;gap:10px}
+  .bottom button{width:100%;min-height:44px;padding:10px 12px}
+  .price{font-size:.94rem}
+  .cart button,.form button{min-height:44px}
+  input,textarea{font-size:16px;min-height:44px}
+  textarea{min-height:80px}
+  footer{padding:28px 18px calc(34px + env(safe-area-inset-bottom))}
+}
+@media(max-width:380px){
+  header{padding-left:14px;padding-right:14px}
+  header p{font-size:.94rem}
+  main{padding-left:10px;padding-right:10px}
+  .grid{gap:8px}
+  .card{padding:11px;min-height:170px}
+  .card h3{font-size:.94rem;line-height:1.3}
+  .desc{font-size:.82rem}
+  .emoji{font-size:1.55rem}
+  .cart{padding:14px}
+}
+/* Учитываем вырез и нижнюю полоску iPhone; отключаем липкие эффекты при касании */
+@supports(padding:max(0px)){
+  header{padding-top:max(30px, env(safe-area-inset-top))}
+  footer{padding-bottom:max(34px, env(safe-area-inset-bottom))}
+}
+@media(hover:none){button:hover{filter:none}button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}}
+
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">Только для нас двоих</div>
+  <h1>Наш маленький вечер</h1>
+  <p>Выбирай, что хочется — сегодня всё для уютного свидания ❤️</p>
+</header>
+<main>
+  <div>
+    <section class="section"><h2>На стол</h2><div class="grid" id="food"></div></section>
+    <section class="section"><h2>Что-нибудь выпить</h2><div class="grid" id="drinks"></div></section>
+    <section class="section"><h2>К фильму и разговору</h2><div class="grid" id="snacks"></div></section>
+    <section class="section"><h2>Сладкое напоследок</h2><div class="grid" id="dessert"></div></section>
+  </div>
+  <aside class="cart">
+    <h2>Наша корзина</h2><div id="items" class="empty">Пока пусто — добавь что-нибудь из меню 😊</div>
+    <div class="total"><span>Итого</span><span id="total">0 ₽</span></div>
+    <form class="form" id="order">
+      <label>Как тебя подписать?<input id="name" placeholder="Например, любимая" required></label>
+      <label>Пожелание к нашему вечеру<textarea id="message" placeholder="Фильм, плед и обнимашки…"></textarea></label>
+      <button type="submit">Оформить наш вечер ❤️</button>
+    </form>
+    <p class="note">Это шуточный заказ для домашнего свидания — данные никуда не отправляются.</p>
+    <div class="toast" id="toast" role="status"></div>
+  </aside>
+</main>
+<footer>Люблю тебя ❤️<small>Самое лучшее в этом вечере — это ты.</small></footer>
+<script>
+const products=[
+{id:'turkey',cat:'food',emoji:'🥔',name:'Картошка с филе индейки',desc:'Сытное домашнее горячее',price:0},
+{id:'bruschetta',cat:'food',emoji:'🍅',name:'Брускетта с творожным сыром',desc:'Помидор, зелень и капелька мёда',price:0},
+{id:'wine',cat:'drinks',emoji:'🍷',name:'Вино «Лыхны»',desc:'Для красивого тоста',price:0},
+{id:'garage',cat:'drinks',emoji:'🍒',name:'Garage вишнёвый',desc:'Вишнёвый пивной напиток',price:0},
+{id:'pickup',cat:'drinks',emoji:'🫐',name:'Pickup со смородиной',desc:'Ягодный вкус',price:0},
+{id:'cola',cat:'drinks',emoji:'🥤',name:'Кола',desc:'Охлаждённая',price:0},
+{id:'juice',cat:'drinks',emoji:'🍍',name:'Ананасовый сок',desc:'Сладкий тропический вкус',price:0},
+{id:'chips',cat:'snacks',emoji:'🥔',name:'Чипсы',desc:'Хрустящий перекус',price:0},
+{id:'crackers',cat:'snacks',emoji:'🥨',name:'Сухарики к пиву',desc:'Для уютного вечера',price:0},
+{id:'donuts',cat:'dessert',emoji:'🍩',name:'Пончики с шоколадной начинкой',desc:'Сладкая точка нашего вечера',price:0}
+];
+const cart={};
+const rub=n=>new Intl.NumberFormat('ru-RU').format(n)+' ₽';
+for(const p of products){
+ const el=document.createElement('article');el.className='card';
+ el.innerHTML=`<div class="emoji">${p.emoji}</div><h3>${p.name}</h3><div class="desc">${p.desc}</div><div class="bottom"><span class="price">${p.price?rub(p.price):'По желанию'}</span><button type="button" aria-label="Добавить: ${p.name}">Добавить +</button></div>`;
+ el.querySelector('button').addEventListener('click',()=>{cart[p.id]=(cart[p.id]||0)+1;renderCart()});
+ document.getElementById(p.cat).appendChild(el);
+}
+function renderCart(){
+ const box=document.getElementById('items');box.innerHTML='';
+ const chosen=products.filter(p=>cart[p.id]);
+ if(!chosen.length){box.className='empty';box.textContent='Пока пусто — добавь что-нибудь из меню 😊'}
+ else {box.className='';for(const p of chosen){const row=document.createElement('div');row.className='cart-row';row.innerHTML=`<div><strong>${p.emoji} ${p.name}</strong><div class="qty"><button type="button" aria-label="Уменьшить ${p.name}">−</button><span>${cart[p.id]}</span><button type="button" aria-label="Увеличить ${p.name}">+</button></div></div><strong>${p.price?rub(p.price*cart[p.id]):'♡'}</strong>`;const bs=row.querySelectorAll('button');bs[0].onclick=()=>{cart[p.id]--;if(cart[p.id]<=0)delete cart[p.id];renderCart()};bs[1].onclick=()=>{cart[p.id]++;renderCart()};box.appendChild(row)}}
+ const total=chosen.reduce((s,p)=>s+p.price*cart[p.id],0);document.getElementById('total').textContent=total?rub(total):'Это бесценно ❤️';
+}
+document.getElementById('order').addEventListener('submit',e=>{
+ e.preventDefault();const chosen=products.filter(p=>cart[p.id]);
+ const summary=chosen.length?chosen.map(p=>`${p.name} × ${cart[p.id]}`).join(', '):'Пока без выбранных блюд — главное, что мы вместе';
+ const name=document.getElementById('name').value.trim();
+ const message=document.getElementById('message').value.trim();
+ const toast=document.getElementById('toast');toast.style.display='block';
+ toast.textContent=`${name}, наш вечер запланирован! ❤️ ${summary}.${message?' Пожелание: '+message+'.':''} Ничего не отправлено — просто маленький сюрприз.`;
+ toast.scrollIntoView({behavior:'smooth',block:'nearest'});
+});
+</script>
+</body>
+</html>
